@@ -58,19 +58,21 @@ export class RoleListComponent implements OnInit {
   private _roleService = inject(RoleService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
 
-
-
   dataRoles: Role[] = [];
   sidebarVisible2: boolean = false;
   constructor() { }
 
   ngOnInit() {
-    this._roleService.getUserList().subscribe({
+    this.getRole()
+  }
+
+
+  getRole() {
+    this._roleService.getRoleList().subscribe({
       next: (response: any) => {
         const data: any = response;
         this.dataRoles = data['data']
         this._changeDetectorRef.markForCheck()
-        // console.log(data['data'])
       },
       error: (err) => {
 

@@ -16,8 +16,6 @@ import { ToastModule } from 'primeng/toast';
 import { SpinnerInterceptorService } from './shared/interceptor/spinner-interceptor.service';
 import { SpinnerLoadModule } from './shared/components/spinner-load/spinner-load.module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -55,7 +55,7 @@ export const SIDEBAR_MENU: SidebarMenu[] = [
     menu_th: 'รายการรถเมล์',
     menu_en: 'Import Management',
     icon: 'pi-car',
-    router: '/import-product',
+    router: '/bus-vehicle',
   },
 
   {
@@ -63,7 +63,7 @@ export const SIDEBAR_MENU: SidebarMenu[] = [
     menu_th: 'ผู้ใช้งาน',
     menu_en: 'Export Management',
     icon: 'pi-users',
-    router: '/export-product',
+    router: '/user',
   },
   {
     id: 6,

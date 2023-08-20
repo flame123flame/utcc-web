@@ -6,7 +6,7 @@ import { Injectable, inject } from '@angular/core';
 export class RoleService {
   private _http = inject(HttpClient);
 
-  getUserList() {
+  getRoleList() {
     return this._http.get(environment.api_url + '/api/role/get-list');
   }
 

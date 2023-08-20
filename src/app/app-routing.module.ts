@@ -25,6 +25,30 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'bus-vehicle',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/bus-vehicle-management/bus-vehicle-management.module').then(m => m.BusVehicleManagementManagementModule), }
+    ]
+  },
+  {
+    path: 'user',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/user-management/user-management.module').then(m => m.UserManagementModule), }
+    ]
+  },
+  {
     path: 'role',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
