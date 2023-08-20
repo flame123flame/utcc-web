@@ -28,7 +28,7 @@ export class LayoutComponent implements OnInit {
     });
   }
 
-  isToggle: boolean = false;
+  isToggle: boolean = true;
 
 
   positionLeft = '270px';
@@ -45,6 +45,11 @@ export class LayoutComponent implements OnInit {
 
   logout() {
     this._authService.signOut()
-
   }
+
+  open() {
+    this.isToggle = !this.isToggle
+  }
+
+
 }

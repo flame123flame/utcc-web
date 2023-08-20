@@ -5,10 +5,10 @@
   <ng-container *ngIf="layoutType === LayoutTyped.AUTH">
     <div class="flex flex-row h-screen bg-white text-gray-800">
       <div>
-        <nav [class.close]="isToggle" class="sidebar">
+        <nav [class.close]="!isToggle" class="sidebar">
           <header>
             <div class="image-text">
-              <span class="image" (click)="isToggle = !isToggle">
+              <span class="image" (click)="open()">
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/BMTA_Logo2014-th.svg/250px-BMTA_Logo2014-th.svg.png"
                   alt="logo" />
