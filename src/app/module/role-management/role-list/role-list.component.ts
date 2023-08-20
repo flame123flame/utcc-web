@@ -3,12 +3,14 @@ import { PrimeNgModule } from './../../../shared/primeng.module';
 import { Component, inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { RoleService } from '../service/role.service';
 import { Role } from 'src/app/shared/interfaces/role.interface';
+import { RoleAddComponent } from '../role-add/role-add.component';
 
 @Component({
   standalone: true,
   selector: 'app-role-list',
   imports: [
     PrimeNgModule,
+    RoleAddComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
@@ -50,7 +52,7 @@ import { Role } from 'src/app/shared/interfaces/role.interface';
     </p-table>
     </p-card>
      <p-sidebar [(visible)]="sidebarVisible2" position="right"   styleClass="w-5">
-        <h3>Right Sidebar</h3>
+        <app-role-add></app-role-add>
     </p-sidebar>
 `
 })
