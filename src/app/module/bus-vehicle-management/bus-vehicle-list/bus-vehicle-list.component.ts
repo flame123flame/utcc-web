@@ -39,7 +39,7 @@ import { BusVehicle } from 'src/app/shared/interfaces/bus-vehicle.interface';
                 <th>สายรถเมล์</th>
                 <th>ประเภทรถเมล์</th>
                 <th>กองปฏิบัติการเดินรถ</th>
-                <th>วันที่ส้ราง</th>
+                <th>วันที่สร้าง</th>
                 <th>จัดการ</th>
             </tr>
         </ng-template>
@@ -53,7 +53,11 @@ import { BusVehicle } from 'src/app/shared/interfaces/bus-vehicle.interface';
                 <td>{{ data.busVehicleNumber ?? '-'  }}</td>
                 <td>{{ data.busVehicleNumber ?? '-'  }}</td>
                 <td>{{ data.createDate ?? '-'  }}</td>
-                <td>{{ data.createDate }}</td>
+               <td>
+                  <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
+                  <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
+                  <p-button icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
+                 </td>
             </tr>
         </ng-template>
     </p-table>

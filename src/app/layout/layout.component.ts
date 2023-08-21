@@ -4,6 +4,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { SIDEBAR_MENU } from '../shared/constants/sidebar-menu.constant';
 import { SidebarMenu } from '../shared/interfaces/sidebar-menu.interface';
 import { AuthService } from '../shared/services/auth/auth.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 
@@ -11,7 +12,7 @@ import { AuthService } from '../shared/services/auth/auth.service';
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-
+  providers: [ConfirmationService, MessageService]
 })
 export class LayoutComponent implements OnInit {
   _layoutService = inject(LayoutService);
@@ -20,7 +21,7 @@ export class LayoutComponent implements OnInit {
   _authService = inject(AuthService)
   layoutType$ = this._layoutService.layout$;
   LayoutTyped = lt;
-
+  constructor(private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
     this._route.data.subscribe((data) => {
@@ -52,4 +53,18 @@ export class LayoutComponent implements OnInit {
   }
 
 
+
+  confirmPosition() {
+    this.confirmationService.confirm({
+      message: 'คุณต้องการออกจากระบบใช่หรือไม่?',
+      header: 'ยืนยันการออกจากระบบ',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.logout()
+      },
+      reject: () => {
+      },
+      key: 'positionDialog'
+    });
+  }
 }

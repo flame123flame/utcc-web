@@ -46,7 +46,11 @@ import { RoleAddComponent } from '../role-add/role-add.component';
                 <td>{{ role.roleName ?? '-'  }}</td>
                 <td>{{ role.roleDescription ?? '-'  }}</td>
                 <td>{{ role.createDate ?? '-'  }}</td>
-                 <td>{{ role.createDate }}</td>
+                 <td>
+                  <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
+                  <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
+                  <p-button icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
+                 </td>
             </tr>
         </ng-template>
     </p-table>

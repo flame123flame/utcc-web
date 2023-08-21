@@ -22,7 +22,8 @@ import { PrimeNgModule } from 'src/app/shared/primeng.module';
           styleClass="p-button-success p-button-sm"
         ></p-button>
       </div>
-      <div class="formgrid grid">
+      <hr>
+      <div class="formgrid grid mt-5">
         <div class="field col-6">
           <label >Code<span class="require">*</span></label>
          <div [ngStyle]="isFieldValid('code') ? {border: '1px solid red', borderRadius: '7px'} : null">

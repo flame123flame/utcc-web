@@ -47,7 +47,7 @@ export const SIDEBAR_MENU: SidebarMenu[] = [
     id: 2,
     menu_th: 'ท่ารถเมล์',
     menu_en: 'Management Management',
-    icon: 'pi-building',
+    icon: 'pi-truck',
     router: '/aaaaa',
   },
   {

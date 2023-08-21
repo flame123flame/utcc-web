@@ -15,7 +15,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { SpinnerInterceptorService } from './shared/interceptor/spinner-interceptor.service';
 import { SpinnerLoadModule } from './shared/components/spinner-load/spinner-load.module';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +32,7 @@ import { SpinnerLoadModule } from './shared/components/spinner-load/spinner-load
     ToastModule,
     SpinnerLoadModule,
     AuthModule,
+    ConfirmDialogModule
   ],
   providers: [MessageService, { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true }],
   bootstrap: [AppComponent]

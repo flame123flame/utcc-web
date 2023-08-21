@@ -31,7 +31,7 @@
               </ul>
             </div>
             <div class="bottom-content">
-              <li (click)="logout()">
+              <li (click)="confirmPosition()">
                 <a>
                   <i class="pi pi-power-off" style="font-size: 1.4rem; margin-left: 16px; margin-right: 10px"></i>
                   <span class="text nav-text">ออกจากระบบ</span>
@@ -65,7 +65,8 @@
         </div>
       </main>
     </div>
-
+    <p-confirmDialog [style]="{ width: '30vw' }" acceptLabel="ยืนยัน" rejectLabel="ยกเลิก" key="positionDialog"
+      position="top" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
   </ng-container>
 
 </ng-container>

@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 })
 export class LoginComponent implements OnInit {
   user: IUser | null = null;
+  imageUrlBackgroung = './assets/images/pexels01.jpeg';
   imageUrl = './assets/images/BMTA_Logo2014-th.svg';
   imageUrlBackgroud = './assets/images/login-image.jpeg';
   constructor(
