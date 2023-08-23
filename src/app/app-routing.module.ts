@@ -61,6 +61,78 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'bus-depot',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/bus-depot-management/bus-depot-management.module').then(m => m.BusDepotManagementModule), }
+    ]
+  },
+  {
+    path: 'bus-operation',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/bus-operation-management/bus-operation-management.module').then(m => m.BusOperationManagementModule), }
+    ]
+  },
+  {
+    path: 'bus-type',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/bus-type-management/bus-type-management.module').then(m => m.BusTypeManagementModule), }
+    ]
+  },
+  {
+    path: 'fare',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/fare-management/fare-management.module').then(m => m.FareManagementModule), }
+    ]
+  },
+  {
+    path: 'bus-lines',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/bus-lines-management/bus-lines-management.module').then(m => m.BusLinesManagementModule), }
+    ]
+  },
+  {
+    path: 'bus-terminal',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: LayoutType.AUTH
+    },
+    children: [
+      { path: '', loadChildren: () => import('./module/bus-terminal-management/bus-terminal-management.module').then(m => m.BusTerminalManagementModule), }
+    ]
+  },
+  {
     path: 'sign-in',
     canActivate: [NoAuthGuard],
     canActivateChild: [NoAuthGuard],
