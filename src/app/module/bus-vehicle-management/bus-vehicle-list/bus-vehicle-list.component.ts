@@ -13,17 +13,47 @@ import { BusVehicle } from 'src/app/shared/interfaces/bus-vehicle.interface';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
-  template: `<p-card header="">
-      <div class="flex justify-content-between mb-3">
-        <h2>รายการสิทธ์การใช้งาน</h2>
+  template: `
+  <div class="mb-2">
+  <p-accordion [activeIndex]="0">
+    <p-accordionTab header="ค้นหารายการรถเมล์">
+       <div class="flex flex-wrap gap-3 mb-2">
+        <div class="flex-auto">
+            <label for="integer" class="font-bold block mb-2"> เลขทะเบียนรถ </label>
+            <input (input)="datatableVehicle.filter(getDataInput($event),'busVehiclePlateNo' , 'contains')"  pInputText id="integer" class="w-full" />
+        </div>
+        <div class="flex-auto">
+            <label for="number" class="font-bold block mb-2"> เลขข้างรถ </label>
+            <input (input)="datatableVehicle.filter(getDataInput($event),'busVehicleNumber' , 'contains')"  pInputText id="integer" class="w-full" pInputText class="w-full" />
+        </div>
+        <div class="flex-auto">
+            <label for="money" class="font-bold block mb-2"> สายรถเมล์ </label>
+            <input (input)="datatableVehicle.filter(getDataInput($event),'busLinesNo' , 'contains')"  pInputText id="integer" class="w-full" pInputText  class="w-full" />
+        </div>
+          <div class="flex-auto">
+            <label for="money" class="font-bold block mb-2"> 	ประเภทรถเมล์ </label>
+            <input (input)="datatableVehicle.filter(getDataInput($event),'typeName' , 'contains')"  pInputText id="integer" class="w-full" pInputText  class="w-full" />
+        </div>
+          <div class="flex-auto">
+            <label for="money" class="font-bold block mb-2"> กองปฏิบัติการเดินรถ </label>
+            <input (input)="datatableVehicle.filter(getDataInput($event),'busDivisionName' , 'contains')"  pInputText id="integer" class="w-full" pInputText  class="w-full" />
+        </div>
+    </div>
+    </p-accordionTab>
+ </p-accordion>
+  </div>
+   <p-accordion [activeIndex]="0">
+    <p-accordionTab header="รายการรถเมล์">
+         <div class="flex justify-content-between mb-3">
+        <h3></h3>
         <p-button
-
           icon="pi pi-plus"
-          label="เพิ่มสิทธ์การใช้งาน"
+          label="เพิ่มรถเมล์"
           styleClass="p-button-success p-button-sm"
         ></p-button>
       </div>
         <p-table
+        #datatableVehicle
         [value]="dataTable"
         [paginator]="true"
         [rows]="10"
@@ -32,36 +62,35 @@ import { BusVehicle } from 'src/app/shared/interfaces/bus-vehicle.interface';
         [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th>ลำดับที่</th>
+                <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
                 <th>เลขทะเบียนรถ</th>
                 <th>จังหวัด</th>
                 <th>เลขข้างรถ</th>
                 <th>สายรถเมล์</th>
                 <th>ประเภทรถเมล์</th>
                 <th>กองปฏิบัติการเดินรถ</th>
-                <th>วันที่สร้าง</th>
                 <th>จัดการ</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-data let-i="rowIndex">
             <tr>
-                <td>{{ i+1 }}</td>
+                <td style="text-align: center;">{{ i+1 }}</td>
                 <td>{{ data.busVehiclePlateNo ?? '-'  }}</td>
                 <td>{{ data.busVehiclePlateProv ?? '-'  }}</td>
                 <td>{{ data.busVehicleNumber ?? '-'  }}</td>
-                <td>{{ data.busVehicleNumber ?? '-'  }}</td>
-                <td>{{ data.busVehicleNumber ?? '-'  }}</td>
-                <td>{{ data.busVehicleNumber ?? '-'  }}</td>
-                <td>{{ data.createDate ?? '-'  }}</td>
+                <td>{{ data.busLinesNo ?? '-'  }}</td>
+                <td>{{ data.typeName ?? '-'  }}</td>
+                <td>{{ data.busDivisionName ?? '-'  }}</td>
                <td>
                   <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
                   <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
                   <p-button icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
-                 </td>
+              </td>
             </tr>
         </ng-template>
     </p-table>
-    </p-card>
+    </p-accordionTab>
+ </p-accordion>
   
 `
 })
@@ -75,6 +104,10 @@ export class BusVehicleListComponent implements OnInit {
 
   ngOnInit() {
     this.getRole()
+  }
+
+  getDataInput(data: any) {
+    return data.target.value
   }
 
 

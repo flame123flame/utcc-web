@@ -6,6 +6,7 @@ export interface UserList {
   username: string
   firstName: string
   lastName: string
+  fullName: string
   email: string
   phoneNumber: string
   employeeCode: string

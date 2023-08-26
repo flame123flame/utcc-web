@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class BusVehicleService {
+export class BusTerminalService {
   private _http = inject(HttpClient);
 
-  getBusVehicleList() {
-    return this._http.get(environment.api_url + '/api/bus-vehicle/search');
+  search() {
+    return this._http.get(environment.api_url + '/api/bus-terminal/search');
   }
 
 }

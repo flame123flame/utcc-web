@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class BusOperationListComponent {
 
+  getDataInput(data: any) {
+    return data.target.value
+  }
+
 }

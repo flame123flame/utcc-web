@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { LayoutService, LayoutType as lt } from './layout.service';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { SIDEBAR_MENU } from '../shared/constants/sidebar-menu.constant';
 import { SidebarMenu } from '../shared/interfaces/sidebar-menu.interface';
 import { AuthService } from '../shared/services/auth/auth.service';
@@ -31,7 +31,6 @@ export class LayoutComponent implements OnInit {
 
   isToggle: boolean = true;
 
-
   positionLeft = '270px';
   positionTop = '-20px';
   marginStyle = {
@@ -51,8 +50,6 @@ export class LayoutComponent implements OnInit {
   open() {
     this.isToggle = !this.isToggle
   }
-
-
 
   confirmPosition() {
     this.confirmationService.confirm({

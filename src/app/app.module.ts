@@ -4,7 +4,7 @@ import { SharedAppModule } from 'src/app/shared/shared-app.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ChipModule } from 'primeng/chip';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -31,6 +31,7 @@ import { BusDepotListComponent } from './module/bus-depot-management/bus-depot-l
     BusDepotListComponent,
   ],
   imports: [
+    ChipModule,
     ToolbarModule,
     BrowserModule,
     BrowserAnimationsModule,
