@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
             };
             this._authService.isLoggedIn = true;
 
-            this.router.navigate(['/home']).then(() => {
+            this.router.navigate(['/dashboard']).then(() => {
               this._toastService.addSingle('success', 'เข้าสู่ระบบ', 'เข้าสู่ระบบสำเร็จ');
             });
           },

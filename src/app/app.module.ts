@@ -16,15 +16,17 @@ import { ToastModule } from 'primeng/toast';
 import { SpinnerInterceptorService } from './shared/interceptor/spinner-interceptor.service';
 import { SpinnerLoadModule } from './shared/components/spinner-load/spinner-load.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { BusDivisionManagementComponent } from './module/bus-division-management/bus-division-management.component';
-import { BusDivisionListComponent } from './module/bus-division-management/bus-division-list/bus-division-list.component';
-
+import { AccordionModule } from 'primeng/accordion';
+import { ChartModule } from 'primeng/chart';
+import { DashboardComponent } from './module/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
+    DashboardComponent,
   ],
   imports: [
+    ChartModule,
     ChipModule,
     ToolbarModule,
     BrowserModule,
@@ -36,7 +38,8 @@ import { BusDivisionListComponent } from './module/bus-division-management/bus-d
     ToastModule,
     SpinnerLoadModule,
     AuthModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    AccordionModule
   ],
   providers: [MessageService, { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true }],
   bootstrap: [AppComponent]

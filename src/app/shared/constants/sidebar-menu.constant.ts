@@ -5,8 +5,8 @@ export const SIDEBAR_MENU: SidebarMenu[] = [
     id: 1,
     menu_th: 'หน้าหลัก',
     menu_en: 'Home Management',
-    icon: 'pi-home',
-    router: '/home',
+    icon: 'pi-chart-bar',
+    router: '/dashboard',
   },
   {
     id: 2,
