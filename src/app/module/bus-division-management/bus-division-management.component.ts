@@ -3,11 +3,11 @@ import { PrimeNgModule } from 'src/app/shared/primeng.module';
 
 @Component({
   standalone: true,
-  selector: 'app-bus-depot-management',
+  selector: 'app-bus-division-management',
   imports: [PrimeNgModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<router-outlet></router-outlet>`,
 })
-export class BusDepotManagementComponent {
+export class BusDivisionManagementComponent {
 
 }

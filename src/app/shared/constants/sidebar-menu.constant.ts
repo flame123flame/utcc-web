@@ -20,7 +20,7 @@ export const SIDEBAR_MENU: SidebarMenu[] = [
     menu_th: 'กองปฏิบัติการเดินรถ',
     menu_en: 'Management Management',
     icon: 'pi-building',
-    router: '/bus-operation',
+    router: '/bus-division',
   },
   {
     id: 4,

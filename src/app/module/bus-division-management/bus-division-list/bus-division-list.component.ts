@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { BusLines } from 'src/app/shared/interfaces/bus-lines.interface';
+import { BusDivision } from 'src/app/shared/interfaces/bus-division.interface';
 import { Fare } from 'src/app/shared/interfaces/fare.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
-import { FareService } from '../service/fare.service';
+import { BusDivisionService } from '../service/bus-division.service';
 
 @Component({
   standalone: true,
-  selector: 'app-fare-list',
+  selector: 'app-bus-division-list',
   imports: [PrimeNgModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -15,14 +15,21 @@ import { FareService } from '../service/fare.service';
     <p-accordionTab header="ค้นหารายการตั๋วรถเมล์">
        <div class="flex flex-wrap gap-3 mb-2">
         <div class="flex-auto">
-            <label for="integer" class="font-bold block mb-2"> ราคาตั๋วรถเมล์ </label>
-            <input type="number" (input)="datatableFare.filter(getDataInput($event),'fareValue' , 'contains')"  pInputText id="integer" class="w-full" />
+            <label for="integer" class="font-bold block mb-2"> เลขกองปฏิบัติการเดินรถ </label>
+            <input type="text" (input)="datatableDivision.filter(getDataInput($event),'busDivisionNo' , 'contains')"  pInputText id="integer" class="w-full" />
         </div>
          <div class="flex-auto">
-            <label for="integer" class="font-bold block mb-2"> รายละเอียดราคาตั๋วรถเมล์ </label>
-            <input (input)="datatableFare.filter(getDataInput($event),'fareDesc' , 'contains')"  pInputText id="integer" class="w-full" />
+            <label for="integer" class="font-bold block mb-2"> ชื่อกองปฏิบัติการเดินรถ </label>
+            <input (input)="datatableDivision.filter(getDataInput($event),'busDivisionName' , 'contains')"  pInputText id="integer" class="w-full" />
         </div>
-         <div class="flex-auto"></div>
+         <div class="flex-auto">
+            <label for="integer" class="font-bold block mb-2"> เขตการเดินรถที่</label>
+            <input type="text" (input)="datatableDivision.filter(getDataInput($event),'bmtaZone' , 'contains')"  pInputText id="integer" class="w-full" />
+        </div>
+        <div class="flex-auto">
+            <label for="integer" class="font-bold block mb-2"> อู่รถเมล์ </label>
+            <input type="text" (input)="datatableDivision.filter(getDataInput($event),'depotName' , 'contains')"  pInputText id="integer" class="w-full" />
+        </div>
         <div class="flex-auto"></div>
         <div class="flex-auto"></div>
         <div class="flex-auto"></div>
@@ -41,7 +48,7 @@ import { FareService } from '../service/fare.service';
         ></p-button>
       </div> 
         <p-table
-        #datatableFare
+        #datatableDivision
         [value]="dataTable"
         [paginator]="true"
         [rows]="10"
@@ -51,18 +58,20 @@ import { FareService } from '../service/fare.service';
              <ng-template pTemplate="header">
             <tr>
                 <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                <th style="text-align: center;">ราคาตั๋วรถเมล์</th>
-                <th>รายละเอียดราคาตั๋วรถเมล์</th>
-                <th>วันที่สร้าง</th>
+                <th style="text-align: center;">เลขกองปฏิบัติการเดินรถ</th>
+                <th>ชื่อกองปฏิบัติการเดินรถ</th>
+                <th style="text-align: center;">เขตการเดินรถที่</th>
+                <th >อู่รถเมล์</th>
                 <th>จัดการ</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-role let-i="rowIndex">
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
             <tr>
                 <td style="text-align: center;">{{ i + 1 }}</td>
-                <td style="text-align: center;">{{ role.fareValue ?? '-'  }} </td>
-                <td  >{{ role.fareDesc ?? '-'  }} </td>
-                <td>{{ role.createDate ?? '-'  }}</td>
+                <td style="text-align: center;">{{ item.busDivisionNo ?? '-'  }} </td>
+                <td>{{ item.busDivisionName ?? '-'  }} </td>
+                <td style="text-align: center;">{{ item.bmtaZone ?? '-'  }}</td>
+                <td>{{item.depotName ?? '-'  }} </td>
                 <td>
                   <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
                   <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
@@ -77,11 +86,11 @@ import { FareService } from '../service/fare.service';
   `,
 })
 
-export class FareListComponent implements OnInit {
-  private _service = inject(FareService);
+export class BusDivisionListComponent implements OnInit {
+  private _service = inject(BusDivisionService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
   searchText!: string | null;
-  dataTable: Fare[] = [];
+  dataTable: BusDivision[] = [];
   sidebarVisible2: boolean = false;
   constructor() { }
 

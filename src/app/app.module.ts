@@ -16,19 +16,13 @@ import { ToastModule } from 'primeng/toast';
 import { SpinnerInterceptorService } from './shared/interceptor/spinner-interceptor.service';
 import { SpinnerLoadModule } from './shared/components/spinner-load/spinner-load.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { BusOperationManagementComponent } from './module/bus-operation-management/bus-operation-management.component';
-import { BusOperationListComponent } from './module/bus-operation-management/bus-operation-list/bus-operation-list.component';
-import { BusDepotManagementComponent } from './module/bus-depot-management/bus-depot-management.component';
-import { BusDepotListComponent } from './module/bus-depot-management/bus-depot-list/bus-depot-list.component';
+import { BusDivisionManagementComponent } from './module/bus-division-management/bus-division-management.component';
+import { BusDivisionListComponent } from './module/bus-division-management/bus-division-list/bus-division-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
-    BusOperationManagementComponent,
-    BusOperationListComponent,
-    BusDepotManagementComponent,
-    BusDepotListComponent,
   ],
   imports: [
     ChipModule,

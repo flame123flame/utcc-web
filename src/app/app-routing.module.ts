@@ -73,7 +73,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'bus-operation',
+    path: 'bus-division',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: LayoutComponent,
@@ -81,7 +81,7 @@ const routes: Routes = [
       layout: LayoutType.AUTH
     },
     children: [
-      { path: '', loadChildren: () => import('./module/bus-operation-management/bus-operation-management.module').then(m => m.BusOperationManagementModule), }
+      { path: '', loadChildren: () => import('./module/bus-division-management/bus-division-management.module').then(m => m.BusDivisionManagementModule), }
     ]
   },
   {

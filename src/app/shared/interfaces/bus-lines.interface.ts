@@ -10,7 +10,7 @@ export interface BusLines {
   busLinesNightshift: number
   createBy: string
   updateBy: string
-  createDate: any
-  updateDate: any
+  createDate: string
+  updateDate: string
 }
 
