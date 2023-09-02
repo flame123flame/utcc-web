@@ -11,5 +11,6 @@ export interface Role {
   createDate: string
   updateBy: string
   updateDate: string
+  platform: string
 }
 

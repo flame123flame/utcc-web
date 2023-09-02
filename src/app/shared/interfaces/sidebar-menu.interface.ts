@@ -5,5 +5,6 @@ export interface SidebarMenu {
   menu_en: string; // 200 Ch // ชื่อเมนูอังกฤษ
   icon: string; // 200 Ch // ไอคอน
   router: string;
-  sub_menu?: SidebarMenu[]
+  code: string;
+  menu_detail: string;
 }

@@ -33,10 +33,13 @@ export class LoginComponent implements OnInit {
   private _toastService = inject(ToastService);
 
   errorDialog(error: any) {
-    if (error.status == 401) {
-      this._toastService.addSingle('error', 'เข้าสู่ระบบ', 'ผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
+    console.log(error.error.message)
+    if (error.status === 401) {
+      this._toastService.addSingle('error', 'เข้าสู่ระบบล้มเหลว', 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
+    } else if (error.error.message == 'INVALID_USER') {
+      this._toastService.addSingle('error', 'เข้าสู่ระบบล้มเหลว', 'ไม่พบผู้ใช้งานในระบบ');
     } else {
-      this._toastService.addSingle('error', 'พบข้อผิดพลาด', 'เกิดข้อผิดพลาดทางระบบ');
+      this._toastService.addSingle('error', 'เกิดข้อผิดพลาด', 'เกิดข้อผิดพลาดจากระบบ');
     }
   }
 
@@ -86,7 +89,7 @@ export class LoginComponent implements OnInit {
             this._authService.isLoggedIn = true;
 
             this.router.navigate(['/dashboard']).then(() => {
-              this._toastService.addSingle('success', 'เข้าสู่ระบบ', 'เข้าสู่ระบบสำเร็จ');
+              this._toastService.addSingle('success', 'เข้าสู่ระบบสำเร็จ', 'คุณได้เข้าสู่ระบบเรียบร้อยแล้ว');
             });
           },
           error: error => {

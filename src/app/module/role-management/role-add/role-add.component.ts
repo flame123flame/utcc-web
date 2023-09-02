@@ -1,101 +1,205 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { SharedModule, ConfirmationService } from 'primeng/api';
-import { BehaviorSubject } from 'rxjs';
+import { ConfirmationService } from 'primeng/api';
+import { BehaviorSubject, Observable, Subject, Subscription, switchMap } from 'rxjs';
+import { MENU_MOBILE, MENU_WEB } from 'src/app/shared/constants/sidebar-menu.constant';
+import { SidebarMenu } from 'src/app/shared/interfaces/sidebar-menu.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { SharedAppModule } from 'src/app/shared/shared-app.module';
+import { RoleService } from '../service/role.service';
 
 @Component({
   standalone: true,
   selector: 'app-role-add',
-  imports: [SharedModule, PrimeNgModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedAppModule, PrimeNgModule, FormsModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
   template: `
-  <div style="margin: 20px;">
-      <form [formGroup]="formGroup">
-      <div class="flex justify-content-between align-items-start mb-3 mt-2">
-        <h2>เพิ่มสิทธ์การใช้งาน</h2>
-        <p-button
-          (click)="confirmSave()"
-          icon="pi pi-file"
-          label="บันทึก"
-          styleClass="p-button-success p-button-sm"
-        ></p-button>
+<div style="margin: 20px;">
+  <form [formGroup]="formGroup">
+    <div class="formgrid grid mt-1">
+      <div class="field col-6">
+        <label>รหัส<span class="require">*</span></label>
+        <div [ngStyle]="isFieldValid('roleCode') ? {border: '1px solid red', borderRadius: '7px'} : null">
+          <input class="w-full" pInputText type="text" formControlName="roleCode" placeholder="กรุณากรอกข้อมูล" />
+        </div>
       </div>
-      <hr>
-      <div class="formgrid grid mt-5">
-        <div class="field col-6">
-          <label >Code<span class="require">*</span></label>
-         <div [ngStyle]="isFieldValid('code') ? {border: '1px solid red', borderRadius: '7px'} : null">
-          <input
-            class="w-full"
-            pInputText
-            type="text"
-            formControlName="code"
-            placeholder="กรุณากรอกข้อมูล"
-          />
+      <div class="field col-6">
+        <label>ชื่อสิทธ์การใช้งาน<span class="require">*</span></label>
+        <div [ngStyle]="isFieldValid('roleName') ? {border: '1px solid red', borderRadius: '7px'} : null">
+          <input class="w-full" pInputText formControlName="roleName" type="text" placeholder="กรุณากรอกข้อมูล" />
+        </div>
+      </div>
+      <div class="field col-12">
+        <label>รายละเอียด</label>
+        <input class="w-full" pInputText formControlName="roleDescription" type="text" placeholder="กรุณากรอกข้อมูล" />
+      </div>
+    </div>
+    <div class="formgrid grid mt-1">
+      <div class="field col-6">
+        <label>แพลตฟอร์มที่ต้องการสร้าง</label>
+        <div class="flex flex-wrap gap-3">
+          <div class="flex align-items-start">
+            <p-radioButton (click)="switchPlatform('WEBSITE')" name="platform" value="WEBSITE" formControlName="platform" inputId="WEBSITE"></p-radioButton>
+            <label for="WEBSITE" class="ml-2">เว็บไซต์</label>
+          </div>
+          <div class="flex align-items-center">
+            <p-radioButton (click)="switchPlatform('APPLICATION')" name="platform" value="APPLICATION" formControlName="platform" inputId="APPLICATION"></p-radioButton>
+            <label for="APPLICATION" class="ml-2">แอปพลิเคชัน</label>
           </div>
         </div>
-        <div class="field col-6">
-          <label >สิทธ์การใช้งาน<span class="require">*</span></label>
-           <div [ngStyle]="isFieldValid('name') ? {border: '1px solid red', borderRadius: '7px'} : null">
-          <input
-            class="w-full"
-            pInputText
-            formControlName="name"
-            type="text"
-            placeholder="กรุณากรอกข้อมูล"
-          />
-             </div>
-        </div>
-        <div class="field col-6">
-          <label >รายละเอียด</label>
-          <input
-            class="w-full"
-            pInputText
-            formControlName="detail"
-            type="text"
-            placeholder="กรุณากรอกข้อมูล"
-          />
-        </div>
       </div>
-      </form>
     </div>
+    <label>เลือกเมนูที่ต้องการแสดง</label>
+    <div class="card" *ngIf="platformActive == 'WEBSITE'">
+      <p-table [value]="menusWeb" [(selection)]="selectedMenuWeb" dataKey="menu_en">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 4rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>ชื่อเมนู</th>
+            <th>รายละเอียด</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-menu>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="menu"></p-tableCheckbox>
+            </td>
+            <td>{{menu.menu_th}}</td>
+            <td>{{menu.menu_detail}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+      <div class="card" *ngIf="platformActive == 'APPLICATION'">
+      <p-table [value]="menusMobile" [(selection)]="selectedMenusMobile" dataKey="menu_en">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 4rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th style="width:23%">ชื่อเมนู</th>
+            <th>รายละเอียด</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-menu>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="menu"></p-tableCheckbox>
+            </td>
+            <td>{{menu.menu_th}}</td>
+            <td>{{menu.menu_detail}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </form>
+</div>
+
     `,
 })
-export class RoleAddComponent implements OnInit {
+export class RoleAddComponent implements OnInit, OnDestroy {
+  constructor(
+    private _roleService: RoleService,
+    private _changeDetectorRef: ChangeDetectorRef,
+    private _toastService: ToastService
+  ) { }
 
-  submitted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  // Component properties
+  private eventsSubscription!: Subscription;
+  private submitted$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  ingredient!: string;
+  menusWeb: SidebarMenu[] = MENU_WEB;
+  menusMobile: SidebarMenu[] = MENU_MOBILE;
+  selectedMenuWeb: SidebarMenu[] = [];
+  selectedMenusMobile: SidebarMenu[] = [];
+  platformActive: string = 'WEBSITE';
+  @Output() eventToParent = new EventEmitter<string>();
+  @Input() events!: Observable<void>;
+
   formGroup = new FormGroup({
-    id: new FormControl<number | null>(null),
-    name: new FormControl<string | null>(null, Validators.required),
-    code: new FormControl<string | null>(null, Validators.required),
-    detail: new FormControl(''),
+    fwRoleId: new FormControl<number | null>(null),
+    roleName: new FormControl<string | null>(null, Validators.required),
+    roleCode: new FormControl<string | null>(null, Validators.required),
+    platform: new FormControl<string | null>('WEBSITE', Validators.required),
+    roleDescription: new FormControl(''),
+    menuList: new FormControl(''),
   });
 
   ngOnInit(): void {
-    this.formGroup.reset()
+    this.eventsSubscription = this.events.subscribe(() => this.validateForm());
   }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
+    this.formGroup.reset();
+  }
+
+  switchPlatform(p: string) {
+    this.platformActive = p;
+    this._changeDetectorRef.markForCheck();
+  }
+
   isFieldValid(field: string) {
-    return (
-      (!this.formGroup.get(field)?.valid && this.formGroup.get(field)?.touched) ||
-      (this.formGroup.get(field)?.untouched && this.submitted$.value)
-    );
+    const control = this.formGroup.get(field);
+    return (!control?.valid && control?.touched) || (control?.untouched && this.submitted$.value);
   }
-  confirmSave() {
+
+  validateForm() {
     if (this.formGroup.invalid) {
-      this.submitted$.next(true)
+      this.eventToParent.emit("VALIDATE")
+      this.showIncompleteDataWarning();
     } else {
-      this.submitted$.next(false)
-      this.save()
+      this.submitted$.next(false);
+      this.validateSubMenu();
     }
   }
 
-  save() {
-
+  validateSubMenu() {
+    const selectedMenus = this.platformActive === 'WEBSITE' ? this.selectedMenuWeb : this.selectedMenusMobile;
+    if (selectedMenus.length === 0) {
+      this.eventToParent.emit("VALIDATE")
+      this.showNoMenuSelectedWarning();
+    } else {
+      const codesString = this.getSelectedMenuCodesAsString(selectedMenus);
+      this.formGroup.get('menuList')?.setValue(codesString);
+      this.save();
+    }
   }
 
+  private showIncompleteDataWarning() {
+    this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
+    this.submitted$.next(true);
+  }
 
+  private showNoMenuSelectedWarning() {
+    this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดเลือกเมนูที่ต้องการแสดงอย่างน้อย 1 เมนู!');
+  }
 
+  private getSelectedMenuCodesAsString(selectedMenus: SidebarMenu[]) {
+    const codes = selectedMenus.map(menu => menu.code);
+    return codes.join(',');
+  }
 
+  save() {
+    this._roleService.save(this.formGroup.value).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.eventToParent.emit("SUCCESS")
+        // Handle your response data
+      },
+      error: (err) => {
+        this.eventToParent.emit("VALIDATE")
+        if (err.error.message == "DUPICATE_ROLECODE") {
+          this._toastService.addSingle('error', 'แจ้งเตือน', 'รหััสนี้มีในะบบแล้ว!');
+        }
+        console.log(err.error.message)
+        // Handle errors
+      }
+    });
+    // Your save logic here
+  }
 }

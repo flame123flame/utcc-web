@@ -10,4 +10,20 @@ export class RoleService {
     return this._http.get(environment.api_url + '/api/role/get-list');
   }
 
+  findById(id: number) {
+    return this._http.get(environment.api_url + `/api/role/find-by-id/${id}`);
+  }
+
+  save(req: any) {
+    console.log(req);
+
+    return this._http.post(environment.api_url + '/api/role/save', {
+      ...req
+    });
+  }
+
+  delete(code: string) {
+    return this._http.get(environment.api_url + `/api/role/delete-role/${code}`);
+  }
+
 }
