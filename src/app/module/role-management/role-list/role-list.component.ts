@@ -109,6 +109,7 @@ export class RoleListComponent implements OnInit {
   ngOnInit() {
     this.getRole()
   }
+
   onActionFromParent(data: string) {
     if (data != "VALIDATE") {
       this.onCloseAction()

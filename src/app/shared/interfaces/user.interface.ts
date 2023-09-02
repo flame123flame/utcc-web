@@ -17,3 +17,19 @@ export interface IUser {
   position: string
 }
 
+export interface RegisterUserReq {
+  username: string;
+  password: string;
+  confirmPassword: string;
+  pin: string;
+  createDate: string;
+  roleCode: string;
+  employeeId: number;
+  employeeCode: string;
+  firstName: string;
+  lastName: string;
+  prefix: string;
+  email: string;
+  phoneNumber: string;
+  position: string;
+}

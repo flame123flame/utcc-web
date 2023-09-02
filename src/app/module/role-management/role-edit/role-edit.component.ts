@@ -228,10 +228,7 @@ export class RoleEditComponent implements OnInit {
         if (err.error.message == "DUPICATE_ROLECODE") {
           this._toastService.addSingle('error', 'แจ้งเตือน', 'รหััสนี้มีในะบบแล้ว!');
         }
-        console.log(err.error.message)
-        // Handle errors
       }
     });
-    // Your save logic here
   }
 }

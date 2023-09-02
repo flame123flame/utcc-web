@@ -33,8 +33,10 @@ export class AuthInterceptor implements HttpInterceptor {
     // Response
     return next.handle(newReq).pipe(
       catchError(error => {
+        console.log(error);
+
         const isRefreshToken =
-          error?.status == 403 || error?.status == 0 || error?.error?.status_code === 'E4001';
+          error?.status == 403 || error?.status == 401 || error?.error?.status_code === 'E4001';
         const isMoreOneLoggedInUser = error?.error?.status_code === 'E4005';
         const isReService = error?.error?.statusCode === 'E4007';
         if (isReService) {

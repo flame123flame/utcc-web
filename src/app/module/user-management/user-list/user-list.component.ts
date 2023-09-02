@@ -5,114 +5,176 @@ import { Role } from 'src/app/shared/interfaces/role.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
 import { UserList } from 'src/app/shared/interfaces/user-list.interface';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { SharedAppModule } from 'src/app/shared/shared-app.module';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { RoleService } from '../../role-management/service/role.service';
+
+interface Prefix {
+  prefix: string;
+  code: string;
+}
 
 @Component({
   standalone: true,
   selector: 'app-user-list',
   imports: [
     PrimeNgModule,
+    SharedAppModule,
 
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
-  template: `
-  <div class="mb-2">
-  <p-accordion [activeIndex]="0">
-    <p-accordionTab header="ค้นหารายการผู้ใช้งาน">
-       <div class="flex flex-wrap gap-3 mb-2">
-        <div class="flex-auto">
-            <label for="integer" class="font-bold block mb-2"> 	ชื่อ-นามสกุล </label>
-            <input (input)="datatableUser.filter(getDataInput($event),'fullName' , 'contains')"  pInputText id="integer" class="w-full" />
-        </div>
-        <div class="flex-auto">
-            <label for="number" class="font-bold block mb-2"> เบอร์โทรศัพท์ </label>
-            <input (input)="datatableUser.filter(getDataInput($event),'phoneNumber' , 'contains')"  pInputText id="integer" class="w-full" pInputText class="w-full" />
-        </div>
-         <div class="flex-auto">
-            <label for="number" class="font-bold block mb-2"> ตำแหน่ง </label>
-            <input (input)="datatableUser.filter(getDataInput($event),'position' , 'contains')"  pInputText id="integer" class="w-full" pInputText class="w-full" />
-        </div>
-         <div class="flex-auto"></div>
-          <div class="flex-auto"></div>
-    </div>
-    </p-accordionTab>
-  </p-accordion>
- </div>
-   <p-accordion [activeIndex]="0">
-    <p-accordionTab header="รายการผู้ใช้งาน">
-      <div class="flex justify-content-between mb-3">
-        <h2></h2>
-        <p-button
-          icon="pi pi-plus"
-          label="เพิ่มผู้ใช้งาน"
-          styleClass="p-button-success p-button-sm"
-        ></p-button>
-      </div>
-        <p-table
-        #datatableUser
-        [value]="dataUsers"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
-        [rowsPerPageOptions]="[10, 25, 50]">
-             <ng-template pTemplate="header">
-            <tr>
-                <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                <th>ชื่อ-นามสกุล</th>
-                <th>เบอร์โทรศัพท์</th>
-                <th>ตำแหน่ง</th>
-                <th>วันที่ส้ราง</th>
-                <th>จัดการ</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-role let-i="rowIndex">
-            <tr>
-                <td style="text-align: center;">{{ i + 1 }}</td>
-                <td>{{ role.fullName ?? '-'  }} </td>
-                <td>{{ role.phoneNumber ?? '-'  }}</td>
-                <td>{{ role.position ?? '-'  }}</td>
-                <td>{{ role.createDate ?? '-'  }}</td>
-                <td>
-                  <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
-                  <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
-                  <p-button icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
-                 </td>
-            </tr>
-        </ng-template>
-    </p-table>
-    </p-accordionTab>
- </p-accordion>
-
-   
-`
+  templateUrl: './user-list.component.html',
 })
 export class UserListComponent implements OnInit {
-  private _userService = inject(UserService);
-  private _changeDetectorRef = inject(ChangeDetectorRef);
-  searchText!: string | null;
-  dataUsers: UserList[] = [];
-  sidebarVisible2: boolean = false;
-  constructor() { }
+  private _roleService: RoleService;
+  private _userService: UserService;
+  private _changeDetectorRef: ChangeDetectorRef;
+  private fb: FormBuilder;
+  private _toastService: ToastService;
 
-  ngOnInit() {
-    this.getUser()
+  searchText: string | null = null;
+  dataUsers: UserList[] = [];
+  sidebar = false;
+  statusVisible = 'ADD';
+  registerForm!: FormGroup;
+  submittedForm$ = new BehaviorSubject<boolean>(false);
+  prefix: Prefix[] = [];
+
+  dataRoles: Role[] = [];
+
+  constructor(
+    roleService: RoleService,
+    userService: UserService,
+    changeDetectorRef: ChangeDetectorRef,
+    fb: FormBuilder,
+    toastService: ToastService
+  ) {
+    this._roleService = roleService;
+    this._userService = userService;
+    this._changeDetectorRef = changeDetectorRef;
+    this.fb = fb;
+    this._toastService = toastService;
   }
 
-  getUser() {
+  ngOnInit(): void {
+    this.prefix = [
+      { prefix: 'นาย', code: 'นาย' },
+      { prefix: 'นางสาว', code: 'นางสาว' },
+      { prefix: 'นาง', code: 'นาง' },
+    ];
+    this.getUser();
+    this.createForm();
+    this.getRole('WEBSITE');
+  }
+
+  createForm(): void {
+    this.registerForm = this.fb.group({
+      platform: new FormControl<string | null>('WEBSITE', Validators.required),
+      username: new FormControl<string | null>(null, Validators.required),
+      password: new FormControl<string | null>(null, Validators.required),
+      confirmPassword: new FormControl<string | null>(null, Validators.required),
+      roleCode: new FormControl<string | null>(null, Validators.required),
+      firstName: new FormControl<string | null>(null, Validators.required),
+      lastName: new FormControl<string | null>(null, Validators.required),
+      prefix: new FormControl<string | null>(null, Validators.required),
+      email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
+      phoneNumber: new FormControl<string | null>(null, Validators.required),
+      position: new FormControl<string | null>(null, Validators.required),
+    });
+  }
+
+  getRole(platform: string): void {
+    this._roleService.getRoleList().subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.dataRoles = data['data'];
+        const filteredRoles = this.filterRolesByPlatform(this.dataRoles, platform);
+        this.dataRoles = filteredRoles;
+        this._changeDetectorRef.markForCheck();
+      },
+      error: (err) => {
+        // Handle error
+      },
+    });
+  }
+
+  filterRolesByPlatform(roles: Role[], platform: string): Role[] {
+    return roles.filter((role) => role.platform === platform);
+  }
+
+  getUser(): void {
     this._userService.getUserList().subscribe({
       next: (response: any) => {
         const data: any = response;
-        this.dataUsers = data['data']
-        this._changeDetectorRef.markForCheck()
+        this.dataUsers = data['data'];
+        this._changeDetectorRef.markForCheck();
       },
       error: (err) => {
-
-      }
+        // Handle error
+      },
     });
   }
-  getDataInput(data: any) {
-    return data.target.value
+
+  switchPlatform(p: string): void {
+    this.getRole(p);
+    this._changeDetectorRef.markForCheck();
   }
 
+  getDataInput(data: any): string {
+    return data.target.value;
+  }
+
+  openSidebar(): void {
+    this.sidebar = true;
+  }
+
+  onCloseAction(): void {
+    this.sidebar = false;
+  }
+
+  isFieldValid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!control?.invalid && (!!control?.touched || (!!control?.untouched && this.submittedForm$.value));
+  }
+
+  private handleInvalidForm(): void {
+    this.submittedForm$.next(true);
+    this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
+  }
+
+  private arePasswordsMatching(): boolean {
+    const password = this.registerForm.get('password')?.value;
+    const confirmPassword = this.registerForm.get('confirmPassword')?.value;
+    return password === confirmPassword;
+  }
+
+  private showPasswordMismatchError(): void {
+    this._toastService.addSingle('warn', 'แจ้งเตือน', 'รหัสผ่านไม่ตรงกัน!');
+  }
+
+  private showSuccessMessage(): void {
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ผ่าน!');
+  }
+
+  validateForm(): void {
+    if (this.registerForm.invalid) {
+      this.handleInvalidForm();
+      return;
+    }
+
+    if (!this.arePasswordsMatching()) {
+      this.showPasswordMismatchError();
+      return;
+    }
+
+    this.showSuccessMessage();
+    this.submittedForm$.next(false);
+  }
+
+  save(): void {
+    // Implement your save logic here
+  }
 }
