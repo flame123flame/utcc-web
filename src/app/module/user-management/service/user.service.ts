@@ -9,5 +9,9 @@ export class UserService {
   getUserList() {
     return this._http.post(environment.api_url + '/api/user/get-user', {});
   }
-
+  save(req: any) {
+    return this._http.post(environment.api_url + '/api/user/register', {
+      ...req
+    });
+  }
 }

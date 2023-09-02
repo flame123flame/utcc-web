@@ -155,26 +155,45 @@ export class UserListComponent implements OnInit {
     this._toastService.addSingle('warn', 'แจ้งเตือน', 'รหัสผ่านไม่ตรงกัน!');
   }
 
-  private showSuccessMessage(): void {
-    this._toastService.addSingle('success', 'แจ้งเตือน', 'ผ่าน!');
-  }
+
 
   validateForm(): void {
     if (this.registerForm.invalid) {
       this.handleInvalidForm();
       return;
     }
-
     if (!this.arePasswordsMatching()) {
       this.showPasswordMismatchError();
       return;
     }
-
-    this.showSuccessMessage();
     this.submittedForm$.next(false);
+    this.save()
   }
 
+
   save(): void {
-    // Implement your save logic here
+    if (this.registerForm.valid && this.arePasswordsMatching()) {
+      this._userService.save(this.registerForm.value).subscribe({
+        next: (response: any) => {
+          const data: any = response;
+          this.handleSaveSuccess();
+        },
+        error: (err) => {
+          if (err.error.message == "DUPLICATE_USER") {
+            this.handleSaveErrorDuplicateUser();
+          }
+        }
+      });
+    }
+  }
+
+  private handleSaveSuccess(): void {
+    this.onCloseAction();
+    this.getUser();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
+  }
+
+  private handleSaveErrorDuplicateUser(): void {
+    this._toastService.addSingle('error', 'แจ้งเตือน', 'ผู้ใช้งานนี้มีในระบบแล้ว!');
   }
 }
