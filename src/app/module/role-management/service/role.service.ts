@@ -15,8 +15,6 @@ export class RoleService {
   }
 
   save(req: any) {
-    console.log(req);
-
     return this._http.post(environment.api_url + '/api/role/save', {
       ...req
     });

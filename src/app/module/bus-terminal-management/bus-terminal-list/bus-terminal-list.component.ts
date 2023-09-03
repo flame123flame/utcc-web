@@ -1,90 +1,48 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { BusTerminal } from 'src/app/shared/interfaces/bus-terminal.interface';
-import { UserList } from 'src/app/shared/interfaces/user-list.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { SharedAppModule } from 'src/app/shared/shared-app.module';
 import { BusTerminalService } from '../service/bus-terminal.service';
 
 @Component({
   standalone: true,
   selector: 'app-bus-terminal-list',
-  imports: [PrimeNgModule],
+  imports: [PrimeNgModule, SharedAppModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-<div class="mb-2">
-  <p-accordion [activeIndex]="0">
-    <p-accordionTab header="ค้นหาท่ารถเมล์">
-       <div class="flex flex-wrap gap-3 mb-2">
-        <div class="flex-auto">
-            <label for="integer" class="font-bold block mb-2"> ชื่อท่ารถเมล์ </label>
-            <input (input)="datatableBusTerminal.filter(getDataInput($event),'busTerminalName' , 'contains')"  pInputText id="integer" class="w-full" />
-        </div>
-        <div class="flex-auto"></div>
-        <div class="flex-auto"></div>
-        <div class="flex-auto"></div>
-    </div>
-    </p-accordionTab>
-  </p-accordion>
- </div>
-   <p-accordion [activeIndex]="0">
-    <p-accordionTab header="รายการท่ารถเมล์">
-      <div class="flex justify-content-between mb-3">
-        <h2></h2>
-        <p-button
-          icon="pi pi-plus"
-          label="เพิ่มท่ารถเมล์"
-          styleClass="p-button-success p-button-sm"
-        ></p-button>
-      </div>
-        <p-table
-        #datatableBusTerminal
-        [value]="dataTable"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
-        [rowsPerPageOptions]="[10, 25, 50]">
-             <ng-template pTemplate="header">
-            <tr>
-                <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                <th>ชื่อท่ารถ</th>
-                <th>วันที่ส้ราง</th>
-                <th>จัดการ</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-role let-i="rowIndex">
-            <tr>
-                <td style="text-align: center;">{{ i + 1 }}</td>
-                <td>{{ role.busTerminalName ?? '-'  }} </td>
-                <td>{{ role.createDate ?? '-'  }}</td>
-                <td>
-                  <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
-                  <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
-                  <p-button icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
-                 </td>
-            </tr>
-        </ng-template>
-    </p-table>
-    </p-accordionTab>
- </p-accordion>
-`,
+  templateUrl: './bus-terminal-list.component.html',
 })
 export class BusTerminalListComponent implements OnInit {
   private _service = inject(BusTerminalService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
+  private _toastService = inject(ToastService);
   searchText!: string | null;
   dataTable: BusTerminal[] = [];
-  sidebarVisible2: boolean = false;
-  constructor() { }
+  sidebar: boolean = false;
+  registerForm!: FormGroup;
+  submittedForm$ = new BehaviorSubject<boolean>(false);
+  constructor(private fb: FormBuilder) { }
+
+
 
   ngOnInit() {
     this.search()
+    this.createForm()
   }
-
+  createForm(): void {
+    this.registerForm = this.fb.group({
+      busTerminalId: new FormControl<number | null>(null),
+      busTerminalName: new FormControl<string | null>(null, Validators.required),
+    });
+  }
   search() {
     this._service.search().subscribe({
       next: (response: any) => {
         const data: any = response;
         this.dataTable = data['data']
+        this.registerForm.reset()
         this._changeDetectorRef.markForCheck()
       },
       error: (err) => {
@@ -95,5 +53,56 @@ export class BusTerminalListComponent implements OnInit {
   getDataInput(data: any) {
     return data.target.value
   }
+
+  isFieldValid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!control?.invalid && (!!control?.touched || (!!control?.untouched && this.submittedForm$.value));
+  }
+
+
+  openSidebar(): void {
+    this.sidebar = true;
+  }
+
+  onCloseAction(): void {
+    this.sidebar = false;
+  }
+
+
+  validateForm(): void {
+    if (this.registerForm.invalid) {
+      this.handleInvalidForm();
+      return;
+    }
+
+    this.submittedForm$.next(false);
+    this.save()
+  }
+
+  save(): void {
+    if (this.registerForm.valid) {
+      this._service.save(this.registerForm.value).subscribe({
+        next: (response: any) => {
+          const data: any = response;
+          this.handleSaveSuccess();
+        },
+        error: (err) => {
+
+        }
+      });
+    }
+  }
+
+  private handleSaveSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
+  }
+
+  private handleInvalidForm(): void {
+    this.submittedForm$.next(true);
+    this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
+  }
+
 
 }

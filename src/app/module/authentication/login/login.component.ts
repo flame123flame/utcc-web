@@ -72,7 +72,6 @@ export class LoginComponent implements OnInit {
     if (this.username.length < 5 && this.password.length > 5) {
       this.notiError();
     } else {
-      ;
       this._authService
         .signIn({
           username: this.username,
@@ -87,7 +86,6 @@ export class LoginComponent implements OnInit {
               roleCode: res.roleCode.split(',')
             };
             this._authService.isLoggedIn = true;
-
             this.router.navigate(['/dashboard']).then(() => {
               this._toastService.addSingle('success', 'เข้าสู่ระบบสำเร็จ', 'คุณได้เข้าสู่ระบบเรียบร้อยแล้ว');
             });
