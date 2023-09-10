@@ -17,7 +17,7 @@ export class ThaiDatePipe implements PipeTransform {
     const year = inputDate.getFullYear();
     const thaiYear = year + 543;
 
-    const outputDateFull = [`วัน ${ThaiDay[day]}`, `ที่ ${date}`, `เดือน ${longThaiMonth[month]}`, `พ.ศ. ${thaiYear}`];
+    const outputDateFull = [`วัน ${ThaiDay[day]}`, `ที่ ${date}`, `เดือน ${longThaiMonth[month]}`, `พ.ศ. ${thaiYear}`, `เวลา ${inputDate.getHours()} : ${inputDate.getMinutes()} : ${inputDate.getSeconds()}`];
     const outputDateShort = [date, shortThaiMonth[month], thaiYear];
     const outputDateMedium = [date, longThaiMonth[month], thaiYear];
 

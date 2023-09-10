@@ -57,7 +57,7 @@ import { BusLineService } from '../service/bus-line.service';
                 <th>เลขสายรถเมล์</th>
                 <th>ต้นทาง</th>
                 <th>ปลายทาง</th>
-                <th>วันที่ส้ราง</th>
+                <th>วันที่สร้าง</th>
                 <th>จัดการ</th>
             </tr>
         </ng-template>

@@ -7,6 +7,7 @@ import { StrongPasswordDirective } from './directive/strong-password.directive';
 import { StrongUsernameDirective } from './directive/strong-username.directive';
 import { StrongEmailFormatDirective } from './directive/strong-email-format.directive';
 import { NumbersOnlyDirective } from './directive/numbers-only.directive';
+import { ThaiDatePipe } from './pipes/thaidate.pipe';
 
 const componentsModule = [
   CommonModule,
@@ -17,7 +18,19 @@ const componentsModule = [
 
 @NgModule({
   imports: [...componentsModule],
-  declarations: [PhoneNumberFormatDirective, StrongPasswordDirective, StrongUsernameDirective, StrongEmailFormatDirective, NumbersOnlyDirective],
-  exports: [...componentsModule, PhoneNumberFormatDirective, StrongPasswordDirective, StrongUsernameDirective, StrongEmailFormatDirective, NumbersOnlyDirective],
+  declarations: [
+    PhoneNumberFormatDirective,
+    StrongPasswordDirective,
+    StrongUsernameDirective,
+    StrongEmailFormatDirective,
+    NumbersOnlyDirective,
+    ThaiDatePipe],
+  exports: [...componentsModule,
+    PhoneNumberFormatDirective,
+    StrongPasswordDirective,
+    StrongUsernameDirective,
+    StrongEmailFormatDirective,
+    NumbersOnlyDirective,
+    ThaiDatePipe],
 })
 export class SharedAppModule { }

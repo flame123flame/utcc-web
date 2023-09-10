@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { BusDepot } from 'src/app/shared/interfaces/bus-depot.interface';
 import { BusDivision } from 'src/app/shared/interfaces/bus-division.interface';
@@ -16,6 +17,7 @@ import { BusDivisionService } from '../service/bus-division.service';
   imports: [PrimeNgModule, SharedAppModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bus-division-list.component.html',
+  providers: [ConfirmationService,]
 })
 
 export class BusDivisionListComponent implements OnInit {
@@ -30,11 +32,10 @@ export class BusDivisionListComponent implements OnInit {
   sidebar: boolean = false;
   dataDropdownBusDepot: BusDepot[] = [];
   submittedForm$ = new BehaviorSubject<boolean>(false);
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.search()
-    this.searchDropdownBusDepot()
     this.createForm()
   }
 
@@ -81,6 +82,7 @@ export class BusDivisionListComponent implements OnInit {
   }
 
   openSidebar(): void {
+    this.searchDropdownBusDepot()
     this.sidebar = true;
   }
 
@@ -98,9 +100,6 @@ export class BusDivisionListComponent implements OnInit {
     this.submittedForm$.next(true);
     this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
   }
-
-
-
 
   validateForm(): void {
     if (this.registerForm.invalid) {
@@ -124,6 +123,20 @@ export class BusDivisionListComponent implements OnInit {
         }
       });
     }
+  }
+
+  confirmDelete(busDivision: BusDivision) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลกองปฏิบัติการเดินรถ',
+      message: `ต้องการลบข้อมูลกองปฏิบัติการเดินรถ ${busDivision.busDivisionName} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+      }
+    });
   }
 
   private handleSaveSuccess(): void {

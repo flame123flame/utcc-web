@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { SharedAppModule } from 'src/app/shared/shared-app.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -43,7 +43,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     AccordionModule,
     ConfirmPopupModule
   ],
-  providers: [MessageService, { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true }],
+  providers: [MessageService, ConfirmationService, { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true }],
 
   bootstrap: [AppComponent]
 })

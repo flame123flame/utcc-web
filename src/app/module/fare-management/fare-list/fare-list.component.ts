@@ -1,92 +1,43 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { BusLines } from 'src/app/shared/interfaces/bus-lines.interface';
 import { Fare } from 'src/app/shared/interfaces/fare.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { SharedAppModule } from 'src/app/shared/shared-app.module';
 import { FareService } from '../service/fare.service';
 
 @Component({
   standalone: true,
   selector: 'app-fare-list',
-  imports: [PrimeNgModule],
+  imports: [PrimeNgModule, SharedAppModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-  <div class="mb-2">
-  <p-accordion [activeIndex]="0">
-    <p-accordionTab header="ค้นหารายการตั๋วรถเมล์">
-       <div class="flex flex-wrap gap-3 mb-2">
-        <div class="flex-auto">
-            <label for="integer" class="font-bold block mb-2"> ราคาตั๋วรถเมล์ </label>
-            <input type="number" (input)="datatableFare.filter(getDataInput($event),'fareValue' , 'contains')"  pInputText id="integer" class="w-full" />
-        </div>
-         <div class="flex-auto">
-            <label for="integer" class="font-bold block mb-2"> รายละเอียดราคาตั๋วรถเมล์ </label>
-            <input (input)="datatableFare.filter(getDataInput($event),'fareDesc' , 'contains')"  pInputText id="integer" class="w-full" />
-        </div>
-         <div class="flex-auto"></div>
-        <div class="flex-auto"></div>
-        <div class="flex-auto"></div>
-        <div class="flex-auto"></div>
-    </div>
-    </p-accordionTab>
-  </p-accordion>
- </div>
-   <p-accordion [activeIndex]="0">
-    <p-accordionTab header="รายการตั๋วรถเมล์">
-      <div class="flex justify-content-between mb-3">
-        <h2></h2>
-        <p-button
-          icon="pi pi-plus"
-          label="เพิ่มตั๋วรถเมล์"
-          styleClass="p-button-success p-button-sm"
-        ></p-button>
-      </div> 
-        <p-table
-        #datatableFare
-        [value]="dataTable"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
-        [rowsPerPageOptions]="[10, 25, 50]">
-             <ng-template pTemplate="header">
-            <tr>
-                <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                <th style="text-align: center;">ราคาตั๋วรถเมล์</th>
-                <th>รายละเอียดราคาตั๋วรถเมล์</th>
-                <th>วันที่สร้าง</th>
-                <th>จัดการ</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-role let-i="rowIndex">
-            <tr>
-                <td style="text-align: center;">{{ i + 1 }}</td>
-                <td style="text-align: center;">{{ role.fareValue ?? '-'  }} </td>
-                <td  >{{ role.fareDesc ?? '-'  }} </td>
-                <td>{{ role.createDate ?? '-'  }}</td>
-                <td>
-                  <p-button icon="pi pi-search"  styleClass="mr-2"></p-button>
-                  <p-button icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
-                  <p-button icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
-                 </td>
-            </tr>
-        </ng-template>
-    </p-table>
-    </p-accordionTab>
- </p-accordion>
-
-  `,
+  templateUrl: './fare-list.component.html'
 })
 
 export class FareListComponent implements OnInit {
   private _service = inject(FareService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
+  private _toastService = inject(ToastService);
   searchText!: string | null;
   dataTable: Fare[] = [];
-  sidebarVisible2: boolean = false;
-  constructor() { }
+  registerForm!: FormGroup;
+  submittedForm$ = new BehaviorSubject<boolean>(false);
+  sidebar: boolean = false;
+  constructor(private fb: FormBuilder) { }
+
 
   ngOnInit() {
     this.search()
+    this.createForm()
+  }
+  createForm(): void {
+    this.registerForm = this.fb.group({
+      fareId: new FormControl<number | null>(null),
+      fareValue: new FormControl<number | null>(null, Validators.required),
+      fareDesc: new FormControl<string | null>(null),
+    });
   }
 
   search() {
@@ -104,5 +55,58 @@ export class FareListComponent implements OnInit {
   getDataInput(data: any) {
     return data.target.value
   }
+
+  openSidebar(): void {
+    this.sidebar = true;
+  }
+
+  onCloseAction(): void {
+    this.sidebar = false;
+  }
+
+
+  isFieldValid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!control?.invalid && (!!control?.touched || (!!control?.untouched && this.submittedForm$.value));
+  }
+
+  private handleInvalidForm(): void {
+    this.submittedForm$.next(true);
+    this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
+  }
+
+
+
+
+  validateForm(): void {
+    if (this.registerForm.invalid) {
+      this.handleInvalidForm();
+      return;
+    }
+
+    this.submittedForm$.next(false);
+    this.save()
+  }
+
+  save(): void {
+    if (this.registerForm.valid) {
+      this._service.save(this.registerForm.value).subscribe({
+        next: (response: any) => {
+          const data: any = response;
+          this.handleSaveSuccess();
+        },
+        error: (err) => {
+
+        }
+      });
+    }
+  }
+
+  private handleSaveSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
+  }
+
 
 }

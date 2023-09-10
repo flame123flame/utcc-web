@@ -6,6 +6,8 @@ import { take } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { IUser } from './../../../shared/interfaces/user.interface';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { MENU_WEB } from 'src/app/shared/constants/sidebar-menu.constant';
+import { SidebarMenu } from 'src/app/shared/interfaces/sidebar-menu.interface';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 })
 export class LoginComponent implements OnInit {
   user: IUser | null = null;
-  imageUrlBackgroung = './assets/images/pexels01.jpeg';
+  imageUrlBackgroung = './assets/images/juan-111-6mcVaoGNz1w-unsplash.jpeg';
   imageUrl = './assets/images/BMTA_Logo2014-th.svg';
   imageUrlBackgroud = './assets/images/login-image.jpeg';
   constructor(
@@ -35,7 +37,7 @@ export class LoginComponent implements OnInit {
   errorDialog(error: any) {
     console.log(error.error.message)
     if (error.status === 401) {
-      this._toastService.addSingle('error', 'เข้าสู่ระบบล้มเหลว', 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
+      this._toastService.addSingle('error', 'เข้าสู่ระบบล้มเหลว', 'รหัสผ่านของคุณไม่ถูกต้อง');
     } else if (error.error.message == 'INVALID_USER') {
       this._toastService.addSingle('error', 'เข้าสู่ระบบล้มเหลว', 'ไม่พบผู้ใช้งานในระบบ');
     } else {
@@ -69,6 +71,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
+
     if (this.username.length < 5 && this.password.length > 5) {
       this.notiError();
     } else {
@@ -85,8 +88,9 @@ export class LoginComponent implements OnInit {
               ...res,
               roleCode: res.roleCode.split(',')
             };
+            const matchingMenus = this.findMatchingMenus(res.roleCode.split(','), MENU_WEB)
             this._authService.isLoggedIn = true;
-            this.router.navigate(['/dashboard']).then(() => {
+            this.router.navigate([matchingMenus[0].router]).then(() => {
               this._toastService.addSingle('success', 'เข้าสู่ระบบสำเร็จ', 'คุณได้เข้าสู่ระบบเรียบร้อยแล้ว');
             });
           },
@@ -95,7 +99,15 @@ export class LoginComponent implements OnInit {
           },
         });
     }
+
+
   }
+
+
+  findMatchingMenus(codesToCompare: string[], menuArray: SidebarMenu[]): SidebarMenu[] {
+    return menuArray.filter(menu => codesToCompare.includes(menu.code));
+  }
+
 }
 
 

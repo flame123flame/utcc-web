@@ -67,7 +67,7 @@ export class UserListComponent implements OnInit {
     ];
     this.getUser();
     this.createForm();
-    this.getRole('WEBSITE');
+
   }
 
   createForm(): void {
@@ -128,6 +128,7 @@ export class UserListComponent implements OnInit {
   }
 
   openSidebar(): void {
+    this.getRole('WEBSITE');
     this.sidebar = true;
   }
 
