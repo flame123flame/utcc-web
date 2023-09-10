@@ -15,4 +15,8 @@ export class BusDivisionService {
       ...req
     });
   }
+
+  delete(id: any) {
+    return this._http.get(environment.api_url + '/api/bus-division/delete/' + id);
+  }
 }

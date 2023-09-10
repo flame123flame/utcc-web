@@ -35,7 +35,8 @@
     <p-accordionTab header="รายการรถเมล์">
         <div class="flex justify-content-between mb-3">
             <h3></h3>
-            <p-button icon="pi pi-plus" label="เพิ่มรถเมล์" styleClass="p-button-success p-button-sm"></p-button>
+            <p-button (click)="openSidebar()" icon="pi pi-plus" label="เพิ่มรถเมล์"
+                styleClass="p-button-success p-button-sm"></p-button>
         </div>
         <p-table #datatableVehicle [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
@@ -59,7 +60,7 @@
                     <td>{{ data.busVehiclePlateProv ?? '-' }}</td>
                     <td>{{ data.busVehicleNumber ?? '-' }}</td>
                     <td>{{ data.busLinesNo ?? '-' }}</td>
-                    <td>{{ data.typeName ?? '-' }}</td>
+                    <td>{{ data.busTypeName ?? '-' }}</td>
                     <td>{{ data.busDivisionName ?? '-' }}</td>
                     <td>
                         <p-button icon="pi pi-search" styleClass="mr-2"></p-button>
@@ -71,3 +72,87 @@
         </p-table>
     </p-accordionTab>
 </p-accordion>
+
+<p-dialog [header]="'เพิ่ม' " [(visible)]="sidebar" [modal]="true" [style]="{ width: '59vw', height: '600px' }">
+    <form [formGroup]="registerForm">
+        <div class="p-3">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>เลขทะเบียนรถ <span style="color: red">*</span></label>
+                        <input pInputText type="text" formControlName="busVehiclePlateNo"
+                            [ngStyle]="isFieldValid('busVehiclePlateNo') ? {border: '1px solid red', borderRadius: '7px'} : null" />
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>จังหวัด <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busVehiclePlateProv') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [options]="provinceList" formControlName="busVehiclePlateProv"
+                                optionLabel="name" optionValue="name" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>เลขข้างรถ <span style="color: red">*</span></label>
+                        <input pInputText type="text" formControlName="busVehicleNumber"
+                            [ngStyle]="isFieldValid('busVehicleNumber') ? {border: '1px solid red', borderRadius: '7px'} : null" />
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>สายรถเมล์ <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busLinesId') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [options]="busLinesList" formControlName="busLinesId" optionLabel="busLinesNo"
+                                optionValue="busLinesId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
+                                appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>ประเภทรถเมล์ <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busTypeId') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [options]="busTypeList" formControlName="busTypeId" optionLabel="busTypeName"
+                                optionValue="busTypeId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
+                                appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>กองปฏิบัติการเดินรถ <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busDivisionId') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [options]="busDivisionList" formControlName="busDivisionId"
+                                optionLabel="busDivisionName" optionValue="busDivisionId" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>สถานะการรถเมล์ <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busVehicleStatus') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown [options]="busStatusList" formControlName="busVehicleStatus" optionLabel="name"
+                                optionValue="code" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
+                                appendTo="body"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="text-center gap-3 mt-4">
+        <p-button icon="pi  pi-times" label="ยกเลิก"
+            styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
+        <p-button (click)="validateForm()" icon="pi pi-save" label="บันทึก"
+            styleClass="p-button-success p-button-sm p-button-w"></p-button>
+    </div>
+</p-dialog>

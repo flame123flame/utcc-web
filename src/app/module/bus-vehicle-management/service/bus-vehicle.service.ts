@@ -9,5 +9,9 @@ export class BusVehicleService {
   getBusVehicleList() {
     return this._http.get(environment.api_url + '/api/bus-vehicle/search');
   }
-
+  save(req: any) {
+    return this._http.post(environment.api_url + '/api/bus-vehicle/save', {
+      ...req
+    });
+  }
 }

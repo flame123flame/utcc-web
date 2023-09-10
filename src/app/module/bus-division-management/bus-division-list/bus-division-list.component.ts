@@ -131,14 +131,29 @@ export class BusDivisionListComponent implements OnInit {
       message: `ต้องการลบข้อมูลกองปฏิบัติการเดินรถ ${busDivision.busDivisionName} ใช่หรือไม่`,
       icon: 'pi pi-trash',
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        this.delete(busDivision.busDivisionId)
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
       }
     });
   }
 
+  delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากกองปฏิบัติการเดินรถถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
   private handleSaveSuccess(): void {
     this.onCloseAction();
     this.search();
