@@ -36,7 +36,7 @@ export class FareListComponent implements OnInit {
     this.registerForm = this.fb.group({
       fareId: new FormControl<number | null>(null),
       fareValue: new FormControl<number | null>(null, Validators.required),
-      fareDesc: new FormControl<string | null>(null),
+      fareDesc: new FormControl<string | null>(null, Validators.required),
     });
   }
 
@@ -74,8 +74,6 @@ export class FareListComponent implements OnInit {
     this.submittedForm$.next(true);
     this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
   }
-
-
 
 
   validateForm(): void {
