@@ -25,7 +25,7 @@ export class BusDivisionListComponent implements OnInit {
   private _serviceBusDepotService = inject(BusDepotService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
   private _toastService = inject(ToastService);
-
+  actionStatus: string = "save";
   registerForm!: FormGroup;
   searchText!: string | null;
   dataTable: BusDivision[] = [];
@@ -84,6 +84,14 @@ export class BusDivisionListComponent implements OnInit {
   openSidebar(): void {
     this.searchDropdownBusDepot()
     this.sidebar = true;
+    this.actionStatus = "save"
+  }
+
+  openSidebarEdit(busDivision: BusDivision): void {
+    this.searchDropdownBusDepot()
+    this.actionStatus = "edit"
+    this.sidebar = true;
+    this.registerForm.patchValue(busDivision)
   }
 
   onCloseAction(): void {
@@ -113,7 +121,7 @@ export class BusDivisionListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();
@@ -159,6 +167,9 @@ export class BusDivisionListComponent implements OnInit {
     this.search();
     this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
   }
+
+
+
 
 
 }

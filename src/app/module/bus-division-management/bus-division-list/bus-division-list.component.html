@@ -58,7 +58,8 @@
                     <td style="text-align: center;">{{ item.bmtaZone ?? '-' }}</td>
                     <td>{{item.depotName ?? '-' }} </td>
                     <td>
-                        <p-button icon="pi pi-file-edit" styleClass="p-button-warning mr-2"></p-button>
+                        <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+                            styleClass="p-button-warning mr-2"></p-button>
                         <p-button (click)="confirmDelete(item)" icon="pi pi-trash"
                             styleClass="p-button-danger"></p-button>
                     </td>
@@ -68,7 +69,8 @@
     </p-accordionTab>
 </p-accordion>
 
-<p-dialog [header]="'เพิ่ม' " [(visible)]="sidebar" [modal]="true" [style]="{ width: '59vw', height: '450px' }">
+<p-dialog [header]=" this.actionStatus == 'save' ? 'เพิ่มข้อมูลกองปฏิบัติการเดินรถ' : 'แก้ไขข้อมูลกองปฏิบัติการเดินรถ' "
+    [(visible)]="sidebar" [modal]="true" [style]="{ width: '59vw', height: '450px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">

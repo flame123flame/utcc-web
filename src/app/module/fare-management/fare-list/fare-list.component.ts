@@ -25,6 +25,7 @@ export class FareListComponent implements OnInit {
   registerForm!: FormGroup;
   submittedForm$ = new BehaviorSubject<boolean>(false);
   sidebar: boolean = false;
+  actionStatus: string = "save";
   constructor(private fb: FormBuilder) { }
 
 
@@ -64,6 +65,12 @@ export class FareListComponent implements OnInit {
     this.sidebar = false;
   }
 
+  openSidebarEdit(fare: Fare): void {
+    this.actionStatus = "edit"
+    this.sidebar = true;
+    this.registerForm.patchValue(fare)
+  }
+
 
   isFieldValid(field: string): boolean {
     const control = this.registerForm.get(field);
@@ -88,7 +95,7 @@ export class FareListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();

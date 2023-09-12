@@ -16,7 +16,7 @@ export class StrongEmailFormatDirective implements Validator {
         if (!value) {
             return null;
         }
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!regex.test(value)) {
             return { 'strongEmailFormat': true };
         }

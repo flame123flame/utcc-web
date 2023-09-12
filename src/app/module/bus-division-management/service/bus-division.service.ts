@@ -10,8 +10,8 @@ export class BusDivisionService {
     return this._http.get(environment.api_url + '/api/bus-division/search');
   }
 
-  save(req: any) {
-    return this._http.post(environment.api_url + '/api/bus-division/save', {
+  save(req: any, url: string) {
+    return this._http.post(environment.api_url + '/api/bus-division/' + url, {
       ...req
     });
   }

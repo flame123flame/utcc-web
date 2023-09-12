@@ -27,6 +27,7 @@ export class BusDepotListComponent implements OnInit {
   sidebar: boolean = false;
   registerForm!: FormGroup;
   submittedForm$ = new BehaviorSubject<boolean>(false);
+  actionStatus: string = "save";
   constructor(private fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -69,6 +70,13 @@ export class BusDepotListComponent implements OnInit {
 
   openSidebar(): void {
     this.sidebar = true;
+    this.actionStatus = "save"
+  }
+
+  openSidebarEdit(busDepot: BusDepot): void {
+    this.registerForm.patchValue(busDepot)
+    this.actionStatus = "edit"
+    this.sidebar = true;
   }
 
   onCloseAction(): void {
@@ -88,7 +96,7 @@ export class BusDepotListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();
@@ -108,10 +116,23 @@ export class BusDepotListComponent implements OnInit {
       message: `ต้องการลบข้อมูลอู่รถเมล์ ${busDepot.depotName} ใช่หรือไม่`,
       icon: 'pi pi-trash',
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        this.delete(busDepot.busDepotId)
       },
       reject: () => {
         this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+      }
+    });
+  }
+
+
+  delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากกองปฏิบัติการเดินรถถูกใช้งานอยู่!');
       }
     });
   }
@@ -126,6 +147,16 @@ export class BusDepotListComponent implements OnInit {
     this.submittedForm$.next(true);
     this._toastService.addSingle('warn', 'แจ้งเตือน', 'โปรดกรอกข้อมูลให้ครบถ้วน!');
   }
+
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
+
+
+
+
 
 
 }

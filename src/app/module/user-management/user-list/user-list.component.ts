@@ -38,11 +38,10 @@ export class UserListComponent implements OnInit {
   searchText: string | null = null;
   dataUsers: UserList[] = [];
   sidebar = false;
-  statusVisible = 'ADD';
   registerForm!: FormGroup;
   submittedForm$ = new BehaviorSubject<boolean>(false);
   prefix: Prefix[] = [];
-
+  actionStatus: string = "save";
   dataRoles: Role[] = [];
 
   constructor(
@@ -119,6 +118,8 @@ export class UserListComponent implements OnInit {
   }
 
   switchPlatform(p: string): void {
+    console.log("sss");
+
     this.getRole(p);
     this._changeDetectorRef.markForCheck();
   }
@@ -128,9 +129,41 @@ export class UserListComponent implements OnInit {
   }
 
   openSidebar(): void {
+    this.registerForm.get('platform')?.enable()
+    this.actionStatus = "save"
+    this.addAsyncValidators()
     this.getRole('WEBSITE');
     this.sidebar = true;
   }
+
+  openSidebarEdit(userList: UserList): void {
+    this.clearUserValidators()
+    this.updateValueAndValidity()
+    this.actionStatus = "edit"
+    this.getRole(userList.platform);
+    this.registerForm.get('platform')?.disable()
+    this.sidebar = true;
+    this.registerForm.patchValue(userList)
+  }
+
+  addAsyncValidators() {
+    this.registerForm.get('password')?.addValidators([Validators.required])
+    this.registerForm.get('confirmPassword')?.addValidators([Validators.required])
+    this.registerForm.get('username')?.addValidators([Validators.required])
+  }
+
+  clearUserValidators() {
+    this.registerForm.get('password')?.clearValidators();
+    this.registerForm.get('confirmPassword')?.clearValidators();
+    this.registerForm.get('username')?.clearValidators();
+  }
+
+  updateValueAndValidity() {
+    this.registerForm.get('password')?.updateValueAndValidity();
+    this.registerForm.get('username')?.updateValueAndValidity();
+    this.registerForm.get('confirmPassword')?.updateValueAndValidity();
+  }
+
 
   onCloseAction(): void {
     this.sidebar = false;

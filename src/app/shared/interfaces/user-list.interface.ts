@@ -12,6 +12,7 @@ export interface UserList {
   employeeCode: string
   createDate: string
   roleCode: string
+  platform: string
   position: string
   id: number
 }

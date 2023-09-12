@@ -23,6 +23,7 @@ export class BusTerminalListComponent implements OnInit {
   sidebar: boolean = false;
   registerForm!: FormGroup;
   submittedForm$ = new BehaviorSubject<boolean>(false);
+  actionStatus: string = "save";
   constructor(private fb: FormBuilder) { }
 
 
@@ -62,7 +63,15 @@ export class BusTerminalListComponent implements OnInit {
 
   openSidebar(): void {
     this.sidebar = true;
+    this.actionStatus = "save"
   }
+
+  openSidebarEdit(busTerminal: BusTerminal): void {
+    this.registerForm.patchValue(busTerminal)
+    this.actionStatus = "edit"
+    this.sidebar = true;
+  }
+
 
   onCloseAction(): void {
     this.sidebar = false;
@@ -81,7 +90,7 @@ export class BusTerminalListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();

@@ -56,10 +56,10 @@
                     <td>{{ item.fullName ?? '-' }} </td>
                     <td>{{ item.phoneNumber ?? '-' }}</td>
                     <td>{{ item.position ?? '-' }}</td>
-                    <td>{{ item.createDate ?? '-' }}</td>
+                    <td>{{ item.createDate | thaiDate}}</td>
                     <td>
-                        <p-button icon="pi pi-search" styleClass="mr-2"></p-button>
-                        <p-button icon="pi pi-file-edit" styleClass="p-button-warning mr-2"></p-button>
+                        <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+                            styleClass="p-button-warning mr-2"></p-button>
                         <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
                     </td>
                 </tr>
@@ -68,7 +68,7 @@
     </p-accordionTab>
 </p-accordion>
 
-<p-dialog [header]="statusVisible == 'ADD' ? 'เพิ่มผู้ใช้งาน' : 'แก้ไขผู้ใช้งาน' " [(visible)]="sidebar" [modal]="true"
+<p-dialog [header]="actionStatus == 'save' ? 'เพิ่มผู้ใช้งาน' : 'แก้ไขผู้ใช้งาน' " [(visible)]="sidebar" [modal]="true"
     [style]="{ width: '59vw', height: '830px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
@@ -84,7 +84,6 @@
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-6">
-
                 </div>
                 <div class="col-12 md:col-6 lg:col-6">
                     <div class="p-fluid">
@@ -139,13 +138,15 @@
                             <label>แพลตฟอร์มที่ต้องการสร้าง</label>
                             <div class="flex flex-wrap gap-3">
                                 <div class="flex align-items-start">
-                                    <p-radioButton (click)="switchPlatform('WEBSITE')" name="platform" value="WEBSITE"
-                                        formControlName="platform" inputId="WEBSITE"></p-radioButton>
+                                    <p-radioButton (click)="actionStatus == 'save' ? switchPlatform('WEBSITE') : null"
+                                        name="platform" value="WEBSITE" formControlName="platform"
+                                        inputId="WEBSITE"></p-radioButton>
                                     <label for="WEBSITE" class="ml-2">เว็บไซต์</label>
                                 </div>
                                 <div class="flex align-items-center">
-                                    <p-radioButton (click)="switchPlatform('APPLICATION')" name="platform"
-                                        value="APPLICATION" formControlName="platform"
+                                    <p-radioButton
+                                        (click)="actionStatus == 'save' ? switchPlatform('APPLICATION') : null"
+                                        name="platform" value="APPLICATION" formControlName="platform"
                                         inputId="APPLICATION"></p-radioButton>
                                     <label for="APPLICATION" class="ml-2">แอปพลิเคชัน</label>
                                 </div>
@@ -164,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 md:col-6 lg:col-6">
+                <div class="col-12 md:col-6 lg:col-6" *ngIf="actionStatus == 'save'">
                     <div class="p-fluid">
                         <label>ผู้ใช้งาน <span style="color: red">*</span></label>
                         <input
@@ -176,7 +177,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 md:col-6 lg:col-6">
+                <div class="col-12 md:col-6 lg:col-6" *ngIf="actionStatus == 'save'">
                     <div class="p-fluid">
                         <label>รหัสผ่าน <span style="color: red">*</span></label>
                         <input
@@ -190,7 +191,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 md:col-6 lg:col-6">
+                <div class="col-12 md:col-6 lg:col-6" *ngIf="actionStatus == 'save'">
                     <div class="p-fluid">
                         <label>ยืนยันรหัสผ่าน <span style="color: red">*</span></label>
                         <input

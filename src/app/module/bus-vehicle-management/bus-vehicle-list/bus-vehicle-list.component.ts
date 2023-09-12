@@ -48,7 +48,7 @@ export class BusVehicleListComponent implements OnInit {
   sidebar: boolean = false;
   provinceList: Province[] = PROVINCE_LIST;
   busStatusList: BusStatus[] = BUS_STATUS_LIST;
-
+  actionStatus: string = "save";
 
 
   submittedForm$ = new BehaviorSubject<boolean>(false);
@@ -97,7 +97,6 @@ export class BusVehicleListComponent implements OnInit {
         const data: any = response;
         this.busDivisionList = data['data']
         this._changeDetectorRef.markForCheck()
-        this.registerForm.reset()
       },
       error: (err) => {
 
@@ -137,12 +136,29 @@ export class BusVehicleListComponent implements OnInit {
     this.getBusType()
     this.getDivisionLine()
     this.sidebar = true;
+    this.actionStatus = "edit"
+  }
+
+  openSidebarEdit(busVehicle: BusVehicle): void {
+    this.actionStatus = "edit"
+    this.getBusLine()
+    this.getBusType()
+    this.getDivisionLine()
+    this.registerForm.patchValue(busVehicle)
+    this.sidebar = true;
   }
 
   onCloseAction(): void {
     this.sidebar = false;
   }
 
+
+  busVehicleStatusCheck(status: string): string {
+    if (status == "UNAVAILABLE") {
+      return "ไม่พร้อมใช้งาน"
+    }
+    return "พร้อมใช้งาน"
+  }
 
   isFieldValid(field: string): boolean {
     const control = this.registerForm.get(field);
@@ -166,7 +182,7 @@ export class BusVehicleListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();

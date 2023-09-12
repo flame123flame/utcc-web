@@ -68,7 +68,7 @@ export const MENU_WEB: SidebarMenu[] = [
     code: 'BUS_DEPOT'
   },
   {
-    id: 2,
+    id: 3,
     menu_th: 'กองปฏิบัติการเดินรถ',
     menu_en: 'Bus Division',
     menu_detail: 'จัดการข้อมูลที่เกี่ยวข้องกับกองปฏิบัติการเดินรถ',
@@ -76,17 +76,9 @@ export const MENU_WEB: SidebarMenu[] = [
     router: '/bus-division',
     code: 'BUS_DIVISION'
   },
+
   {
     id: 4,
-    menu_th: 'ประเภทรถเมล์',
-    menu_en: 'Bus Type',
-    menu_detail: 'จัดการข้อมูลประเภทต่าง ๆ ของรถเมล์',
-    icon: 'pi-sliders-v',
-    router: '/bus-type',
-    code: 'BUS_TYPE'
-  },
-  {
-    id: 2,
     menu_th: 'ราคาตั๋วรถเมล์',
     menu_en: 'Fare',
     menu_detail: 'จัดการข้อมูลราคาตั๋วรถเมล์',
@@ -95,16 +87,16 @@ export const MENU_WEB: SidebarMenu[] = [
     code: 'FARE'
   },
   {
-    id: 2,
-    menu_th: 'สายรถเมล์',
-    menu_en: 'Bus Lines',
-    menu_detail: 'จัดการข้อมูลสายรถเมล์และเส้นทาง',
-    icon: 'pi-sitemap',
-    router: '/bus-lines',
-    code: 'BUS_LINES'
+    id: 5,
+    menu_th: 'ประเภทรถเมล์',
+    menu_en: 'Bus Type',
+    menu_detail: 'จัดการข้อมูลประเภทต่าง ๆ ของรถเมล์',
+    icon: 'pi-sliders-v',
+    router: '/bus-type',
+    code: 'BUS_TYPE'
   },
   {
-    id: 2,
+    id: 6,
     menu_th: 'ท่ารถเมล์',
     menu_en: 'Bus Terminal',
     menu_detail: 'จัดการข้อมูลท่ารถเมล์',
@@ -113,7 +105,17 @@ export const MENU_WEB: SidebarMenu[] = [
     code: 'BUS_TERMINAL'
   },
   {
-    id: 3,
+    id: 7,
+    menu_th: 'สายรถเมล์',
+    menu_en: 'Bus Lines',
+    menu_detail: 'จัดการข้อมูลสายรถเมล์และเส้นทาง',
+    icon: 'pi-sitemap',
+    router: '/bus-lines',
+    code: 'BUS_LINES'
+  },
+
+  {
+    id: 8,
     menu_th: 'รายการรถเมล์',
     menu_en: 'Bus Vehicle',
     menu_detail: 'จัดการข้อมูลรถเมล์และการตรวจสอบสถานะ',
@@ -122,7 +124,7 @@ export const MENU_WEB: SidebarMenu[] = [
     code: 'BUS_VEHICLE'
   },
   {
-    id: 5,
+    id: 9,
     menu_th: 'ผู้ใช้งาน',
     menu_en: 'Users',
     menu_detail: 'จัดการข้อมูลผู้ใช้งานและสิทธิ์',
@@ -131,7 +133,7 @@ export const MENU_WEB: SidebarMenu[] = [
     code: 'USERS'
   },
   {
-    id: 6,
+    id: 10,
     menu_th: 'สิทธ์การใช้งาน',
     menu_en: 'Roles',
     menu_detail: 'จัดการสิทธิ์การใช้งานและการกำหนดบทบาท',

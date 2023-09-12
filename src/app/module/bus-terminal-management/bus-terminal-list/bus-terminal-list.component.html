@@ -32,14 +32,14 @@
                     <th>จัดการ</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-role let-i="rowIndex">
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td style="text-align: center;">{{ i + 1 }}</td>
-                    <td>{{ role.busTerminalName ?? '-' }} </td>
-                    <td>{{ role.createDate ?? '-' }}</td>
+                    <td>{{ item.busTerminalName ?? '-' }} </td>
+                    <td>{{ item.createDate | thaiDate }}</td>
                     <td>
-                        <p-button icon="pi pi-search" styleClass="mr-2"></p-button>
-                        <p-button icon="pi pi-file-edit" styleClass="p-button-warning mr-2"></p-button>
+                        <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+                            styleClass="p-button-warning mr-2"></p-button>
                         <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
                     </td>
                 </tr>
@@ -48,9 +48,8 @@
     </p-accordionTab>
 </p-accordion>
 
-
-<p-dialog [header]="'เพิ่มท่ารถเมล์' " [(visible)]="sidebar" [modal]="true"
-    [style]="{ width: '40vw', height: '310px' }">
+<p-dialog [header]=" actionStatus == 'save' ? 'เพิ่มข้อมูลท่ารถเมล์' : 'แก้ไขข้อมูลท่ารถเมล์' " [(visible)]="sidebar"
+    [modal]="true" [style]="{ width: '40vw', height: '310px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">

@@ -40,7 +40,8 @@
                     <td>{{ item.depotName ?? '-' }} </td>
                     <td>{{ item.createDate ?? '-' | thaiDate }}</td>
                     <td>
-                        <p-button icon="pi pi-file-edit" styleClass="p-button-warning mr-2"></p-button>
+                        <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+                            styleClass="p-button-warning mr-2"></p-button>
                         <p-button (click)="confirmDelete(item)" icon="pi pi-trash"
                             styleClass="p-button-danger"></p-button>
                     </td>
@@ -50,8 +51,8 @@
     </p-accordionTab>
 </p-accordion>
 
-<p-dialog [header]="'เพิ่มอู่รถเมล์' " [(visible)]="sidebar" [modal]="true"
-    [style]="{ width: '40vw', height: '310px' }">
+<p-dialog [header]="  this.actionStatus == 'save' ? 'เพิ่มข้อมูลอู่รถเมล์' : 'แก้ไขข้อมูลอู่รถเมล์' "
+    [(visible)]="sidebar" [modal]="true" [style]="{ width: '40vw', height: '310px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">

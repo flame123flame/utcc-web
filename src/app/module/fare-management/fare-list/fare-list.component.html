@@ -39,15 +39,15 @@
           <th>จัดการ</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-role let-i="rowIndex">
+      <ng-template pTemplate="body" let-item let-i="rowIndex">
         <tr>
           <td style="text-align: center;">{{ i + 1 }}</td>
-          <td style="text-align: center;">{{ role.fareValue ?? '-' }} </td>
-          <td>{{ role.fareDesc ?? '-' }} </td>
-          <td>{{ role.createDate ?? '-' | thaiDate }}</td>
+          <td style="text-align: center;">{{ item.fareValue ?? '-' }} </td>
+          <td>{{ item.fareDesc ?? '-' }} </td>
+          <td>{{ item.createDate ?? '-' | thaiDate }}</td>
           <td>
-            <p-button icon="pi pi-search" styleClass="mr-2"></p-button>
-            <p-button icon="pi pi-file-edit" styleClass="p-button-warning mr-2"></p-button>
+            <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+              styleClass="p-button-warning mr-2"></p-button>
             <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
           </td>
         </tr>
@@ -55,7 +55,8 @@
     </p-table>
   </p-accordionTab>
 </p-accordion>
-<p-dialog [header]="'เพิ่ม' " [(visible)]="sidebar" [modal]="true" [style]="{ width: '45vw', height: '350px' }">
+<p-dialog [header]=" this.actionStatus == 'save' ? 'เพิ่มข้อมูลราคาตั๋วรถเมล์' : 'แก้ไขข้อมูลราคาตั๋วรถเมล์' "
+  [(visible)]="sidebar" [modal]="true" [style]="{ width: '45vw', height: '350px' }">
   <form [formGroup]="registerForm">
     <div class="p-3">
       <div class="grid">
