@@ -38,10 +38,11 @@
         <tr>
           <td style="text-align: center;">{{ i+1 }}</td>
           <td>{{ data.busTypeName ?? '-' }}</td>
-          <td>{{ data.createDate ?? '-' }}</td>
+          <td>{{ data.createDate | thaiDate }}</td>
           <td>
-            <p-button icon="pi pi-search" styleClass="mr-2"></p-button>
-            <p-button icon="pi pi-file-edit" styleClass="p-button-warning mr-2"></p-button>
+            <p-button (click)="openSidebarDetail(data)" icon="pi pi-search" styleClass="mr-2"></p-button>
+            <p-button (click)="openSidebarEdit(data)" icon="pi pi-file-edit"
+              styleClass="p-button-warning mr-2"></p-button>
             <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
           </td>
         </tr>
@@ -64,14 +65,16 @@
       </div>
       <div class="flex justify-content-between mt-3 ">
         <h3></h3>
-        <p-button (click)="addFare()" icon="pi pi-plus" label="เพิ่มราคา" styleClass=" p-button-sm"></p-button>
+        <p-button *ngIf=" this.actionStatus != 'detail'" (click)="addFare()" icon="pi pi-plus" label="เพิ่มราคา"
+          styleClass=" p-button-sm"></p-button>
       </div>
+      <br *ngIf=" this.actionStatus == 'detail'">
       <ng-container formArrayName="listDetail">
         <ng-container *ngFor="let listDetail of listDetail.controls; let i = index">
           <div class="grid" [formGroupName]="i">
-            <div class="col-11">
+            <div class="col">
               <div class="p-fluid">
-                <label>ราคาตั๋วรถเมล์ <span style="color: red">*</span></label>
+                <label>ราคาตั๋วรถเมล์ <span style="color: red">*</span> ({{i+1}})</label>
                 <div [ngStyle]="isFieldValidSub('fareId',i) ? {border: '1px solid red', borderRadius: '7px'} : null">
                   <p-dropdown [options]="dataDropdownFare" formControlName="fareId" optionLabel="fareDesc"
                     optionValue="fareId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
@@ -79,7 +82,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-1">
+            <div class="col-1" *ngIf=" this.actionStatus != 'detail'">
               <div class="p-fluid">
                 <label>&nbsp;</label>
                 <p-button *ngIf="i == 0" [disabled]="true" icon="pi pi-ban" styleClass="p-button-danger"></p-button>
@@ -93,8 +96,11 @@
     </div>
   </form>
   <div class="text-center gap-3 mt-4">
-    <p-button icon="pi  pi-times" label="ยกเลิก" styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
-    <p-button (click)="validateForm()" icon="pi pi-save" label="บันทึก"
+    <p-button *ngIf=" this.actionStatus == 'detail'" icon="pi  pi-times" label="ปิด"
+      styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
+    <p-button *ngIf=" this.actionStatus != 'detail'" icon="pi  pi-times" label="ยกเลิก"
+      styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
+    <p-button *ngIf=" this.actionStatus != 'detail'" (click)="validateForm()" icon="pi pi-save" label="บันทึก"
       styleClass="p-button-success p-button-sm p-button-w"></p-button>
   </div>
 </p-dialog>

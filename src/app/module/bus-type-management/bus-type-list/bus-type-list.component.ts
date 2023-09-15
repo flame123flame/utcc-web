@@ -30,6 +30,7 @@ export class BusTypeListComponent implements OnInit {
   sidebar: boolean = false;
   dataDropdownFare: Fare[] = [];
   submitted$ = new BehaviorSubject<boolean>(false);
+  actionStatus: string = "save";
   constructor(private fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   submittedForm: boolean[] = [];
@@ -37,6 +38,7 @@ export class BusTypeListComponent implements OnInit {
   ngOnInit() {
     this.search()
     this.createForm()
+
   }
   search() {
     this._service.search().subscribe({
@@ -49,6 +51,8 @@ export class BusTypeListComponent implements OnInit {
 
       }
     });
+
+
   }
 
 
@@ -70,8 +74,54 @@ export class BusTypeListComponent implements OnInit {
   }
 
 
+  findById(id: number) {
+    this._service.findById({ busTypeId: id }).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        const listDetails = data['data']['listDetail'] || [];
+        this.registerForm.patchValue(data['data'])
+        listDetails.forEach((detail: any) => {
+          this.addFareWithInitialValue(detail);
+        });
+      },
+      error: (err) => {
+        // Handle error
+      }
+    });
+  }
+
+  addFareWithInitialValue(initialValue: any) {
+    const fareId = initialValue ? initialValue.fareId : null;
+    const FareForm = this.fb.group({
+      fareId: new FormControl<number | null>(fareId, Validators.required),
+    });
+    this.listDetail.push(FareForm);
+  }
+
+  addFare() {
+    const FareForm = this.fb.group({
+      fareId: new FormControl<number | null>(null, Validators.required),
+    });
+    this.listDetail.push(FareForm);
+  }
+
+
 
   openSidebar(): void {
+    this.registerForm.reset()
+    this.listDetail.reset()
+    this.sidebar = true;
+    this.submittedForm = [];
+    this.submittedFormCheck = [];
+    this.actionStatus = 'save'
+    this.getFare()
+    this.createForm()
+    this.addFare()
+  }
+
+  openSidebarEdit(busType: BusType): void {
+    this.actionStatus = 'edit'
+    this.findById(busType.busTypeId)
     this.registerForm.reset()
     this.listDetail.reset()
     this.sidebar = true;
@@ -80,6 +130,21 @@ export class BusTypeListComponent implements OnInit {
     this.getFare()
     this.createForm()
   }
+
+  openSidebarDetail(busType: BusType): void {
+    this.actionStatus = 'detail'
+    this.findById(busType.busTypeId)
+    this.registerForm.reset()
+    this.listDetail.reset()
+    this.sidebar = true;
+    this.submittedForm = [];
+    this.submittedFormCheck = [];
+    this.getFare()
+    this.createForm()
+    this.registerForm.disable()
+    this.listDetail.disable()
+  }
+
 
   onCloseAction(): void {
     this.sidebar = false;
@@ -91,7 +156,7 @@ export class BusTypeListComponent implements OnInit {
       busTypeName: new FormControl<number | null>(null, Validators.required),
       listDetail: this.fb.array([])
     });
-    this.addFare()
+
   }
 
   get listDetail() {
@@ -102,12 +167,6 @@ export class BusTypeListComponent implements OnInit {
     this.listDetail.removeAt(fareListIndex);
   }
 
-  addFare() {
-    const FareForm = this.fb.group({
-      fareId: new FormControl<number | null>(null, Validators.required),
-    });
-    this.listDetail.push(FareForm);
-  }
 
 
   isFieldValid(field: string): boolean {
@@ -190,14 +249,16 @@ export class BusTypeListComponent implements OnInit {
     this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
   }
 
+
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();
         },
         error: (err) => {
+
         }
       });
     }

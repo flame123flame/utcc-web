@@ -10,10 +10,18 @@ export class BusTypeService {
     return this._http.get(environment.api_url + '/api/bus-type/search');
   }
 
-  save(req: any) {
-    return this._http.post(environment.api_url + '/api/bus-type/save', {
+  save(req: any, url: string) {
+    return this._http.post(environment.api_url + '/api/bus-type/' + url, {
       ...req
     });
   }
+
+
+  findById(req: any) {
+    return this._http.post(environment.api_url + '/api/bus-type/find-by-id', {
+      ...req
+    });
+  }
+
 
 }
