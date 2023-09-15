@@ -163,6 +163,10 @@ export class BusTypeListComponent implements OnInit {
     return this.registerForm.controls["listDetail"] as FormArray;
   }
 
+  listDetailSub(): FormArray {
+    return this.registerForm.get('listDetail') as FormArray;
+  }
+
   deleteFare(fareListIndex: number) {
     this.listDetail.removeAt(fareListIndex);
   }

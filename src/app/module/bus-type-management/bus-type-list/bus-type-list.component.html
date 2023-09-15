@@ -85,9 +85,25 @@
             <div class="col-1" *ngIf=" this.actionStatus != 'detail'">
               <div class="p-fluid">
                 <label>&nbsp;</label>
-                <p-button *ngIf="i == 0" [disabled]="true" icon="pi pi-ban" styleClass="p-button-danger"></p-button>
-                <p-button *ngIf="i > 0" (click)="deleteFare(i)" icon="pi pi-trash"
-                  styleClass="p-button-danger"></p-button>
+                <p-button [icon]="
+                                    listDetailSub().controls.length > 1
+                                      ? 'pi pi-trash'
+                                      : 'pi pi-lock'
+                                  " [style]="{
+                                    cursor:
+                                      listDetailSub().controls.length > 1
+                                        ? 'pointer'
+                                        : 'no-drop'
+                                  }" [styleClass]="
+                                    listDetailSub().controls.length > 1
+                                      ? 'p-button-danger '
+                                      : 'p-button-secondary '
+                                  " (click)="
+                                    listDetailSub().controls.length > 1
+                                      ? deleteFare(i)
+                                      : null
+                                  "></p-button>
+
               </div>
             </div>
           </div>
