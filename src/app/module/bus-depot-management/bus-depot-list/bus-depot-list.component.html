@@ -55,7 +55,7 @@
 </p-accordion>
 
 <p-dialog [header]="  this.actionStatus == 'save' ? 'เพิ่มข้อมูลอู่รถเมล์' : 'แก้ไขข้อมูลอู่รถเมล์' "
-    [(visible)]="sidebar" [modal]="true" [style]="{ width: '40vw', height: '310px' }">
+    [(visible)]="sidebar" [modal]="true" [style]="{ width: '50vw', height: '800px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">
@@ -68,6 +68,12 @@
                 </div>
             </div>
         </div>
+        <ng-container *ngIf="sidebar">
+            <app-google-map-marker-add *ngIf="this.actionStatus == 'save'"
+                (getMarker)="getMarker($event)"></app-google-map-marker-add>
+            <app-google-map-marker-edit [busDepot]="this.registerForm.value"
+                *ngIf="this.actionStatus == 'edit'"></app-google-map-marker-edit>
+        </ng-container>
     </form>
     <div class="text-center gap-3 mt-4">
         <p-button (click)="onCloseAction()" icon="pi  pi-times" label="ยกเลิก"

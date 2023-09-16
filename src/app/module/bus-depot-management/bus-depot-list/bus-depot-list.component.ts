@@ -8,12 +8,14 @@ import { Fare } from 'src/app/shared/interfaces/fare.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { SharedAppModule } from 'src/app/shared/shared-app.module';
+import { GoogleMapMarkerAddComponent } from '../../google-map-marker-add/google-map-marker-add.component';
+import { GoogleMapMarkerEditComponent } from '../../google-map-marker-edit/google-map-marker-edit.component';
 import { BusDepotService } from '../service/bus-depot.service';
 
 @Component({
   standalone: true,
   selector: 'app-bus-depot-list',
-  imports: [PrimeNgModule, SharedAppModule],
+  imports: [PrimeNgModule, SharedAppModule, GoogleMapMarkerAddComponent, GoogleMapMarkerEditComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bus-depot-list.component.html',
   providers: [ConfirmationService,]
@@ -60,8 +62,17 @@ export class BusDepotListComponent implements OnInit {
     this.registerForm = this.fb.group({
       busDepotId: new FormControl<number | null>(null),
       depotName: new FormControl<string | null>(null, Validators.required),
+      depotLat: new FormControl<string | null>(null, Validators.required),
+      depotLong: new FormControl<string | null>(null, Validators.required),
     });
   }
+
+  getMarker(data: any) {
+    this.registerForm.get('depotLat')?.patchValue(data.lat)
+    this.registerForm.get('depotLong')?.patchValue(data.lng)
+  }
+
+
   search() {
     this._service.search().subscribe({
       next: (response: any) => {
