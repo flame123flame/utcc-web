@@ -4,7 +4,8 @@
 export interface BusDepot {
   busDepotId: number
   depotName: string
-  depotLocation: string
+  depotLat: string
+  depotLong: string
   createBy: string
   updateBy: string
   createDate: string

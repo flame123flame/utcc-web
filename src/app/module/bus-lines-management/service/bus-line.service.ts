@@ -9,8 +9,14 @@ export class BusLineService {
   search() {
     return this._http.get(environment.api_url + '/api/bus-lines/search-all');
   }
-  save(req: any) {
-    return this._http.post(environment.api_url + '/api/bus-lines/save', {
+  save(req: any, utl: string) {
+    return this._http.post(environment.api_url + '/api/bus-lines/' + utl, {
+      ...req
+    });
+  }
+
+  findById(req: any) {
+    return this._http.post(environment.api_url + '/api/bus-lines/find-by-id', {
       ...req
     });
   }

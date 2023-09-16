@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Loader } from '@googlemaps/js-api-loader';
 import { BehaviorSubject } from 'rxjs';
 import { BusTerminal } from 'src/app/shared/interfaces/bus-terminal.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
@@ -26,11 +27,27 @@ export class BusTerminalListComponent implements OnInit {
   actionStatus: string = "save";
   constructor(private fb: FormBuilder) { }
 
-
+  private markers: google.maps.Marker[] = [];
+  private map: google.maps.Map | null = null;
+  private currentZoom = 10;
+  loader: any;
 
   ngOnInit() {
     this.search()
     this.createForm()
+    this.loader = new Loader({
+      apiKey: 'AIzaSyDglRp7c826ACLp5ReGlVPCA1lbunxrZHA', // Replace with your Google Maps API key
+      version: 'weekly',
+    });
+
+    window.addEventListener('resize', () => {
+      if (this.map) {
+        setTimeout(() => {
+          google.maps.event.trigger(this.map!, 'resize');
+        }, 100);
+      }
+    });
+
   }
   createForm(): void {
     this.registerForm = this.fb.group({
@@ -44,6 +61,11 @@ export class BusTerminalListComponent implements OnInit {
         const data: any = response;
         this.dataTable = data['data']
         this.registerForm.reset()
+        this.loader.load().then(() => {
+          this.initializeMap();
+          this.loadMarkers()
+        });
+
         this._changeDetectorRef.markForCheck()
       },
       error: (err) => {
@@ -64,6 +86,7 @@ export class BusTerminalListComponent implements OnInit {
   openSidebar(): void {
     this.sidebar = true;
     this.actionStatus = "save"
+    this.createForm()
   }
 
   openSidebarEdit(busTerminal: BusTerminal): void {
@@ -114,4 +137,119 @@ export class BusTerminalListComponent implements OnInit {
   }
 
 
+
+  // <------------ google map --------------->
+
+
+
+  private initializeMap() {
+    this.map = new google.maps.Map(document.getElementById('mapDepot')!, {
+      center: { lat: 13.787204731602454, lng: 100.58050587773323 }, // Bangkok
+      zoom: this.currentZoom,
+      styles: [
+        {
+          featureType: 'poi',
+          elementType: 'labels',
+          stylers: [
+            { visibility: 'off' } // Hide labels for all points of interest (POI)
+          ]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'labels',
+          stylers: [
+            { visibility: 'on' } // Show labels for parks (customize this)
+          ]
+        },
+        {
+          featureType: 'landscape.man_made',
+          elementType: 'geometry',
+          stylers: [
+            { visibility: 'off' } // Hide man-made landmarks
+          ]
+        }
+      ]
+    });
+  }
+
+  zoomIn() {
+    if (this.map && this.currentZoom < 20) {
+      this.map.setZoom(this.currentZoom);
+    }
+  }
+
+  private clearMarkers() {
+    this.markers.forEach(marker => {
+      marker.setMap(null);
+    });
+
+    this.markers.length = 0;
+  }
+
+
+  private loadMarkers() {
+    console.log("sss");
+
+    this.clearMarkers()
+    this.renderWarehousesOnMap(this.dataTable)
+  }
+
+  private renderWarehousesOnMap(busTerminals: BusTerminal[]) {
+    busTerminals.forEach(busTerminal => {
+      const customMarkerIcon = {
+        url: 'assets/images/religion.png',
+        scaledSize: new google.maps.Size(80, 80),
+      };
+
+      const redMarker = new google.maps.Marker({
+        position: { lat: Number(busTerminal.busTerminalLat), lng: Number(busTerminal.busTerminalLong) },
+        map: this.map,
+        icon: customMarkerIcon,
+      });
+
+      const infoWindow = new google.maps.InfoWindow({
+        content: `<div>
+      <div>${busTerminal.busTerminalName}</div>
+    </div>`
+      });
+
+      redMarker.addListener('click', () => {
+        infoWindow.open(this.map, redMarker);
+      });
+
+      // Add a listener to open the InfoWindow when the marker is hovered over
+      redMarker.addListener('mouseover', () => {
+        infoWindow.open(this.map, redMarker);
+      });
+
+      // Add a listener to close the InfoWindow when the close button is clicked
+      google.maps.event.addListener(infoWindow, 'domready', () => {
+        const closeBtn = document.getElementById('closeInfoWindow');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            infoWindow.close();
+          });
+        }
+      });
+
+      // Add a listener to close the InfoWindow when the marker is hovered out
+      redMarker.addListener('mouseout', () => {
+        infoWindow.close();
+      });
+
+      this.markers.push(redMarker);
+
+      if (this.map) {
+        const bounds = new google.maps.LatLngBounds();
+        bounds.extend(redMarker.getPosition()!);
+        this.map.fitBounds(bounds);
+      }
+    });
+
+    setTimeout(() => {
+      this.zoomIn();
+    }, 500);
+  }
+
 }
+

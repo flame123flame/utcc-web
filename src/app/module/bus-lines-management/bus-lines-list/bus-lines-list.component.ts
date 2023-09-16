@@ -31,6 +31,7 @@ export class BusLinesListComponent implements OnInit {
   submittedForm: boolean[] = [];
   submittedFormCheck: boolean[] = [];
   sidebar: boolean = false;
+  actionStatus: string = "save";
   ngOnInit() {
     this.search()
     this.createForm()
@@ -65,13 +66,52 @@ export class BusLinesListComponent implements OnInit {
     });
   }
 
+  findById(id: number) {
+    this._service.findById({ busLinesId: id }).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        const listDetails = data['data']['listDetail'] || [];
+        this.registerForm.patchValue(data['data'])
+        listDetails.forEach((detail: any) => {
+          this.addInitialValue(detail);
+        });
+      },
+      error: (err) => {
+        // Handle error
+      }
+    });
+  }
+
+  addInitialValue(initialValue: any) {
+    const busTerminalId = initialValue ? initialValue.busTerminalId : null;
+    const FareForm = this.fb.group({
+      busTerminalId: new FormControl<number | null>(busTerminalId, Validators.required),
+    });
+    this.listDetail.push(FareForm);
+  }
+
   openSidebar(): void {
+    this.actionStatus = 'save'
     this.registerForm.reset()
     this.listDetail.reset()
     this.sidebar = true;
     this.submittedForm = [];
     this.submittedFormCheck = [];
     this.getBusTerminal()
+    this.createForm()
+    this.addBusTerminal()
+  }
+
+  openSidebarEdit(busLines: BusLines): void {
+    this.getBusTerminal()
+    this.actionStatus = 'edit'
+    this.findById(busLines.busLinesId)
+    this.registerForm.reset()
+    this.listDetail.reset()
+    this.sidebar = true;
+    this.submittedForm = [];
+    this.submittedFormCheck = [];
+
     this.createForm()
   }
 
@@ -89,7 +129,6 @@ export class BusLinesListComponent implements OnInit {
       busLinesNightshift: new FormControl<boolean | null>(true, Validators.required),
       listDetail: this.fb.array([])
     });
-    this.addFare()
   }
 
   setLinesNightshift(data: boolean) {
@@ -100,11 +139,15 @@ export class BusLinesListComponent implements OnInit {
     return this.registerForm.controls["listDetail"] as FormArray;
   }
 
-  deleteFare(fareListIndex: number) {
+  deleteSub(fareListIndex: number) {
     this.listDetail.removeAt(fareListIndex);
   }
 
-  addFare() {
+  listDetailSub(): FormArray {
+    return this.registerForm.get('listDetail') as FormArray;
+  }
+
+  addBusTerminal() {
     const FareForm = this.fb.group({
       busTerminalId: new FormControl<number | null>(null, Validators.required),
     });
@@ -197,7 +240,7 @@ export class BusLinesListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid) {
-      this._service.save(this.registerForm.value).subscribe({
+      this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();

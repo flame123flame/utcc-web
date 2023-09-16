@@ -1,53 +1,56 @@
-<div class="mb-2">
-    <p-accordion [activeIndex]="0">
-        <p-accordionTab header="ค้นหารายการอู่รถเมล์">
-            <div class="flex flex-wrap gap-3 mb-2">
-                <div class="flex-auto">
-                    <label for="integer" class="font-bold block mb-2"> อู่รถเมล์ </label>
-                    <input type="text" (input)="datatableDepot.filter(getDataInput($event),'depotName' , 'contains')"
-                        pInputText id="integer" class="w-full" />
-                </div>
-                <div class="flex-auto"></div>
-                <div class="flex-auto"></div>
-                <div class="flex-auto"></div>
-                <div class="flex-auto"></div>
-                <div class="flex-auto"></div>
-            </div>
-        </p-accordionTab>
-    </p-accordion>
-</div>
 <p-accordion [activeIndex]="0">
     <p-accordionTab header="รายการอู่รถเมล์">
-        <div class="flex justify-content-between mb-3">
-            <h2></h2>
-            <p-button icon="pi pi-plus" (click)="openSidebar()" label="เพิ่มอู่รถเมล์"
-                styleClass="p-button-success p-button-sm"></p-button>
+        <div class="grid">
+            <div class="col">
+                <div id="mapDepot" style="height: 77vh !important;"></div>
+            </div>
+            <div class="col">
+                <div class="grid">
+                    <div class="col">
+                        <div class="flex justify-content-between mb-3">
+                            <div class="flex-auto pr-4">
+                                <label for="integer" class="font-bold block mb-2"> อู่รถเมล์ </label>
+                                <input type="text"
+                                    (input)="datatableDepot.filter(getDataInput($event),'depotName' , 'contains')"
+                                    pInputText id="integer" class="w-full" />
+                            </div>
+                            <p-button icon="pi pi-plus" (click)="openSidebar()" label="เพิ่มอู่รถเมล์"
+                                styleClass="p-button-success p-button-sm" [style.marginTop]="'34px'"></p-button>
+                        </div>
+                    </div>
+                </div>
+
+                <p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+                    <p-table #datatableDepot [value]="dataTable" [paginator]="true" [rows]="10"
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
+                        [rowsPerPageOptions]="[10, 25, 50]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
+                                <th>ชื่ออู่รถเมล์</th>
+                                <th>วันที่สร้าง</th>
+                                <th>จัดการ</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">{{ i + 1 }}</td>
+                                <td>{{ item.depotName ?? '-' }} </td>
+                                <td>{{ item.createDate ?? '-' | thaiDate }}</td>
+                                <td>
+                                    <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
+                                        styleClass="p-button-warning mr-2"></p-button>
+                                    <p-button (click)="confirmDelete(item)" icon="pi pi-trash"
+                                        styleClass="p-button-danger"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-scrollPanel>
+            </div>
         </div>
-        <p-table #datatableDepot [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-            currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
-            [rowsPerPageOptions]="[10, 25, 50]">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                    <th>ชื่ออู่รถเมล์</th>
-                    <th>วันที่สร้าง</th>
-                    <th>จัดการ</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-item let-i="rowIndex">
-                <tr>
-                    <td style="text-align: center;">{{ i + 1 }}</td>
-                    <td>{{ item.depotName ?? '-' }} </td>
-                    <td>{{ item.createDate ?? '-' | thaiDate }}</td>
-                    <td>
-                        <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
-                            styleClass="p-button-warning mr-2"></p-button>
-                        <p-button (click)="confirmDelete(item)" icon="pi pi-trash"
-                            styleClass="p-button-danger"></p-button>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+
     </p-accordionTab>
 </p-accordion>
 
@@ -67,7 +70,7 @@
         </div>
     </form>
     <div class="text-center gap-3 mt-4">
-        <p-button icon="pi  pi-times" label="ยกเลิก"
+        <p-button (click)="onCloseAction()" icon="pi  pi-times" label="ยกเลิก"
             styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
         <p-button (click)="validateForm()" icon="pi pi-save" label="บันทึก"
             styleClass="p-button-success p-button-sm p-button-w"></p-button>
