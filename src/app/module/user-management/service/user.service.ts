@@ -12,9 +12,12 @@ export class UserService {
   delete(username: any) {
     return this._http.get(environment.api_url + '/api/user/delete-user/' + username);
   }
-  save(req: any) {
-    return this._http.post(environment.api_url + '/api/user/register', {
+  save(req: any, url: any) {
+    url == "save" ? url = 'user/register' : url = 'employee/edit'
+    return this._http.post(environment.api_url + '/api/' + url, {
       ...req
     });
   }
+
+
 }

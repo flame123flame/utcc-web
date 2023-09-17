@@ -75,7 +75,7 @@ import { RoleService } from '../service/role.service';
       </p-table>
     </div>
       <div class="card" *ngIf="platformActive == 'APPLICATION'">
-      <p-table [value]="menusMobile" [(selection)]="selectedMenusMobile" dataKey="menu_en">
+      <p-table [value]="menusMobile" [(selection)]="selectedMenusMobile" dataKey="code">
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem">
@@ -145,6 +145,7 @@ export class RoleEditComponent implements OnInit {
         const formData = data['data'];
         if (formData) {
           this.formGroup.patchValue(formData);
+          this.formGroup.get('roleCode')?.disable()
           this.platformActive = this.formGroup.get('platform')?.value!;
           if (this.platformActive === 'WEBSITE') {
             const matchedMenuItems = this.menusWeb.filter(menuItem => formData.menuList.includes(menuItem.code));
@@ -153,7 +154,7 @@ export class RoleEditComponent implements OnInit {
           } else {
             const matchedMenuItems = this.menusMobile.filter(menuItem => formData.menuList.includes(menuItem.code));
             this.selectedMenusMobile = matchedMenuItems;
-            console.log(this.selectedMenusMobile)
+
           }
         }
         this._changeDetectorRef.markForCheck();
@@ -217,7 +218,7 @@ export class RoleEditComponent implements OnInit {
   }
 
   save() {
-    this._roleService.save(this.formGroup.value).subscribe({
+    this._roleService.edit(this.formGroup.getRawValue()).subscribe({
       next: (response: any) => {
         const data: any = response;
         this.eventToParent.emit("SUCCESS")

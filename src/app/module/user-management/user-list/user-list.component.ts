@@ -73,7 +73,8 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
 
-
+    this.switchUserType('BUSLINESEMP')
+    this.switchPlatform('WEBSITE')
     this.shifts = [
       { name: 'กะเช้า', value: 'กะเช้า' },
       { name: 'กะบ่าย', value: 'กะบ่าย' },
@@ -87,7 +88,6 @@ export class UserListComponent implements OnInit {
       { prefix: 'นาง', code: 'นาง' },
     ];
     this.getUser();
-    this.switchUserType('BUSLINESEMP')
 
   }
   busTerminals: BusTerminal[] = [];
@@ -129,6 +129,7 @@ export class UserListComponent implements OnInit {
       userType: new FormControl<string | null>('BUSLINESEMP', Validators.required),
       busTerminalId: new FormControl<string | null>(null),
       employeeShift: new FormControl<string | null>(null, Validators.required),
+      employeeStatus: new FormControl<string | null>(null, Validators.required),
       confirmPassword: new FormControl<string | null>(null, Validators.required),
       roleCode: new FormControl<string | null>(null, Validators.required),
       firstName: new FormControl<string | null>(null, Validators.required),
@@ -162,6 +163,9 @@ export class UserListComponent implements OnInit {
   switchUserType(data: string) {
     this.registerForm.get('userType')?.patchValue(data)
     if (data == "BUSLINESEMP") {
+      this.registerForm.get('busTerminalId')?.reset()
+      this.registerForm.get('employeeShift')?.reset()
+      this.registerForm.get('buslinesId')?.reset()
       this.registerForm.get('busTerminalId')?.clearValidators();
       this.registerForm.get('busTerminalId')?.updateValueAndValidity();
       this.registerForm.get('buslinesId')?.addValidators([Validators.required])
@@ -171,8 +175,12 @@ export class UserListComponent implements OnInit {
       this.registerForm.get('busTerminalId')?.disable()
       this.registerForm.get('buslinesId')?.enable()
       this.registerForm.get('employeeShift')?.enable()
+
       this._changeDetectorRef.markForCheck();
     } else if (data == "BUSTERMINALEMP") {
+      this.registerForm.get('busTerminalId')?.reset()
+      this.registerForm.get('employeeShift')?.reset()
+      this.registerForm.get('buslinesId')?.reset()
       this.registerForm.get('busTerminalId')?.addValidators([Validators.required])
       this.registerForm.get('busTerminalId')?.updateValueAndValidity();
       this.registerForm.get('buslinesId')?.clearValidators();
@@ -184,6 +192,9 @@ export class UserListComponent implements OnInit {
       this.registerForm.get('employeeShift')?.enable()
       this._changeDetectorRef.markForCheck();
     } else if (data == "EMPLOYEE") {
+      this.registerForm.get('busTerminalId')?.reset()
+      this.registerForm.get('employeeShift')?.reset()
+      this.registerForm.get('buslinesId')?.reset()
       this.registerForm.get('employeeShift')?.clearValidators();
       this.registerForm.get('employeeShift')?.updateValueAndValidity();
       this.registerForm.get('busTerminalId')?.clearValidators();
@@ -236,12 +247,10 @@ export class UserListComponent implements OnInit {
     this.switchUserType(userList.userType)
     this.getBusTerminal()
     this.getBusLines()
-
     this.clearUserValidators()
     this.updateValueAndValidity()
     this.actionStatus = "edit"
     this.getRole(userList.platform);
-    this.registerForm.get('platform')?.disable()
     this.sidebar = true;
     this.registerForm.patchValue(userList)
   }
@@ -307,7 +316,7 @@ export class UserListComponent implements OnInit {
 
   save(): void {
     if (this.registerForm.valid && this.arePasswordsMatching()) {
-      this._userService.save(this.registerForm.value).subscribe({
+      this._userService.save(this.registerForm.getRawValue(), this.actionStatus).subscribe({
         next: (response: any) => {
           const data: any = response;
           this.handleSaveSuccess();

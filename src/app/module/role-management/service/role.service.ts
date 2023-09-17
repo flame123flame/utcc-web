@@ -20,6 +20,12 @@ export class RoleService {
     });
   }
 
+  edit(req: any) {
+    return this._http.post(environment.api_url + '/api/role/edit', {
+      ...req
+    });
+  }
+
   delete(code: string) {
     return this._http.get(environment.api_url + `/api/role/delete-role/${code}`);
   }

@@ -201,15 +201,13 @@
                             <label>แพลตฟอร์มที่ต้องการสร้าง</label>
                             <div class="flex flex-wrap gap-3">
                                 <div class="flex align-items-start">
-                                    <p-radioButton (click)="actionStatus == 'save' ? switchPlatform('WEBSITE') : null"
-                                        name="platform" value="WEBSITE" formControlName="platform"
-                                        inputId="WEBSITE"></p-radioButton>
+                                    <p-radioButton (click)="switchPlatform('WEBSITE') " name="platform" value="WEBSITE"
+                                        formControlName="platform" inputId="WEBSITE"></p-radioButton>
                                     <label for="WEBSITE" class="ml-2">เว็บไซต์</label>
                                 </div>
                                 <div class="flex align-items-center">
-                                    <p-radioButton
-                                        (click)="actionStatus == 'save' ? switchPlatform('APPLICATION') : null"
-                                        name="platform" value="APPLICATION" formControlName="platform"
+                                    <p-radioButton (click)="switchPlatform('APPLICATION')" name="platform"
+                                        value="APPLICATION" formControlName="platform"
                                         inputId="APPLICATION"></p-radioButton>
                                     <label for="APPLICATION" class="ml-2">แอปพลิเคชัน</label>
                                 </div>
