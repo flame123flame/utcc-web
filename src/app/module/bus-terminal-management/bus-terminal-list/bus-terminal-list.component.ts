@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Loader } from '@googlemaps/js-api-loader';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
+import { GoogleMapMarkerAddComponent } from 'src/app/shared/components/google-map-marker-add/google-map-marker-add.component';
+import { GoogleMapMarkerEditTerminalComponent } from 'src/app/shared/components/google-map-marker-edit-terminal/google-map-marker-edit-terminal.component';
+import { GoogleMapMarkerEditComponent } from 'src/app/shared/components/google-map-marker-edit/google-map-marker-edit.component';
 import { BusTerminal } from 'src/app/shared/interfaces/bus-terminal.interface';
 import { BusType } from 'src/app/shared/interfaces/bus-type.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
@@ -13,7 +16,7 @@ import { BusTerminalService } from '../service/bus-terminal.service';
 @Component({
   standalone: true,
   selector: 'app-bus-terminal-list',
-  imports: [PrimeNgModule, SharedAppModule],
+  imports: [PrimeNgModule, SharedAppModule, GoogleMapMarkerAddComponent, GoogleMapMarkerEditTerminalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bus-terminal-list.component.html',
 })
@@ -55,8 +58,17 @@ export class BusTerminalListComponent implements OnInit {
     this.registerForm = this.fb.group({
       busTerminalId: new FormControl<number | null>(null),
       busTerminalName: new FormControl<string | null>(null, Validators.required),
+      busTerminalLat: new FormControl<string | null>(null, Validators.required),
+      busTerminalLong: new FormControl<string | null>(null, Validators.required),
     });
   }
+
+  getMarker(data: any) {
+    this.registerForm.get('busTerminalLat')?.patchValue(data.lat)
+    this.registerForm.get('busTerminalLong')?.patchValue(data.lng)
+  }
+
+
   search() {
     this._service.search().subscribe({
       next: (response: any) => {

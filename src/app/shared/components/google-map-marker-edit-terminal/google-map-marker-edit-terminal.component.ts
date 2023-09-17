@@ -3,6 +3,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { AvatarModule } from 'primeng/avatar';
 import { BusDepot } from 'src/app/shared/interfaces/bus-depot.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
+import { BusTerminal } from '../../interfaces/bus-terminal.interface';
 
 
 @Component({
@@ -11,17 +12,17 @@ import { PrimeNgModule } from 'src/app/shared/primeng.module';
     PrimeNgModule,
     AvatarModule,
   ],
-  selector: 'app-google-map-marker-edit',
-  templateUrl: './google-map-marker-edit.component.html',
-  styleUrls: ['./google-map-marker-edit.component.scss']
+  selector: 'google-map-marker-edit-terminal',
+  templateUrl: './google-map-marker-edit-terminal.component.html',
+  styleUrls: ['./google-map-marker-edit-terminal.component.scss']
 })
-export class GoogleMapMarkerEditComponent implements OnInit {
+export class GoogleMapMarkerEditTerminalComponent implements OnInit {
   private _cdr = inject(ChangeDetectorRef);
   private markers: google.maps.Marker[] = [];
   private map: google.maps.Map | null = null;
   private currentZoom = 7;
 
-  @Input() set busDepot(value: BusDepot | null) {
+  @Input() set busTerminal(value: BusTerminal | null) {
     if (value !== null) {
       setTimeout(() => {
         this.loadMapAndHandleWarehouseData(value);
@@ -53,10 +54,10 @@ export class GoogleMapMarkerEditComponent implements OnInit {
     });
   }
 
-  private loadMapAndHandleWarehouseData(busDepot: BusDepot) {
+  private loadMapAndHandleWarehouseData(busTerminal: BusTerminal) {
     // this.loader.load().then(() => {
     // this.initializeMap();
-    this.handleWarehouseData(busDepot);
+    this.handleWarehouseData(busTerminal);
     // });
   }
 
@@ -159,13 +160,13 @@ export class GoogleMapMarkerEditComponent implements OnInit {
 
   }
 
-  private handleWarehouseData(warehouseData: BusDepot) {
-    if (!warehouseData || warehouseData.depotLat === undefined || warehouseData.depotLong === undefined) {
+  private handleWarehouseData(busTerminal: BusTerminal) {
+    if (!busTerminal || busTerminal.busTerminalLat === undefined || busTerminal.busTerminalLong === undefined) {
       return; // Skip invalid warehouse data
     }
 
-    const lat = parseFloat(warehouseData.depotLat.toString());
-    const lng = parseFloat(warehouseData.depotLong.toString());
+    const lat = parseFloat(busTerminal.busTerminalLat.toString());
+    const lng = parseFloat(busTerminal.busTerminalLong.toString());
 
     if (isNaN(lat) || isNaN(lng)) {
       return; // Skip invalid latitude or longitude

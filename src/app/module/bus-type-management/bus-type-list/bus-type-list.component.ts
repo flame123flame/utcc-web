@@ -141,8 +141,6 @@ export class BusTypeListComponent implements OnInit {
     this.submittedFormCheck = [];
     this.getFare()
     this.createForm()
-    this.registerForm.disable()
-    this.listDetail.disable()
   }
 
 

@@ -61,7 +61,8 @@
           <div class="p-fluid">
             <label>ประเภทรถเมล์ <span style="color: red">*</span></label>
             <input pInputText type="text" formControlName="busTypeName"
-              [ngStyle]="isFieldValid('busTypeName') ? {border: '1px solid red', borderRadius: '7px'} : null" />
+              [ngStyle]="isFieldValid('busTypeName') ? {border: '1px solid red', borderRadius: '7px'} : null"
+              [readonly]="this.actionStatus == 'detail'" />
           </div>
         </div>
       </div>
@@ -79,8 +80,8 @@
                 <label>ราคาตั๋วรถเมล์ <span style="color: red">*</span> ({{i+1}})</label>
                 <div [ngStyle]="isFieldValidSub('fareId',i) ? {border: '1px solid red', borderRadius: '7px'} : null">
                   <p-dropdown [options]="dataDropdownFare" formControlName="fareId" optionLabel="fareDesc"
-                    optionValue="fareId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
-                    appendTo="body"></p-dropdown>
+                    optionValue="fareId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"
+                    [readonly]="this.actionStatus == 'detail'"></p-dropdown>
                 </div>
               </div>
             </div>
