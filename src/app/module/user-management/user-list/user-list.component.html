@@ -72,10 +72,48 @@
 </p-accordion>
 
 <p-dialog [header]="actionStatus == 'save' ? 'เพิ่มผู้ใช้งาน' : 'แก้ไขผู้ใช้งาน' " [(visible)]="sidebar" [modal]="true"
-    [style]="{ width: '59vw', height: '830px' }">
+    [style]="{ width: '62vw', height: '900px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">
+                <div class="col-12 md:col-6 lg:col-12">
+                    <div class="formgrid grid">
+                        <div class="field ml-2 ">
+                            <label>เลือกประเภทผู้ใช้งาน</label>
+                            <div class="flex flex-wrap gap-3">
+                                <div class="flex align-items-start">
+                                    <p-radioButton (click)="switchUserType('BUSLINESEMP')" name="type_user"
+                                        value="BUSLINESEMP" formControlName="userType"
+                                        inputId="BUSLINESEMP"></p-radioButton>
+                                    <label for="BUSLINESEMP" class="ml-2">พนักงานประจำสาย</label>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-radioButton (click)="switchUserType('BUSTERMINALEMP')" name="type_user"
+                                        value="BUSTERMINALEMP" formControlName="userType"
+                                        inputId="BUSTERMINALEMP"></p-radioButton>
+                                    <label for="BUSTERMINALEMP" class="ml-2">พนักงานประจำท่ารถ</label>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-radioButton (click)="switchUserType('EMPLOYEE')" name="type_user"
+                                        value="EMPLOYEE" formControlName="userType" inputId="EMPLOYEE"></p-radioButton>
+                                    <label for="EMPLOYEE" class="ml-2">ผู้ดูแลระบบ(ไม่มีสายและท่ารถ)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>เลือกกะการทำงาน <span style="color: red"
+                                *ngIf="this.registerForm.get('employeeShift')?.validator">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('employeeShift') ? {border: '1px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown formControlName="employeeShift" [options]="shifts" optionLabel="name"
+                                optionValue="name" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-12 md:col-6 lg:col-6">
                     <div class="p-fluid">
                         <label>คำนำหน้า <span style="color: red">*</span></label>
@@ -85,8 +123,6 @@
                                 [style]="{'minWidth':'100%'}"></p-dropdown>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-6">
                 </div>
                 <div class="col-12 md:col-6 lg:col-6">
                     <div class="p-fluid">
@@ -120,6 +156,30 @@
                             pInputText formControlName="phoneNumber" appPhoneNumberFormat />
                         <div *ngIf="registerForm.get('phoneNumber')!.hasError('phoneNumberFormat')">
                             รูปแบบเบอร์ศัพท์ไม่ถูกต้อง
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>ท่ารถเมล์ <span *ngIf="this.registerForm.get('busTerminalId')?.validator"
+                                style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('busTerminalId') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown formControlName="busTerminalId" [options]="busTerminals"
+                                optionLabel="busTerminalName" optionValue="busTerminalId" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>สายรถเมล์ <span style="color: red"
+                                *ngIf="this.registerForm.get('buslinesId')?.validator">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('buslinesId') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown formControlName="buslinesId" [options]="busLines" optionLabel="busLinesNo"
+                                optionValue="busLinesId" placeholder="กรุณาเลือก..."
+                                [style]="{'minWidth':'100%'}"></p-dropdown>
                         </div>
                     </div>
                 </div>

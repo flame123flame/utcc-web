@@ -10,12 +10,19 @@ import { BehaviorSubject } from 'rxjs';
 import { SharedAppModule } from 'src/app/shared/shared-app.module';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { RoleService } from '../../role-management/service/role.service';
+import { BusTerminalService } from '../../bus-terminal-management/service/bus-terminal.service';
+import { BusTerminal } from 'src/app/shared/interfaces/bus-terminal.interface';
+import { BusLineService } from '../../bus-lines-management/service/bus-line.service';
+import { BusLines } from 'src/app/shared/interfaces/bus-lines.interface';
 
 interface Prefix {
   prefix: string;
   code: string;
 }
-
+interface Shift {
+  name: string;
+  value: string;
+}
 @Component({
   standalone: true,
   selector: 'app-user-list',
@@ -31,6 +38,9 @@ interface Prefix {
 export class UserListComponent implements OnInit {
   private _roleService: RoleService;
   private _userService: UserService;
+  private _busTerminalService = inject(BusTerminalService);
+  private _busLineService = inject(BusLineService);
+
   private _changeDetectorRef: ChangeDetectorRef;
   private fb: FormBuilder;
   private _toastService: ToastService;
@@ -43,7 +53,7 @@ export class UserListComponent implements OnInit {
   prefix: Prefix[] = [];
   actionStatus: string = "save";
   dataRoles: Role[] = [];
-
+  shifts: Shift[] = []
   constructor(
     private confirmationService: ConfirmationService,
     roleService: RoleService,
@@ -60,21 +70,63 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createForm();
+
+    this.shifts = [
+      { name: 'กะเช้า', value: 'กะเช้า' },
+      { name: 'กะบ่าย', value: 'กะบ่าย' },
+      { name: 'กะสว่าง', value: 'กะสว่าง' },
+
+    ];
+
     this.prefix = [
       { prefix: 'นาย', code: 'นาย' },
       { prefix: 'นางสาว', code: 'นางสาว' },
       { prefix: 'นาง', code: 'นาง' },
     ];
     this.getUser();
-    this.createForm();
+
 
   }
+  busTerminals: BusTerminal[] = [];
+  getBusTerminal() {
+    this._busTerminalService.search().subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.busTerminals = data['data']
+        this._changeDetectorRef.markForCheck()
+      },
+      error: (err) => {
+
+      }
+    });
+  }
+
+  busLines: BusLines[] = [];
+  getBusLines() {
+    this._busLineService.search().subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.busLines = data['data']
+        this._changeDetectorRef.markForCheck()
+      },
+      error: (err) => {
+
+      }
+    });
+  }
+
+
 
   createForm(): void {
     this.registerForm = this.fb.group({
       platform: new FormControl<string | null>('WEBSITE', Validators.required),
       username: new FormControl<string | null>(null, Validators.required),
       password: new FormControl<string | null>(null, Validators.required),
+      buslinesId: new FormControl<string | null>(null, Validators.required),
+      userType: new FormControl<string | null>('BUSLINESEMP', Validators.required),
+      busTerminalId: new FormControl<string | null>(null),
+      employeeShift: new FormControl<string | null>(null, Validators.required),
       confirmPassword: new FormControl<string | null>(null, Validators.required),
       roleCode: new FormControl<string | null>(null, Validators.required),
       firstName: new FormControl<string | null>(null, Validators.required),
@@ -105,6 +157,45 @@ export class UserListComponent implements OnInit {
     return roles.filter((role) => role.platform === platform);
   }
 
+  switchUserType(data: string) {
+    this.registerForm.get('userType')?.patchValue(data)
+    if (data == "BUSLINESEMP") {
+      this.registerForm.get('busTerminalId')?.clearValidators();
+      this.registerForm.get('busTerminalId')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.addValidators([Validators.required])
+      this.registerForm.get('buslinesId')?.updateValueAndValidity();
+      this.registerForm.get('employeeShift')?.addValidators([Validators.required])
+      this.registerForm.get('employeeShift')?.updateValueAndValidity();
+      this.registerForm.get('busTerminalId')?.disable()
+      this.registerForm.get('buslinesId')?.enable()
+      this.registerForm.get('employeeShift')?.enable()
+      this._changeDetectorRef.markForCheck();
+    } else if (data == "BUSTERMINALEMP") {
+      this.registerForm.get('busTerminalId')?.addValidators([Validators.required])
+      this.registerForm.get('busTerminalId')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.clearValidators();
+      this.registerForm.get('buslinesId')?.updateValueAndValidity();
+      this.registerForm.get('employeeShift')?.addValidators([Validators.required])
+      this.registerForm.get('employeeShift')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.disable()
+      this.registerForm.get('busTerminalId')?.enable()
+      this.registerForm.get('employeeShift')?.enable()
+      this._changeDetectorRef.markForCheck();
+    } else if (data == "EMPLOYEE") {
+      this.registerForm.get('employeeShift')?.clearValidators();
+      this.registerForm.get('employeeShift')?.updateValueAndValidity();
+      this.registerForm.get('busTerminalId')?.clearValidators();
+      this.registerForm.get('busTerminalId')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.clearValidators();
+      this.registerForm.get('buslinesId')?.updateValueAndValidity();
+      this.registerForm.get('busTerminalId')?.disable()
+      this.registerForm.get('buslinesId')?.disable()
+      this.registerForm.get('employeeShift')?.disable()
+      this._changeDetectorRef.markForCheck();
+    }
+
+  }
+
   getUser(): void {
     this._userService.getUserList().subscribe({
       next: (response: any) => {
@@ -119,8 +210,6 @@ export class UserListComponent implements OnInit {
   }
 
   switchPlatform(p: string): void {
-    console.log("sss");
-
     this.getRole(p);
     this._changeDetectorRef.markForCheck();
   }
@@ -134,10 +223,18 @@ export class UserListComponent implements OnInit {
     this.actionStatus = "save"
     this.addAsyncValidators()
     this.getRole('WEBSITE');
+    this.getBusTerminal()
+    this.getBusLines()
+    this.createForm()
     this.sidebar = true;
   }
 
   openSidebarEdit(userList: UserList): void {
+    this.createForm()
+    this.switchUserType(userList.userType)
+    this.getBusTerminal()
+    this.getBusLines()
+
     this.clearUserValidators()
     this.updateValueAndValidity()
     this.actionStatus = "edit"
@@ -229,15 +326,15 @@ export class UserListComponent implements OnInit {
       message: `ต้องการลบข้อมูลผู้ใช้งาน ${userList.username} ใช่หรือไม่`,
       icon: 'pi pi-trash',
       accept: () => {
-        this.delete(userList.id)
+        this.delete(userList.username)
       },
       reject: () => {
       }
     });
   }
 
-  private delete(id: number): void {
-    this._userService.delete(id).subscribe({
+  private delete(username: string): void {
+    this._userService.delete(username).subscribe({
       next: (response: any) => {
         const data: any = response;
         this.handleDeleteSuccess();

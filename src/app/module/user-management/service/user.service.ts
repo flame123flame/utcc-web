@@ -9,8 +9,8 @@ export class UserService {
   getUserList() {
     return this._http.post(environment.api_url + '/api/user/get-user', {});
   }
-  delete(id: any) {
-    return this._http.get(environment.api_url + '/api/user/delete/' + id);
+  delete(username: any) {
+    return this._http.get(environment.api_url + '/api/user/delete-user/' + username);
   }
   save(req: any) {
     return this._http.post(environment.api_url + '/api/user/register', {

@@ -110,12 +110,13 @@ export class DashboardComponent implements OnInit {
         {
           label: 'ตั๋วลดหย่อน',
           backgroundColor: '#42A5F5',
+          borderColor: '#42A5F5',
           data: [44, 65, 23, 77, 55, 30, 45, 60, 40, 75, 85, 92],
         },
         {
           label: 'ตั๋วลดเต็มราคา',
-          backgroundColor: '#ff0000',
-          borderColor: '#7CB342',
+          backgroundColor: '#2eb85c',
+          borderColor: '#2eb85c',
           data: [14, 65, 16, 100, 30, 60, 75, 55, 90, 45, 70, 80],
         },
       ],
