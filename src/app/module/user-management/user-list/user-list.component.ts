@@ -62,15 +62,17 @@ export class UserListComponent implements OnInit {
     fb: FormBuilder,
     toastService: ToastService
   ) {
+
     this._roleService = roleService;
     this._userService = userService;
     this._changeDetectorRef = changeDetectorRef;
     this.fb = fb;
     this._toastService = toastService;
+    this.createForm();
   }
 
   ngOnInit(): void {
-    this.createForm();
+
 
     this.shifts = [
       { name: 'กะเช้า', value: 'กะเช้า' },
@@ -85,7 +87,7 @@ export class UserListComponent implements OnInit {
       { prefix: 'นาง', code: 'นาง' },
     ];
     this.getUser();
-
+    this.switchUserType('BUSLINESEMP')
 
   }
   busTerminals: BusTerminal[] = [];
