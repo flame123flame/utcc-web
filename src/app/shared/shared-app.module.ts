@@ -8,6 +8,7 @@ import { StrongUsernameDirective } from './directive/strong-username.directive';
 import { StrongEmailFormatDirective } from './directive/strong-email-format.directive';
 import { NumbersOnlyDirective } from './directive/numbers-only.directive';
 import { ThaiDatePipe } from './pipes/thaidate.pipe';
+import { ThaiDateTimePipe } from './pipes/thai-date-time.pipe';
 
 const componentsModule = [
   CommonModule,
@@ -24,13 +25,15 @@ const componentsModule = [
     StrongUsernameDirective,
     StrongEmailFormatDirective,
     NumbersOnlyDirective,
-    ThaiDatePipe],
+    ThaiDatePipe,
+    ThaiDateTimePipe],
   exports: [...componentsModule,
     PhoneNumberFormatDirective,
     StrongPasswordDirective,
     StrongUsernameDirective,
     StrongEmailFormatDirective,
     NumbersOnlyDirective,
-    ThaiDatePipe],
+    ThaiDatePipe,
+    ThaiDateTimePipe],
 })
 export class SharedAppModule { }

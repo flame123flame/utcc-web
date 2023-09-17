@@ -22,7 +22,7 @@ export class LayoutComponent implements OnInit {
   layoutType$ = this._layoutService.layout$;
   LayoutTyped = lt;
   constructor(private confirmationService: ConfirmationService, private messageService: MessageService) { }
-  isToggle: boolean = true;
+  isToggle: boolean = false;
 
   positionLeft = '270px';
   positionTop = '-20px';

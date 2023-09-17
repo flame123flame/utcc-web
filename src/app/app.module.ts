@@ -20,6 +20,9 @@ import { AccordionModule } from 'primeng/accordion';
 import { ChartModule } from 'primeng/chart';
 import { DashboardComponent } from './module/dashboard/dashboard.component';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { CardModule } from 'primeng/card';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { TabViewModule } from 'primeng/tabview';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     AuthModule,
     ConfirmDialogModule,
     AccordionModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    CardModule,
+    TabMenuModule,
+    TabViewModule
   ],
   providers: [MessageService, ConfirmationService, { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true }],
 

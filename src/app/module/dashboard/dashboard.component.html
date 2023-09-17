@@ -1,22 +1,73 @@
-<p-accordion [activeIndex]="0">
-    <p-accordionTab header="Header I">
-        <div class="grid p-fluid">
-            <div class="col-12 md:col-6 lg:col-6">
-                <p-chart type="line" [data]="userUsageHoursData" [options]="options"></p-chart>
-            </div>
-            <div class="col-12 md:col-6 lg:col-6">
-                <p-chart type="bar" [data]="userUsageHoursData" [options]="options"></p-chart>
-            </div>
-        </div>
-    </p-accordionTab>
-    <p-accordionTab header="Header II">
-        <div class="grid p-fluid">
-            <div class="col-12 md:col-6 lg:col-6">
-                <p-chart type="radar" [data]="userUsageHoursData" [options]="options"></p-chart>
-            </div>
-            <div class="col-12 md:col-6 lg:col-6">
-                <p-chart type="polarArea" [data]="userAppData" [options]="options"></p-chart>
+<p-card [ngStyle]="{ 'box-shadow': 'none !important' }">
+    <div class="flex justify-content-between flex-wrap">
+        <div class="flex align-items-center justify-content-center  m-2">
+            <img [src]="imageUrl" style="width: 85px;margin-right: 10px;" />
+            <div style="display: grid;">
+                <ng-container *ngIf="this._authService.user$ | async as user">
+                    <b style="font-size: 29px;font-weight: bold;">สวัสดีคุณ {{user.firstName }} {{user.lastName }}</b>
+                </ng-container>
+
+                <b style="font-size: 18.5px;font-weight: bold;color: #868b92;"><i class="pi pi-calendar-times"
+                        style="font-size: 1rem"></i> {{now |thaiDateTime }}</b>
             </div>
         </div>
-    </p-accordionTab>
-</p-accordion>
+        <!-- {{now |thaiDateTime}} -->
+        <div class="flex align-items-center justify-content-center  m-2">
+            <p-button label=" โหลดข้อมูลล่าสุด" styleClass="p-button-rounded"><i class="pi pi-spin pi-spinner"
+                    style="font-size: 1.3rem;margin-right: 10px;"></i></p-button>
+        </div>
+    </div>
+</p-card>
+
+<div style="margin-top: 14px;">
+    <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true">
+        <p-tabPanel *ngFor="let tab of lastTenYears" [header]="tab.title">
+            <div class="overflow-hidden">
+                <div class="flex">
+                    <div class="flex-1 bg-primary card-d-1  px-5 py-3 ">
+                        <div>
+                            <div class="titel-c">ตั๋วลดหย่อน(ใบ)</div>
+                        </div>
+                        <div>
+                            <div class="value-c">32,443</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-primary card-d-2  px-5 py-3 ">
+                        <div>
+                            <div class="titel-c">ตั๋วลดเต็มราคา(ใบ)</div>
+                        </div>
+                        <div>
+                            <div class="value-c">13,290</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-primary card-d-3  px-5 py-3 ">
+                        <div>
+                            <div class="titel-c">ยอดขาดตั๋วลดหย่อน(บาท)</div>
+                        </div>
+                        <div>
+                            <div class="value-c">421,759.00</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-primary card-d-4  px-5 py-3 ">
+                        <div>
+                            <div class="titel-c">ยอดขาดตั๋วเต็มราคา(บาท)</div>
+                        </div>
+                        <div>
+                            <div class="value-c">833,618.00</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="grid p-fluid mt-5">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <p-chart type="line" [data]="userUsageHoursData" [options]="options"></p-chart>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <p-chart type="bar" [data]="userUsageHoursData" [options]="options"></p-chart>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<br>

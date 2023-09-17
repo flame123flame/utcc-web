@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  imageUrl = './assets/images/logo3.png';
+  public now: Date = new Date();
+  _authService = inject(AuthService)
+  activeIndex: number = 0;
+  lastTenYears: { title: string; value: string; }[] = [];
+  scrollableTabs: any[] = Array.from({ length: 10 }, (_, i) => ({ title: "Title", content: "Content" }));
+
   public userAppData: any;
   public appUserCount1: any;
   public appUserCount2: any;
@@ -16,7 +25,17 @@ export class DashboardComponent implements OnInit {
   public options: any;
   public userUsageHoursData: any;
 
-  constructor() { }
+  constructor() {
+    const currentYear = new Date().getFullYear() + 543;
+    this.lastTenYears.push({ title: 'ทั้งหมด', value: "ALL" });
+    for (let i = 0; i < 10; i++) {
+      const year = currentYear - i;
+      this.lastTenYears.push({ title: 'ปี ' + year.toString(), value: year.toString() });
+    }
+    setInterval(() => {
+      this.now = new Date();
+    }, 1);
+  }
 
   appUsageData = [
     { name: 'user1', country: 'USA', appname: 'app-1' },
@@ -86,21 +105,22 @@ export class DashboardComponent implements OnInit {
     };
 
     this.userUsageHoursData = {
-      labels: ['Jan', 'Feb', 'March', 'April'],
+      labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
       datasets: [
         {
-          label: 'app-1',
+          label: 'ตั๋วลดหย่อน',
           backgroundColor: '#42A5F5',
-          data: [44, 65, 23, 77],
+          data: [44, 65, 23, 77, 55, 30, 45, 60, 40, 75, 85, 92],
         },
         {
-          label: 'app-2',
+          label: 'ตั๋วลดเต็มราคา',
           backgroundColor: '#ff0000',
           borderColor: '#7CB342',
-          data: [14, 65, 16, 100],
+          data: [14, 65, 16, 100, 30, 60, 75, 55, 90, 45, 70, 80],
         },
       ],
     };
+
 
     this.options = {
       //display labels on data elements in graph
@@ -122,6 +142,15 @@ export class DashboardComponent implements OnInit {
         },
         legend: {
           position: 'bottom',
+        },
+        scales: {
+          x: {
+            barThickness: 5, // ปรับขนาดแท่งกราฟตามที่ต้องการ
+            // ... (ตัวเลือกแกน x อื่น ๆ ที่คุณต้องการ)
+          },
+          y: {
+            // ... (ตัวเลือกแกน y อื่น ๆ ที่คุณต้องการ)
+          },
         },
       },
     };
