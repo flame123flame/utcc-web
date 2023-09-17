@@ -82,20 +82,18 @@
                             <label>เลือกประเภทผู้ใช้งาน</label>
                             <div class="flex flex-wrap gap-3">
                                 <div class="flex align-items-start">
-                                    <p-radioButton (click)="switchUserType('BUSLINESEMP')" name="type_user"
-                                        value="BUSLINESEMP" formControlName="userType"
-                                        inputId="BUSLINESEMP"></p-radioButton>
+                                    <p-radioButton (click)="switchUserType('BUSLINESEMP')" name="userType"
+                                        value="BUSLINESEMP" formControlName="userType"></p-radioButton>
                                     <label for="BUSLINESEMP" class="ml-2">พนักงานประจำสาย</label>
                                 </div>
                                 <div class="flex align-items-center">
-                                    <p-radioButton (click)="switchUserType('BUSTERMINALEMP')" name="type_user"
-                                        value="BUSTERMINALEMP" formControlName="userType"
-                                        inputId="BUSTERMINALEMP"></p-radioButton>
+                                    <p-radioButton (click)="switchUserType('BUSTERMINALEMP')" name="userType"
+                                        value="BUSTERMINALEMP" formControlName="userType"></p-radioButton>
                                     <label for="BUSTERMINALEMP" class="ml-2">พนักงานประจำท่ารถ</label>
                                 </div>
                                 <div class="flex align-items-center">
-                                    <p-radioButton (click)="switchUserType('EMPLOYEE')" name="type_user"
-                                        value="EMPLOYEE" formControlName="userType" inputId="EMPLOYEE"></p-radioButton>
+                                    <p-radioButton (click)="switchUserType('EMPLOYEE')" name="userType" value="EMPLOYEE"
+                                        formControlName="userType"></p-radioButton>
                                     <label for="EMPLOYEE" class="ml-2">ผู้ดูแลระบบ(ไม่มีสายและท่ารถ)</label>
                                 </div>
                             </div>
