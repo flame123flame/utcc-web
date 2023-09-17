@@ -132,11 +132,12 @@ export class BusVehicleListComponent implements OnInit {
   }
 
   openSidebar(): void {
+    this.createForm()
     this.getBusLine()
     this.getBusType()
     this.getDivisionLine()
     this.sidebar = true;
-    this.actionStatus = "edit"
+    this.actionStatus = "save"
   }
 
   openSidebarEdit(busVehicle: BusVehicle): void {
@@ -194,19 +195,35 @@ export class BusVehicleListComponent implements OnInit {
     }
   }
 
-  // confirmDelete(busDivision: BusDivision) {
-  //   this.confirmationService.confirm({
-  //     header: 'ยืนยันการลบข้อมูลกองปฏิบัติการเดินรถ',
-  //     message: `ต้องการลบข้อมูลกองปฏิบัติการเดินรถ ${busDivision.busDivisionName} ใช่หรือไม่`,
-  //     icon: 'pi pi-trash',
-  //     accept: () => {
-  //       this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-  //     },
-  //     reject: () => {
-  //       this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-  //     }
-  //   });
-  // }
+  confirmDelete(busVehicle: BusVehicle) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลรถเมล์',
+      message: `ต้องการลบข้อมูลรถเมล์เลขทะเบียน ${busVehicle.busVehiclePlateNo} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.delete(busVehicle.busVehicleId)
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  private delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
 
   private handleSaveSuccess(): void {
     this.onCloseAction();

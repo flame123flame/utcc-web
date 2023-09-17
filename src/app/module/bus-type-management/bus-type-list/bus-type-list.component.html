@@ -43,7 +43,7 @@
             <p-button (click)="openSidebarDetail(data)" icon="pi pi-search" styleClass="mr-2"></p-button>
             <p-button (click)="openSidebarEdit(data)" icon="pi pi-file-edit"
               styleClass="p-button-warning mr-2"></p-button>
-            <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
+            <p-button (click)="confirmDelete(data)" icon="pi pi-trash" styleClass="p-button-danger"></p-button>
           </td>
         </tr>
       </ng-template>
@@ -122,3 +122,6 @@
       styleClass="p-button-success p-button-sm p-button-w"></p-button>
   </div>
 </p-dialog>
+
+<p-confirmDialog [style]="{ width: '33vw' }" acceptLabel="ยืนยัน" rejectLabel="ยกเลิก" position="top"
+  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>

@@ -14,4 +14,10 @@ export class FareService {
       ...req
     });
   }
+
+  delete(id: any) {
+    return this._http.get(environment.api_url + '/api/fare/delete/' + id);
+  }
+
+
 }

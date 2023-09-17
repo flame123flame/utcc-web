@@ -45,6 +45,7 @@ export class UserListComponent implements OnInit {
   dataRoles: Role[] = [];
 
   constructor(
+    private confirmationService: ConfirmationService,
     roleService: RoleService,
     userService: UserService,
     changeDetectorRef: ChangeDetectorRef,
@@ -220,6 +221,38 @@ export class UserListComponent implements OnInit {
       });
     }
   }
+
+
+  confirmDelete(userList: UserList) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลผู้ใช้งาน',
+      message: `ต้องการลบข้อมูลผู้ใช้งาน ${userList.username} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.delete(userList.id)
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  private delete(id: number): void {
+    this._userService.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.getUser();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
+
 
   private handleSaveSuccess(): void {
     this.onCloseAction();

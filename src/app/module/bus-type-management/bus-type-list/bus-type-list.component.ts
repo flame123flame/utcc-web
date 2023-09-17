@@ -247,14 +247,44 @@ export class BusTypeListComponent implements OnInit {
 
   }
 
+
+
+  confirmDelete(busType: BusType) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลประเภทรถเมล์',
+      message: `ต้องการลบข้อมูลประเภทรถเมล์ ${busType.busTypeName} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.delete(busType.busTypeId)
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  private delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
   private handleSaveSuccess(): void {
     this.onCloseAction();
     this.search();
     this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
   }
 
-
-  save(): void {
+  private save(): void {
     if (this.registerForm.valid) {
       this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
@@ -267,5 +297,6 @@ export class BusTypeListComponent implements OnInit {
       });
     }
   }
+
 
 }

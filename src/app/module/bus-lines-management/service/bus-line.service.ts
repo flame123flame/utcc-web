@@ -15,6 +15,11 @@ export class BusLineService {
     });
   }
 
+  delete(id: any) {
+    return this._http.get(environment.api_url + '/api/bus-lines/delete/' + id);
+  }
+
+
   findById(req: any) {
     return this._http.post(environment.api_url + '/api/bus-lines/find-by-id', {
       ...req

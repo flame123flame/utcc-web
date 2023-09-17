@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Loader } from '@googlemaps/js-api-loader';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { BusTerminal } from 'src/app/shared/interfaces/bus-terminal.interface';
+import { BusType } from 'src/app/shared/interfaces/bus-type.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { SharedAppModule } from 'src/app/shared/shared-app.module';
@@ -25,7 +27,7 @@ export class BusTerminalListComponent implements OnInit {
   registerForm!: FormGroup;
   submittedForm$ = new BehaviorSubject<boolean>(false);
   actionStatus: string = "save";
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   private markers: google.maps.Marker[] = [];
   private map: google.maps.Map | null = null;
@@ -124,6 +126,36 @@ export class BusTerminalListComponent implements OnInit {
       });
     }
   }
+  confirmDelete(busTerminal: BusTerminal) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลท่ารถเมล์',
+      message: `ต้องการลบข้อมูลท่ารถเมล์ ${busTerminal.busTerminalName} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.delete(busTerminal.busTerminalId)
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  private delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
+
 
   private handleSaveSuccess(): void {
     this.onCloseAction();

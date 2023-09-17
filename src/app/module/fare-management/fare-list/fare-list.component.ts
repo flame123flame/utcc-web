@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { BusLines } from 'src/app/shared/interfaces/bus-lines.interface';
 import { Fare } from 'src/app/shared/interfaces/fare.interface';
@@ -26,8 +27,7 @@ export class FareListComponent implements OnInit {
   submittedForm$ = new BehaviorSubject<boolean>(false);
   sidebar: boolean = false;
   actionStatus: string = "save";
-  constructor(private fb: FormBuilder) { }
-
+  constructor(private fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.search()
@@ -105,6 +105,36 @@ export class FareListComponent implements OnInit {
         }
       });
     }
+  }
+
+  confirmDelete(fare: Fare) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลราคาตั๋วรถเมล์',
+      message: `ต้องการลบข้อมูลราคาตั๋วรถเมล์ ${fare.fareDesc} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.delete(fare.fareId)
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
   }
 
   private handleSaveSuccess(): void {

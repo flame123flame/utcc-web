@@ -232,11 +232,43 @@ export class BusLinesListComponent implements OnInit {
 
   }
 
+
+  confirmDelete(busLines: BusLines) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการลบข้อมูลสายรถเมล์',
+      message: `ต้องการลบข้อมูลสายรถเมล์ ${busLines.busLinesNo} ใช่หรือไม่`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.delete(busLines.busLinesId)
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  private delete(id: number): void {
+    this._service.delete(id).subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.handleDeleteSuccess();
+      },
+      error: (err) => {
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
+      }
+    });
+  }
+  private handleDeleteSuccess(): void {
+    this.onCloseAction();
+    this.search();
+    this._toastService.addSingle('success', 'แจ้งเตือน', 'ลบข้อมูลสำเร็จ');
+  }
+
   private handleSaveSuccess(): void {
     this.onCloseAction();
     this.search();
     this._toastService.addSingle('success', 'แจ้งเตือน', 'บันทึกข้อมูลสำเร็จ');
   }
+
 
   save(): void {
     if (this.registerForm.valid) {

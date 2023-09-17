@@ -17,6 +17,11 @@ export class BusTypeService {
   }
 
 
+  delete(id: any) {
+    return this._http.get(environment.api_url + '/api/bus-type/delete/' + id);
+  }
+
+
   findById(req: any) {
     return this._http.post(environment.api_url + '/api/bus-type/find-by-id', {
       ...req

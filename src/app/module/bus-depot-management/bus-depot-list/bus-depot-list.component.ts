@@ -3,13 +3,14 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Loader } from '@googlemaps/js-api-loader';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
+import { GoogleMapMarkerEditComponent } from 'src/app/shared/components/google-map-marker-edit/google-map-marker-edit.component';
 import { BusDepot } from 'src/app/shared/interfaces/bus-depot.interface';
 import { Fare } from 'src/app/shared/interfaces/fare.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { SharedAppModule } from 'src/app/shared/shared-app.module';
-import { GoogleMapMarkerAddComponent } from '../../google-map-marker-add/google-map-marker-add.component';
-import { GoogleMapMarkerEditComponent } from '../../google-map-marker-edit/google-map-marker-edit.component';
+import { GoogleMapMarkerAddComponent } from '../../../shared/components/google-map-marker-add/google-map-marker-add.component';
+
 import { BusDepotService } from '../service/bus-depot.service';
 
 @Component({

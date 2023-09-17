@@ -14,4 +14,9 @@ export class BusVehicleService {
       ...req
     });
   }
+
+  delete(id: any) {
+    return this._http.get(environment.api_url + '/api/bus-vehicle/delete/' + id);
+  }
+
 }

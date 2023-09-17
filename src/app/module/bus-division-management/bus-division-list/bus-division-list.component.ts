@@ -119,7 +119,7 @@ export class BusDivisionListComponent implements OnInit {
     this.save()
   }
 
-  save(): void {
+  private save(): void {
     if (this.registerForm.valid) {
       this._service.save(this.registerForm.value, this.actionStatus).subscribe({
         next: (response: any) => {
@@ -146,14 +146,14 @@ export class BusDivisionListComponent implements OnInit {
     });
   }
 
-  delete(id: number): void {
+  private delete(id: number): void {
     this._service.delete(id).subscribe({
       next: (response: any) => {
         const data: any = response;
         this.handleDeleteSuccess();
       },
       error: (err) => {
-        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากกองปฏิบัติการเดินรถถูกใช้งานอยู่!');
+        this._toastService.addSingle('error', 'แจ้งเตือน', 'ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลถูกใช้งานอยู่!');
       }
     });
   }
