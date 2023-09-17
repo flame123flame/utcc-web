@@ -34,7 +34,7 @@
                     </div>
                     <div class="flex-1 bg-primary card-d-2  px-5 py-3 ">
                         <div>
-                            <div class="titel-c">ตั๋วลดเต็มราคา(ใบ)</div>
+                            <div class="titel-c">ตั๋วเต็มราคา(ใบ)</div>
                         </div>
                         <div>
                             <div class="value-c">13,290</div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="flex-1 bg-primary card-d-3  px-5 py-3 ">
                         <div>
-                            <div class="titel-c">ยอดขาดตั๋วลดหย่อน(บาท)</div>
+                            <div class="titel-c">ยอดขายตั๋วลดหย่อน(บาท)</div>
                         </div>
                         <div>
                             <div class="value-c">421,759.00</div>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="flex-1 bg-primary card-d-4  px-5 py-3 ">
                         <div>
-                            <div class="titel-c">ยอดขาดตั๋วเต็มราคา(บาท)</div>
+                            <div class="titel-c">ยอดขายตั๋วเต็มราคา(บาท)</div>
                         </div>
                         <div>
                             <div class="value-c">833,618.00</div>
@@ -66,6 +66,15 @@
                 <div class="col-12 md:col-6 lg:col-6">
                     <p-chart type="bar" [data]="userUsageHoursData" [options]="options"></p-chart>
                 </div>
+            </div>
+            <div class="grid p-fluid mt-5">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <p-chart type="bar" [data]="userUsageHoursData" [options]="options"></p-chart>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <p-chart type="line" [data]="userUsageHoursData" [options]="options"></p-chart>
+                </div>
+
             </div>
         </p-tabPanel>
     </p-tabView>
