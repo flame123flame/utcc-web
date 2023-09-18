@@ -111,8 +111,20 @@ export class BusLinesListComponent implements OnInit {
     this.sidebar = true;
     this.submittedForm = [];
     this.submittedFormCheck = [];
-
     this.createForm()
+  }
+
+  openSidebarDetail(busLines: BusLines): void {
+    this.getBusTerminal()
+    this.actionStatus = 'detail'
+    this.findById(busLines.busLinesId)
+    this.registerForm.reset()
+    this.listDetail.reset()
+    this.sidebar = true;
+    this.submittedForm = [];
+    this.submittedFormCheck = [];
+    this.createForm()
+
   }
 
   onCloseAction(): void {

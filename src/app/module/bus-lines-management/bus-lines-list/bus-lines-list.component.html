@@ -52,7 +52,7 @@
           <td>{{ item.busLinesDestination ?? '-' }} </td>
           <td>{{ item.createDate | thaiDate}}</td>
           <td>
-            <p-button icon="pi pi-search" styleClass="mr-2"></p-button>
+            <p-button (click)="openSidebarDetail(item)" icon="pi pi-search" styleClass="mr-2"></p-button>
             <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
               styleClass="p-button-warning mr-2"></p-button>
             <p-button (click)="confirmDelete(item)" icon="pi pi-trash" styleClass="p-button-danger"></p-button>
@@ -63,21 +63,23 @@
   </p-accordionTab>
 </p-accordion>
 
-<p-dialog [header]="'เพิ่ม' " [(visible)]="sidebar" [modal]="true" [style]="{ width: '60vw', height: '700px' }">
+<p-dialog
+  [header]=" this.actionStatus == 'detail' ? 'รายละเอียดสายรถเมล์' :  this.actionStatus == 'edit' ? 'แก้ไขข้อมูลสายรถเมล์' : 'เพิ่มข้อมูลสายรถเมล์' "
+  [(visible)]="sidebar" [modal]="true" [style]="{ width: '60vw', height: '760px' }">
   <form [formGroup]="registerForm">
     <div class="p-3">
       <div class="grid">
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>เลขสายรถเมล์ <span style="color: red">*</span></label>
-            <input pInputText type="text" formControlName="busLinesNo"
+            <input pInputText type="text" formControlName="busLinesNo" [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesNo') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>ต้นทาง <span style="color: red">*</span></label>
-            <input pInputText type="text" formControlName="busLinesOrigin"
+            <input pInputText type="text" formControlName="busLinesOrigin" [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesOrigin') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
@@ -85,6 +87,7 @@
           <div class="p-fluid">
             <label>ปลายทาง <span style="color: red">*</span></label>
             <input pInputText type="text" formControlName="busLinesDestination"
+              [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesDestination') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
@@ -92,6 +95,7 @@
           <div class="p-fluid">
             <label>รายละเอียดทางด่วน <span style="color: red">*</span></label>
             <input pInputText type="text" formControlName="busLinesExpressway"
+              [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesExpressway') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
@@ -105,39 +109,40 @@
             <div class="flex flex-wrap gap-3">
               <div class="flex align-items-start">
                 <p-radioButton (click)="setLinesNightshift(true)" name="busLinesNightshift" [value]="true"
-                  formControlName="busLinesNightshift" inputId="true"></p-radioButton>
+                  [disabled]="this.actionStatus == 'detail'" formControlName="busLinesNightshift"
+                  inputId="true"></p-radioButton>
                 <label for="true" class="ml-2">มีกะสว่าง</label>
               </div>
               <div class="flex align-items-center">
                 <p-radioButton (click)="setLinesNightshift(false)" name="busLinesNightshift" [value]="false"
-                  formControlName="busLinesNightshift" inputId="false"></p-radioButton>
+                  [disabled]="this.actionStatus == 'detail'" formControlName="busLinesNightshift"
+                  inputId="false"></p-radioButton>
                 <label for="false" class="ml-2">ไม่มีกะสว่าง</label>
               </div>
             </div>
           </div>
         </div>
-        <p-button (click)="addBusTerminal()" icon="pi pi-plus" label="เพิ่มท่ารถเมล์"
-          styleClass=" p-button-sm"></p-button>
+        <p-button *ngIf="this.actionStatus != 'detail'" (click)="addBusTerminal()" icon="pi pi-plus"
+          label="เพิ่มท่ารถเมล์" styleClass=" p-button-sm"></p-button>
       </div>
       <ng-container formArrayName="listDetail">
         <ng-container *ngFor="let listDetail of listDetail.controls; let i = index">
           <div class="grid" [formGroupName]="i"
             style="    display: flex;flex-wrap: wrap;margin-right: -0.5rem;margin-left: -0.5rem;margin-top: -0.5rem;align-content: space-around;justify-content: space-around;align-items: flex-end;">
-            <div class="col-10">
+            <div class="col">
               <div class="p-fluid">
                 <label>ท่ารถเมล์ <span style="color: red">*</span></label>
                 <div
                   [ngStyle]="isFieldValidSub('busTerminalId',i) ? {border: '1px solid red', borderRadius: '7px'} : null">
-                  <p-dropdown [options]="dataDropdownBusTerminal" formControlName="busTerminalId"
-                    optionLabel="busTerminalName" optionValue="busTerminalId" placeholder="กรุณาเลือก..."
-                    [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
+                  <p-dropdown [readonly]="this.actionStatus == 'detail'" [options]="dataDropdownBusTerminal"
+                    formControlName="busTerminalId" optionLabel="busTerminalName" optionValue="busTerminalId"
+                    placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
                 </div>
               </div>
             </div>
-            <div class="col-2">
+            <div class="col-2" *ngIf="this.actionStatus != 'detail'">
               <div class="p-fluid">
                 <label>&nbsp;</label>
-
                 <p-button [icon]="listDetailSub().controls.length > 1
                                                           ? 'pi pi-trash'
                                                           : 'pi pi-lock'
@@ -165,7 +170,7 @@
   <div class="text-center gap-3 mt-4">
     <p-button (click)="onCloseAction()" icon="pi  pi-times" label="ยกเลิก"
       styleClass="p-button-secondary p-button-sm p-button-w mr-2"></p-button>
-    <p-button (click)="validateForm()" icon="pi pi-save" label="บันทึก"
+    <p-button *ngIf="this.actionStatus != 'detail'" (click)="validateForm()" icon="pi pi-save" label="บันทึก"
       styleClass="p-button-success p-button-sm p-button-w"></p-button>
   </div>
 </p-dialog>
