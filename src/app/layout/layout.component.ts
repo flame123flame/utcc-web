@@ -63,7 +63,7 @@ export class LayoutComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'คุณต้องการออกจากระบบใช่หรือไม่?',
       header: 'ยืนยันการออกจากระบบ',
-      icon: 'pi pi-info-circle',
+      icon: 'pi pi-sign-out',
       accept: () => {
         this.logout()
       },

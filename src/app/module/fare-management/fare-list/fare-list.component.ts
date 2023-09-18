@@ -58,6 +58,7 @@ export class FareListComponent implements OnInit {
   }
 
   openSidebar(): void {
+    this.createForm()
     this.sidebar = true;
   }
 
