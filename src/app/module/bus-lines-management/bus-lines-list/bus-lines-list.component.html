@@ -134,7 +134,8 @@
                 <label>ท่ารถเมล์ <span style="color: red">*</span></label>
                 <div
                   [ngStyle]="isFieldValidSub('busTerminalId',i) ? {border: '1px solid red', borderRadius: '7px'} : null">
-                  <p-dropdown [readonly]="this.actionStatus == 'detail'" [options]="dataDropdownBusTerminal"
+                  <p-dropdown [filter]="true" filterBy="busTerminalName" emptyFilterMessage="ไม่พบข้อมูล"
+                    [readonly]="this.actionStatus == 'detail'" [options]="dataDropdownBusTerminal"
                     formControlName="busTerminalId" optionLabel="busTerminalName" optionValue="busTerminalId"
                     placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
                 </div>

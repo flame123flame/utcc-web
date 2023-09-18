@@ -112,7 +112,8 @@
                         <label>สายรถเมล์ <span style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('busLinesId') ? {border: '1px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown [options]="busLinesList" formControlName="busLinesId" optionLabel="busLinesNo"
+                            <p-dropdown [filter]="true" filterBy="busLinesNo" emptyFilterMessage="ไม่พบข้อมูล"
+                                [options]="busLinesList" formControlName="busLinesId" optionLabel="busLinesNo"
                                 optionValue="busLinesId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
                                 appendTo="body"></p-dropdown>
                         </div>
@@ -123,7 +124,8 @@
                         <label>ประเภทรถเมล์ <span style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('busTypeId') ? {border: '1px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown [options]="busTypeList" formControlName="busTypeId" optionLabel="busTypeName"
+                            <p-dropdown [filter]="true" filterBy="busTypeName" emptyFilterMessage="ไม่พบข้อมูล"
+                                [options]="busTypeList" formControlName="busTypeId" optionLabel="busTypeName"
                                 optionValue="busTypeId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
                                 appendTo="body"></p-dropdown>
                         </div>
@@ -134,7 +136,8 @@
                         <label>กองปฏิบัติการเดินรถ <span style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('busDivisionId') ? {border: '1px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown [options]="busDivisionList" formControlName="busDivisionId"
+                            <p-dropdown [filter]="true" filterBy="busDivisionName" emptyFilterMessage="ไม่พบข้อมูล"
+                                [options]="busDivisionList" formControlName="busDivisionId"
                                 optionLabel="busDivisionName" optionValue="busDivisionId" placeholder="กรุณาเลือก..."
                                 [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
                         </div>

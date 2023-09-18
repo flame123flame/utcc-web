@@ -79,8 +79,9 @@
               <div class="p-fluid">
                 <label>ราคาตั๋วรถเมล์ <span style="color: red">*</span> ({{i+1}})</label>
                 <div [ngStyle]="isFieldValidSub('fareId',i) ? {border: '1px solid red', borderRadius: '7px'} : null">
-                  <p-dropdown [options]="dataDropdownFare" formControlName="fareId" optionLabel="fareDesc"
-                    optionValue="fareId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"
+                  <p-dropdown [filter]="true" filterBy="fareDesc" emptyFilterMessage="ไม่พบข้อมูล"
+                    [options]="dataDropdownFare" formControlName="fareId" optionLabel="fareDesc" optionValue="fareId"
+                    placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"
                     [readonly]="this.actionStatus == 'detail'"></p-dropdown>
                 </div>
               </div>

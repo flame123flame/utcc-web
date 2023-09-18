@@ -100,9 +100,10 @@
                         <label>อู่รถเมล์ <span style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('busDepotId') ? {border: '1px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown [options]="dataDropdownBusDepot" formControlName="busDepotId"
-                                optionLabel="depotName" optionValue="busDepotId" placeholder="กรุณาเลือก..."
-                                [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
+                            <p-dropdown [filter]="true" filterBy="depotName" emptyFilterMessage="ไม่พบข้อมูล"
+                                [options]="dataDropdownBusDepot" formControlName="busDepotId" optionLabel="depotName"
+                                optionValue="busDepotId" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
+                                appendTo="body"></p-dropdown>
                         </div>
                     </div>
                 </div>

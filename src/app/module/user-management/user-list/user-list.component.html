@@ -163,8 +163,9 @@
                                 style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('busTerminalId') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown formControlName="busTerminalId" [options]="busTerminals"
-                                optionLabel="busTerminalName" optionValue="busTerminalId" placeholder="กรุณาเลือก..."
+                            <p-dropdown [filter]="true" filterBy="busTerminalName" emptyFilterMessage="ไม่พบข้อมูล"
+                                formControlName="busTerminalId" [options]="busTerminals" optionLabel="busTerminalName"
+                                optionValue="busTerminalId" placeholder="กรุณาเลือก..."
                                 [style]="{'minWidth':'100%'}"></p-dropdown>
                         </div>
                     </div>
@@ -175,7 +176,8 @@
                                 *ngIf="this.registerForm.get('buslinesId')?.validator">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('buslinesId') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown formControlName="buslinesId" [options]="busLines" optionLabel="busLinesNo"
+                            <p-dropdown [filter]="true" filterBy="busLinesNo" emptyFilterMessage="ไม่พบข้อมูล"
+                                formControlName="buslinesId" [options]="busLines" optionLabel="busLinesNo"
                                 optionValue="busLinesId" placeholder="กรุณาเลือก..."
                                 [style]="{'minWidth':'100%'}"></p-dropdown>
                         </div>
@@ -218,7 +220,8 @@
                         <label>สิทธ์การใช้งาน <span style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('roleCode') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown formControlName="roleCode" [options]="dataRoles" optionLabel="roleName"
+                            <p-dropdown [filter]="true" filterBy="roleName" emptyFilterMessage="ไม่พบข้อมูล"
+                                formControlName="roleCode" [options]="dataRoles" optionLabel="roleName"
                                 optionValue="roleCode" placeholder="กรุณาเลือก..."
                                 [style]="{'minWidth':'100%'}"></p-dropdown>
                         </div>
