@@ -83,6 +83,7 @@ export class BusDivisionListComponent implements OnInit {
 
   openSidebar(): void {
     this.searchDropdownBusDepot()
+    this.createForm()
     this.sidebar = true;
     this.actionStatus = "save"
   }
