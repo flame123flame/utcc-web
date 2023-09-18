@@ -99,7 +99,6 @@ export class BusDivisionListComponent implements OnInit {
     this.sidebar = false;
   }
 
-
   isFieldValid(field: string): boolean {
     const control = this.registerForm.get(field);
     return !!control?.invalid && (!!control?.touched || (!!control?.untouched && this.submittedForm$.value));
