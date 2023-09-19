@@ -129,8 +129,8 @@ export class UserListComponent implements OnInit {
       userType: new FormControl<string | null>('BUSLINESEMP', Validators.required),
       busTerminalId: new FormControl<string | null>(null),
       employeeShift: new FormControl<string | null>(null, Validators.required),
-      employeeStatus: new FormControl<string | null>(null, Validators.required),
-      confirmPassword: new FormControl<string | null>(null, Validators.required),
+      employeeStatus: new FormControl<string | null>(null),
+      confirmPassword: new FormControl<string | null>(null),
       roleCode: new FormControl<string | null>(null, Validators.required),
       firstName: new FormControl<string | null>(null, Validators.required),
       lastName: new FormControl<string | null>(null, Validators.required),
@@ -232,23 +232,27 @@ export class UserListComponent implements OnInit {
   }
 
   openSidebar(): void {
+    this.createForm()
+    this.registerForm.reset();
+    this.registerForm.updateValueAndValidity();
+    this.registerForm.clearValidators()
+    this.switchUserType('BUSLINESEMP')
     this.registerForm.get('platform')?.enable()
     this.actionStatus = "save"
     this.addAsyncValidators()
     this.getRole('WEBSITE');
     this.getBusTerminal()
     this.getBusLines()
-    this.createForm()
     this.sidebar = true;
   }
 
   openSidebarEdit(userList: UserList): void {
     this.createForm()
+    this.clearUserValidators()
+    this.updateValueAndValidity()
     this.switchUserType(userList.userType)
     this.getBusTerminal()
     this.getBusLines()
-    this.clearUserValidators()
-    this.updateValueAndValidity()
     this.actionStatus = "edit"
     this.getRole(userList.platform);
     this.sidebar = true;
@@ -301,6 +305,10 @@ export class UserListComponent implements OnInit {
 
 
   validateForm(): void {
+    console.log(this.registerForm.value);
+    this.registerForm.valueChanges.subscribe((val) => {
+      console.log('_blue event:valueChanges', val)
+    });
     if (this.registerForm.invalid) {
       this.handleInvalidForm();
       return;
@@ -314,7 +322,7 @@ export class UserListComponent implements OnInit {
   }
 
 
-  save(): void {
+  private save(): void {
     if (this.registerForm.valid && this.arePasswordsMatching()) {
       this._userService.save(this.registerForm.getRawValue(), this.actionStatus).subscribe({
         next: (response: any) => {
