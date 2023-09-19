@@ -4,7 +4,6 @@
   "scripts": {
     "ng": "ng",
     "start:prod": "ng serve --prod --watch --configuration=production",
-    "start:dev-mock": "concurrently \"cd src/mocks && npm i --force && npm run start:dev\" \"ng serve --configuration=dev-mock\"",
     "build:sit": "ng build --build-optimizer --configuration=sit --base-href=/utcc-web-sit/ --aot --output-hashing=all --output-path=dist/utcc-web-sit/",
     "build:uat": "ng build --build-optimizer --configuration=uat --base-href=/utcc-web-uat/ --aot --output-hashing=all --output-path=dist/utcc-web-uat/",
     "build:prod": "ng build --build-optimizer --configuration=production --base-href=/utcc-web/ --aot --output-hashing=all",
