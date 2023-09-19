@@ -16,7 +16,7 @@ export class StrongUsernameDirective implements Validator {
         if (!value) {
             return null;
         }
-        if (value.length <= 6) {
+        if (value.length <= 5) {
             return { 'strongUsername': true };
         }
         return null;
