@@ -83,7 +83,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
     </p-table>
     </p-accordionTab>
  </p-accordion>
-  <p-dialog [header]="statusVisible == 'ADD' ? 'เพิ่มสิทธ์การใช้งาน' : 'แก้ไขสิทธ์การใช้งาน' " [(visible)]="sidebar" [modal]="true"  [style]="{ width: '50vw', height: '800px' }">  
+  <p-dialog [draggable]="false" [header]="statusVisible == 'ADD' ? 'เพิ่มสิทธ์การใช้งาน' : 'แก้ไขสิทธ์การใช้งาน' " [(visible)]="sidebar" [modal]="true"  [style]="{ width: '50vw', height: '800px' }">  
       <app-role-add  (eventToParent)="onActionFromParent($event)"  [events]="eventsSubject.asObservable()"  *ngIf="statusVisible == 'ADD'"></app-role-add>
       <app-role-edit (eventToParent)="onActionFromParent($event)"  [events]="eventsSubject.asObservable()"  *ngIf="statusVisible == 'EDIT'" [id]="fwRoleId"></app-role-edit>
       <div class="text-center gap-3 mt-4">

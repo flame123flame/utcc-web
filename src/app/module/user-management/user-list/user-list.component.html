@@ -71,8 +71,8 @@
     </p-accordionTab>
 </p-accordion>
 
-<p-dialog [header]="actionStatus == 'save' ? 'เพิ่มผู้ใช้งาน' : 'แก้ไขผู้ใช้งาน' " [(visible)]="sidebar" [modal]="true"
-    [style]="{ width: '62vw', height: '900px' }">
+<p-dialog [draggable]="false" [header]="actionStatus == 'save' ? 'เพิ่มผู้ใช้งาน' : 'แก้ไขผู้ใช้งาน' "
+    [(visible)]="sidebar" [modal]="true" [style]="{ width: '62vw', height: '900px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">

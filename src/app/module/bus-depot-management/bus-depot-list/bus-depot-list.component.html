@@ -54,7 +54,7 @@
     </p-accordionTab>
 </p-accordion>
 
-<p-dialog [header]="  this.actionStatus == 'save' ? 'เพิ่มข้อมูลอู่รถเมล์' : 'แก้ไขข้อมูลอู่รถเมล์' "
+<p-dialog [draggable]="false" [header]="actionStatus === 'save' ? 'เพิ่มข้อมูลอู่รถเมล์' : 'แก้ไขข้อมูลอู่รถเมล์'"
     [(visible)]="sidebar" [modal]="true" [style]="{ width: '50vw', height: '800px' }">
     <form [formGroup]="registerForm">
         <div class="p-3">

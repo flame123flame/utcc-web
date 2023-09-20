@@ -51,7 +51,7 @@
   </p-accordionTab>
 </p-accordion>
 
-<p-dialog
+<p-dialog [draggable]="false"
   [header]=" this.actionStatus == 'detail' ? 'รายละเอียดประเภทรถเมล์' :  this.actionStatus == 'edit' ? 'แก้ไขข้อมูลประเภทรถเมล์' : 'เพิ่มข้อมูลประเภทรถเมล์' "
   [(visible)]="sidebar" [modal]="true" [style]="{ width: '40vw', height: '700px' }">
   <form [formGroup]="registerForm">
@@ -61,8 +61,7 @@
           <div class="p-fluid">
             <label>ประเภทรถเมล์ <span style="color: red">*</span></label>
             <input pInputText type="text" formControlName="busTypeName"
-              [ngStyle]="isFieldValid('busTypeName') ? {border: '1px solid red', borderRadius: '7px'} : null"
-              [readonly]="this.actionStatus == 'detail'" />
+              [ngStyle]="isFieldValid('busTypeName') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
       </div>
@@ -81,8 +80,7 @@
                 <div [ngStyle]="isFieldValidSub('fareId',i) ? {border: '1px solid red', borderRadius: '7px'} : null">
                   <p-dropdown [filter]="true" filterBy="fareDesc" emptyFilterMessage="ไม่พบข้อมูล"
                     [options]="dataDropdownFare" formControlName="fareId" optionLabel="fareDesc" optionValue="fareId"
-                    placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"
-                    [readonly]="this.actionStatus == 'detail'"></p-dropdown>
+                    placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}" appendTo="body"></p-dropdown>
                 </div>
               </div>
             </div>

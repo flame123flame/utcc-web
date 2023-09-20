@@ -62,3 +62,47 @@ input[type=number] {
   color: red;
   margin-top: 5px;
 }
+
+p-dropdown {
+  .p-disabled {
+    background-color: rgb(200 212 221) !important;
+    border: 1px solid darkgrey !important;
+    color: #000000 !important;
+  }
+}
+
+p-dropdown[readonly] {
+  background-color: rgb(200 212 221) !important;
+  border: 1px solid darkgrey !important;
+  color: #000000 !important;
+}
+
+input[readonly] {
+  background-color: rgb(200 212 221) !important;
+  border: 1px solid darkgrey !important;
+  color: #000000 !important;
+}
+
+
+
+
+p-multiselect {
+  .p-disabled {
+    background-color: rgb(200 212 221) !important;
+    border: 1px solid darkgrey !important;
+    color: rgb(0, 0, 0) !important;
+  }
+}
+
+textarea:disabled {
+  background-color: rgb(200 212 221) !important;
+  border: 1px solid darkgrey !important;
+  color: rgb(0, 0, 0) !important;
+
+}
+
+input:disabled {
+  background-color: rgb(193, 202, 208) !important;
+  color: rgb(0, 0, 0) !important;
+  border: 1px solid darkgrey !important;
+}

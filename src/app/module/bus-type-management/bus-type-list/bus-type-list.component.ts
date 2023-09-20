@@ -83,6 +83,13 @@ export class BusTypeListComponent implements OnInit {
         listDetails.forEach((detail: any) => {
           this.addFareWithInitialValue(detail);
         });
+        if (this.actionStatus == 'detail') {
+          this.registerForm.disable()
+          this.listDetail.controls.forEach(control => {
+            control.disable();
+          });
+        }
+
       },
       error: (err) => {
         // Handle error
@@ -132,15 +139,16 @@ export class BusTypeListComponent implements OnInit {
   }
 
   openSidebarDetail(busType: BusType): void {
+    this.createForm()
+    this.listDetail.reset()
     this.actionStatus = 'detail'
     this.findById(busType.busTypeId)
     this.registerForm.reset()
-    this.listDetail.reset()
     this.sidebar = true;
     this.submittedForm = [];
     this.submittedFormCheck = [];
     this.getFare()
-    this.createForm()
+
   }
 
 

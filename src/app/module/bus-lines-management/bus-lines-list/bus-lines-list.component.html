@@ -63,7 +63,7 @@
   </p-accordionTab>
 </p-accordion>
 
-<p-dialog
+<p-dialog [draggable]="false"
   [header]=" this.actionStatus == 'detail' ? 'รายละเอียดสายรถเมล์' :  this.actionStatus == 'edit' ? 'แก้ไขข้อมูลสายรถเมล์' : 'เพิ่มข้อมูลสายรถเมล์' "
   [(visible)]="sidebar" [modal]="true" [style]="{ width: '60vw', height: '760px' }">
   <form [formGroup]="registerForm">

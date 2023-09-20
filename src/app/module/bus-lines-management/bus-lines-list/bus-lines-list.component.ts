@@ -75,6 +75,12 @@ export class BusLinesListComponent implements OnInit {
         listDetails.forEach((detail: any) => {
           this.addInitialValue(detail);
         });
+        if (this.actionStatus == 'detail') {
+          this.registerForm.disable()
+          this.listDetail.controls.forEach(control => {
+            control.disable();
+          });
+        }
       },
       error: (err) => {
         // Handle error
@@ -115,15 +121,16 @@ export class BusLinesListComponent implements OnInit {
   }
 
   openSidebarDetail(busLines: BusLines): void {
+    this.registerForm.reset()
+    this.listDetail.reset()
+    this.createForm()
     this.getBusTerminal()
     this.actionStatus = 'detail'
     this.findById(busLines.busLinesId)
-    this.registerForm.reset()
-    this.listDetail.reset()
     this.sidebar = true;
     this.submittedForm = [];
     this.submittedFormCheck = [];
-    this.createForm()
+
 
   }
 

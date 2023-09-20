@@ -2,7 +2,7 @@
  * environment sit
  */
 
-const apiUrl = `http://49.0.80.15:1112/warehouse.sit-api`;
+const apiUrl = `http://localhost:9000/utcc-mini-project-mobile`;
 const apiAuthenticationUrl = '/token/authenticate';
 export const environment = {
   production: true,
