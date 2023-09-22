@@ -233,7 +233,7 @@ export class UserListComponent implements OnInit {
 
   openSidebar(): void {
     this.createForm()
-    this.registerForm.reset();
+    // this.registerForm.reset();
     this.registerForm.updateValueAndValidity();
     this.registerForm.clearValidators()
     this.switchUserType('BUSLINESEMP')

@@ -220,9 +220,9 @@
                         <label>สิทธ์การใช้งาน <span style="color: red">*</span></label>
                         <div
                             [ngStyle]="isFieldValid('roleCode') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown [filter]="true" filterBy="roleName" emptyFilterMessage="ไม่พบข้อมูล"
-                                formControlName="roleCode" [options]="dataRoles" optionLabel="roleName"
-                                optionValue="roleCode" placeholder="กรุณาเลือก..."
+                            <p-dropdown appendTo="body" [filter]="true" filterBy="roleName"
+                                emptyFilterMessage="ไม่พบข้อมูล" formControlName="roleCode" [options]="dataRoles"
+                                optionLabel="roleName" optionValue="roleCode" placeholder="กรุณาเลือก..."
                                 [style]="{'minWidth':'100%'}"></p-dropdown>
                         </div>
                     </div>

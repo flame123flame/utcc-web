@@ -4,6 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { MENU_WEB, MENU_MOBILE } from 'src/app/shared/constants/sidebar-menu.constant';
 import { SidebarMenu } from 'src/app/shared/interfaces/sidebar-menu.interface';
+import { UserCategory } from 'src/app/shared/interfaces/user-category.interface';
 import { PrimeNgModule } from 'src/app/shared/primeng.module';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { SharedAppModule } from 'src/app/shared/shared-app.module';
@@ -31,7 +32,14 @@ import { RoleService } from '../service/role.service';
           <input class="w-full" pInputText formControlName="roleName" type="text" placeholder="กรุณากรอกข้อมูล" />
         </div>
       </div>
-      <div class="field col-12">
+         <div class="field col-6">
+        <label>ประเภทผู้ใช้งาน</label>
+        <p-dropdown [filter]="true" filterBy="userCategoryDesc" emptyFilterMessage="ไม่พบข้อมูล"
+                                [options]="userCategory" formControlName="userCategoryCode" optionLabel="userCategoryDesc"
+                                optionValue="userCategoryCode" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
+                                appendTo="body"></p-dropdown>
+      </div>
+      <div class="field col-6">
         <label>รายละเอียด</label>
         <input class="w-full" pInputText formControlName="roleDescription" type="text" placeholder="กรุณากรอกข้อมูล" />
       </div>
@@ -116,6 +124,7 @@ export class RoleEditComponent implements OnInit {
   menusMobile: SidebarMenu[] = MENU_MOBILE;
   selectedMenuWeb: SidebarMenu[] = [];
   selectedMenusMobile: SidebarMenu[] = [];
+  userCategory: UserCategory[] = [];
   platformActive: string = 'WEBSITE';
   // @Input() id!: number;
   @Input() events!: Observable<void>;
@@ -129,6 +138,7 @@ export class RoleEditComponent implements OnInit {
   formGroup = new FormGroup({
     fwRoleId: new FormControl<number | null>(null),
     roleName: new FormControl<string | null>(null, Validators.required),
+    userCategoryCode: new FormControl<string | null>(null, Validators.required),
     roleCode: new FormControl<string | null>(null, Validators.required),
     platform: new FormControl<string | null>('WEBSITE', Validators.required),
     roleDescription: new FormControl(''),
@@ -136,6 +146,7 @@ export class RoleEditComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.getCategory()
     this.eventsSubscription = this.events.subscribe(() => this.validateForm());
   }
   findById(idReq: number) {
@@ -165,7 +176,18 @@ export class RoleEditComponent implements OnInit {
     });
   }
 
+  getCategory() {
+    this._roleService.getUserCate().subscribe({
+      next: (response: any) => {
+        const data: any = response;
+        this.userCategory = data['data']
+        this._changeDetectorRef.markForCheck()
+      },
+      error: (err) => {
 
+      }
+    });
+  }
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
     this.formGroup.reset();

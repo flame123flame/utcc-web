@@ -10,6 +10,11 @@ export class RoleService {
     return this._http.get(environment.api_url + '/api/role/get-list');
   }
 
+  getUserCate() {
+    return this._http.get(environment.api_url + '/api/user-category/get-all');
+  }
+
+
   findById(id: number) {
     return this._http.get(environment.api_url + `/api/role/find-by-id/${id}`);
   }

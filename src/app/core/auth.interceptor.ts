@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     // Clone the request object
     let newReq = req.clone();
+
     const token = this._authService.token;
 
     if (token && !AuthUtils.isTokenExpired(token)) {
