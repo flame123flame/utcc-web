@@ -6,6 +6,7 @@ export interface Role {
   roleCode: string
   roleName: string
   munuList: string[]
+  userCategoryCode: string
   roleDescription: string
   createBy: string
   createDate: string

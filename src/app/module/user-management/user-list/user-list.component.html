@@ -76,30 +76,20 @@
     <form [formGroup]="registerForm">
         <div class="p-3">
             <div class="grid">
-                <div class="col-12 md:col-6 lg:col-12">
-                    <div class="formgrid grid">
-                        <div class="field ml-2 ">
-                            <label>เลือกประเภทผู้ใช้งาน</label>
-                            <div class="flex flex-wrap gap-3">
-                                <div class="flex align-items-start">
-                                    <p-radioButton (click)="switchUserType('BUSLINESEMP')" name="userType"
-                                        value="BUSLINESEMP" formControlName="userType"></p-radioButton>
-                                    <label for="BUSLINESEMP" class="ml-2">พนักงานประจำสาย</label>
-                                </div>
-                                <div class="flex align-items-center">
-                                    <p-radioButton (click)="switchUserType('BUSTERMINALEMP')" name="userType"
-                                        value="BUSTERMINALEMP" formControlName="userType"></p-radioButton>
-                                    <label for="BUSTERMINALEMP" class="ml-2">พนักงานประจำท่ารถ</label>
-                                </div>
-                                <div class="flex align-items-center">
-                                    <p-radioButton (click)="switchUserType('EMPLOYEE')" name="userType" value="EMPLOYEE"
-                                        formControlName="userType"></p-radioButton>
-                                    <label for="EMPLOYEE" class="ml-2">ผู้ดูแลระบบ(ไม่มีสายและท่ารถ)</label>
-                                </div>
-                            </div>
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="p-fluid">
+                        <label>สิทธ์การใช้งาน <span style="color: red">*</span></label>
+                        <div
+                            [ngStyle]="isFieldValid('roleCode') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
+                            <p-dropdown (onChange)="getCategoryData($event)" appendTo="body" [filter]="true"
+                                filterBy="roleName" emptyFilterMessage="ไม่พบข้อมูล" formControlName="roleCode"
+                                [options]="dataRoles" optionLabel="roleName" optionValue="roleCode"
+                                placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"></p-dropdown>
+
                         </div>
                     </div>
                 </div>
+                <div class="col-12 md:col-6 lg:col-6"></div>
                 <div class="col-12 md:col-6 lg:col-6">
                     <div class="p-fluid">
                         <label>เลือกกะการทำงาน <span style="color: red"

@@ -34,7 +34,7 @@ import { RoleService } from '../service/role.service';
       </div>
          <div class="field col-6">
         <label>ประเภทผู้ใช้งาน</label>
-        <p-dropdown [filter]="true" filterBy="userCategoryDesc" emptyFilterMessage="ไม่พบข้อมูล"
+        <p-dropdown  (onChange)="getCategoryData($event)"  [filter]="true" filterBy="userCategoryDesc" emptyFilterMessage="ไม่พบข้อมูล"
                                 [options]="userCategory" formControlName="userCategoryCode" optionLabel="userCategoryDesc"
                                 optionValue="userCategoryCode" placeholder="กรุณาเลือก..." [style]="{'minWidth':'100%'}"
                                 appendTo="body"></p-dropdown>
@@ -49,11 +49,11 @@ import { RoleService } from '../service/role.service';
         <label>แพลตฟอร์มที่ต้องการสร้าง</label>
         <div class="flex flex-wrap gap-3">
           <div class="flex align-items-start">
-            <p-radioButton (click)="switchPlatform('WEBSITE')" name="platform" value="WEBSITE" formControlName="platform" inputId="WEBSITE"></p-radioButton>
+            <p-radioButton  name="platform" value="WEBSITE" formControlName="platform" inputId="WEBSITE"></p-radioButton>
             <label for="WEBSITE" class="ml-2">เว็บไซต์</label>
           </div>
           <div class="flex align-items-center">
-            <p-radioButton (click)="switchPlatform('APPLICATION')" name="platform" value="APPLICATION" formControlName="platform" inputId="APPLICATION"></p-radioButton>
+            <p-radioButton  name="platform" value="APPLICATION" formControlName="platform" inputId="APPLICATION"></p-radioButton>
             <label for="APPLICATION" class="ml-2">แอปพลิเคชัน</label>
           </div>
         </div>
@@ -148,6 +148,7 @@ export class RoleEditComponent implements OnInit {
   ngOnInit(): void {
     this.getCategory()
     this.eventsSubscription = this.events.subscribe(() => this.validateForm());
+    this.formGroup.get('platform')?.disable()
   }
   findById(idReq: number) {
     this._roleService.findById(idReq).subscribe({
@@ -188,6 +189,16 @@ export class RoleEditComponent implements OnInit {
       }
     });
   }
+
+
+  getCategoryData(data: any) {
+    if ("EMPLOYEE" === data['value']) {
+      this.switchPlatform('WEBSITE')
+    } else {
+      this.switchPlatform('APPLICATION')
+    }
+  }
+
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
     this.formGroup.reset();
@@ -195,6 +206,7 @@ export class RoleEditComponent implements OnInit {
 
   switchPlatform(p: string) {
     this.platformActive = p;
+    this.formGroup.get('platform')?.setValue(p)
     this._changeDetectorRef.markForCheck();
   }
 

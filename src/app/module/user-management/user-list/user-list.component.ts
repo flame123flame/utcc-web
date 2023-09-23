@@ -72,7 +72,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.registerForm.get('platform')?.disable()
     this.switchUserType('BUSLINESEMP')
     this.switchPlatform('WEBSITE')
     this.shifts = [
@@ -122,7 +122,7 @@ export class UserListComponent implements OnInit {
 
   createForm(): void {
     this.registerForm = this.fb.group({
-      platform: new FormControl<string | null>('WEBSITE', Validators.required),
+      platform: new FormControl<string | null>(null, Validators.required),
       username: new FormControl<string | null>(null, Validators.required),
       password: new FormControl<string | null>(null, Validators.required),
       buslinesId: new FormControl<string | null>(null, Validators.required),
@@ -146,8 +146,8 @@ export class UserListComponent implements OnInit {
       next: (response: any) => {
         const data: any = response;
         this.dataRoles = data['data'];
-        const filteredRoles = this.filterRolesByPlatform(this.dataRoles, platform);
-        this.dataRoles = filteredRoles;
+        // const filteredRoles = this.filterRolesByPlatform(this.dataRoles, platform);
+        // this.dataRoles = filteredRoles;
         this._changeDetectorRef.markForCheck();
       },
       error: (err) => {
@@ -156,8 +156,21 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  filterRolesByPlatform(roles: Role[], platform: string): Role[] {
-    return roles.filter((role) => role.platform === platform);
+
+
+  getCategoryData(data: any) {
+    console.log(data);
+    const filteredRoles = this.filterRolesByPlatform(this.dataRoles, data['value']);
+    console.log(filteredRoles[0].userCategoryCode);
+    // if ("EMPLOYEE" === data['value']) {
+    //   this.switchPlatform('WEBSITE')
+    // } else {
+    //   this.switchPlatform('APPLICATION')
+    // }
+  }
+
+  filterRolesByPlatform(roles: Role[], roleCode: string): Role[] {
+    return roles.filter((role) => role.roleCode === roleCode);
   }
 
   switchUserType(data: string) {
@@ -222,8 +235,9 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  switchPlatform(p: string): void {
-    this.getRole(p);
+  switchPlatform(platform: string): void {
+    // this.getRole(platform);
+    this.registerForm.get('platform')?.setValue(platform)
     this._changeDetectorRef.markForCheck();
   }
 
@@ -233,7 +247,6 @@ export class UserListComponent implements OnInit {
 
   openSidebar(): void {
     this.createForm()
-    // this.registerForm.reset();
     this.registerForm.updateValueAndValidity();
     this.registerForm.clearValidators()
     this.switchUserType('BUSLINESEMP')
