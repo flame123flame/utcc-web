@@ -159,14 +159,58 @@ export class UserListComponent implements OnInit {
 
 
   getCategoryData(data: any) {
-    console.log(data);
     const filteredRoles = this.filterRolesByPlatform(this.dataRoles, data['value']);
-    console.log(filteredRoles[0].userCategoryCode);
-    // if ("EMPLOYEE" === data['value']) {
-    //   this.switchPlatform('WEBSITE')
-    // } else {
-    //   this.switchPlatform('APPLICATION')
-    // }
+    if ("EMPLOYEE" === filteredRoles[0].userCategoryCode) {
+      this.switchPlatform('WEBSITE')
+    } else {
+      this.switchPlatform('APPLICATION')
+    }
+
+    this.registerForm.get('userType')?.patchValue(data)
+    if (filteredRoles[0].userCategoryCode == "BUSLINESEMP") {
+      this.registerForm.get('busTerminalId')?.reset()
+      this.registerForm.get('employeeShift')?.reset()
+      this.registerForm.get('buslinesId')?.reset()
+      this.registerForm.get('busTerminalId')?.clearValidators();
+      this.registerForm.get('busTerminalId')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.addValidators([Validators.required])
+      this.registerForm.get('buslinesId')?.updateValueAndValidity();
+      this.registerForm.get('employeeShift')?.addValidators([Validators.required])
+      this.registerForm.get('employeeShift')?.updateValueAndValidity();
+      this.registerForm.get('busTerminalId')?.disable()
+      this.registerForm.get('buslinesId')?.enable()
+      this.registerForm.get('employeeShift')?.enable()
+
+      this._changeDetectorRef.markForCheck();
+    } else if (filteredRoles[0].userCategoryCode == "BUSTERMINALEMP") {
+      this.registerForm.get('busTerminalId')?.reset()
+      this.registerForm.get('employeeShift')?.reset()
+      this.registerForm.get('buslinesId')?.reset()
+      this.registerForm.get('busTerminalId')?.addValidators([Validators.required])
+      this.registerForm.get('busTerminalId')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.clearValidators();
+      this.registerForm.get('buslinesId')?.updateValueAndValidity();
+      this.registerForm.get('employeeShift')?.addValidators([Validators.required])
+      this.registerForm.get('employeeShift')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.disable()
+      this.registerForm.get('busTerminalId')?.enable()
+      this.registerForm.get('employeeShift')?.enable()
+      this._changeDetectorRef.markForCheck();
+    } else if (filteredRoles[0].userCategoryCode == "EMPLOYEE") {
+      this.registerForm.get('busTerminalId')?.reset()
+      this.registerForm.get('employeeShift')?.reset()
+      this.registerForm.get('buslinesId')?.reset()
+      this.registerForm.get('employeeShift')?.clearValidators();
+      this.registerForm.get('employeeShift')?.updateValueAndValidity();
+      this.registerForm.get('busTerminalId')?.clearValidators();
+      this.registerForm.get('busTerminalId')?.updateValueAndValidity();
+      this.registerForm.get('buslinesId')?.clearValidators();
+      this.registerForm.get('buslinesId')?.updateValueAndValidity();
+      this.registerForm.get('busTerminalId')?.disable()
+      this.registerForm.get('buslinesId')?.disable()
+      this.registerForm.get('employeeShift')?.disable()
+      this._changeDetectorRef.markForCheck();
+    }
   }
 
   filterRolesByPlatform(roles: Role[], roleCode: string): Role[] {
