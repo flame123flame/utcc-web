@@ -220,7 +220,7 @@ export class RoleAddComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this._roleService.save(this.formGroup.value).subscribe({
+    this._roleService.save(this.formGroup.getRawValue()).subscribe({
       next: (response: any) => {
         const data: any = response;
         this.eventToParent.emit("SUCCESS")
