@@ -166,7 +166,7 @@ export class UserListComponent implements OnInit {
       this.switchPlatform('APPLICATION')
     }
 
-    this.registerForm.get('userType')?.patchValue(data)
+    this.registerForm.get('userType')?.patchValue(filteredRoles[0].userCategoryCode)
     if (filteredRoles[0].userCategoryCode == "BUSLINESEMP") {
       this.registerForm.get('busTerminalId')?.reset()
       this.registerForm.get('employeeShift')?.reset()
