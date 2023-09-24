@@ -205,19 +205,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 md:col-6 lg:col-6">
-                    <div class="p-fluid">
-                        <label>สิทธ์การใช้งาน <span style="color: red">*</span></label>
-                        <div
-                            [ngStyle]="isFieldValid('roleCode') ? {border: '0.4px solid red', borderRadius: '7px'} : null">
-                            <p-dropdown appendTo="body" [filter]="true" filterBy="roleName"
-                                emptyFilterMessage="ไม่พบข้อมูล" formControlName="roleCode" [options]="dataRoles"
-                                optionLabel="roleName" optionValue="roleCode" placeholder="กรุณาเลือก..."
-                                [style]="{'minWidth':'100%'}"></p-dropdown>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-6" *ngIf="actionStatus == 'save'">
+
+                <div class="col-12 md:col-12 lg:col-12" *ngIf="actionStatus == 'save'">
                     <div class="p-fluid">
                         <label>ผู้ใช้งาน <span style="color: red">*</span></label>
                         <input

@@ -73,8 +73,8 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm.get('platform')?.disable()
-    this.switchUserType('BUSLINESEMP')
-    this.switchPlatform('WEBSITE')
+    // this.switchUserType('BUSLINESEMP')
+    // this.switchPlatform('WEBSITE')
     this.shifts = [
       { name: 'กะเช้า', value: 'กะเช้า' },
       { name: 'กะบ่าย', value: 'กะบ่าย' },
@@ -159,6 +159,8 @@ export class UserListComponent implements OnInit {
 
 
   getCategoryData(data: any) {
+    console.log("getCategoryData");
+
     const filteredRoles = this.filterRolesByPlatform(this.dataRoles, data['value']);
     if ("EMPLOYEE" === filteredRoles[0].userCategoryCode) {
       this.switchPlatform('WEBSITE')
@@ -320,7 +322,6 @@ export class UserListComponent implements OnInit {
     this.createForm()
     this.registerForm.updateValueAndValidity();
     this.registerForm.clearValidators()
-    this.switchUserType('BUSLINESEMP')
     this.registerForm.get('platform')?.enable()
     this.actionStatus = "save"
     this.addAsyncValidators()
