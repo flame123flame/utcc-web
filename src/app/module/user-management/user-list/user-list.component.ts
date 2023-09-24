@@ -159,8 +159,6 @@ export class UserListComponent implements OnInit {
 
 
   getCategoryData(data: any) {
-    console.log("getCategoryData");
-
     const filteredRoles = this.filterRolesByPlatform(this.dataRoles, data['value']);
     if ("EMPLOYEE" === filteredRoles[0].userCategoryCode) {
       this.switchPlatform('WEBSITE')
