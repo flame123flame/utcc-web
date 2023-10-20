@@ -2,15 +2,12 @@
   "name": "utcc-web",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start:prod": "ng serve --prod --watch --configuration=production",
-    "build:sit": "ng build --build-optimizer --configuration=sit --base-href=/utcc-web-sit/ --aot --output-hashing=all --output-path=dist/utcc-web-sit/",
-    "build:uat": "ng build --build-optimizer --configuration=uat --base-href=/utcc-web-uat/ --aot --output-hashing=all --output-path=dist/utcc-web-uat/",
-    "build:prod": "ng build --build-optimizer --configuration=production --base-href=/utcc-web/ --aot --output-hashing=all",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "dev": "ng serve  --host 0.0.0.0  --proxy-config proxy.conf.json --open --configuration=dev",
+    "build": "ng build --configuration production --baseHref=/ --configuration production --buildOptimizer=true  --aot --output-hashing=all",
+    "build:production": "ng build --optimization=true --base-href=/utcc-web-uat/ --aot=true --configuration=production --output-hashing=all",
     "test": "ng test",
-    "dev": "ng serve --host 0.0.0.0"
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
