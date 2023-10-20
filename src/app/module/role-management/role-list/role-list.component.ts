@@ -54,6 +54,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
         [value]="dataRoles"
         [paginator]="true"
         [rows]="10"
+        styleClass="p-datatable-gridlines"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
         [rowsPerPageOptions]="[10, 25, 50]">
@@ -61,20 +62,20 @@ import { ToastService } from 'src/app/shared/services/toast.service';
             <tr>
                 <th > Code</th>
                 <th >สิทธ์การใช้งาน</th>
-                 <th>แพลตฟอร์ม</th>
+                 <th class="text-center">แพลตฟอร์ม</th>
                 <th >รายละเอียด</th>
-                <th >วันที่สร้าง</th>
-                <th >จัดการ</th>
+                <th class="text-center" >วันที่สร้าง</th>
+                <th class="text-center" >จัดการ</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-role>
             <tr>
                 <td>{{ role.roleCode ?? '-'  }}</td>
                 <td>{{ role.roleName ?? '-'  }}</td>
-                 <td><span [class]="role.platform == 'WEBSITE' ? 'pi pi-desktop' :  'pi pi-mobile'"></span> {{ role.platform == 'WEBSITE' ? 'เว็บไซต์' : 'แอปพลิเคชัน'  }}</td>
-                <td>{{ role.roleDescription ?? '-'  }}</td>
-                <td>{{ role.createDate ?? '-'  }}</td>
-                 <td>
+                 <td class="text-center"><span [class]="role.platform == 'WEBSITE' ? 'pi pi-desktop' :  'pi pi-mobile'"></span> {{ role.platform == 'WEBSITE' ? 'เว็บไซต์' : 'แอปพลิเคชัน'  }}</td>
+                <td >{{ role.roleDescription ?? '-'  }}</td>
+                <td class="text-center">{{ role.createDate ?? '-'  }}</td>
+                 <td class="text-center">
                   <p-button  (click)="openSidebar('EDIT',role.fwRoleId!)" icon="pi pi-file-edit"  styleClass="p-button-warning mr-2"></p-button>
                   <p-button (click)="confirmDelete(role.roleCode)" icon="pi pi-trash"  styleClass="p-button-danger"></p-button>
                  </td>

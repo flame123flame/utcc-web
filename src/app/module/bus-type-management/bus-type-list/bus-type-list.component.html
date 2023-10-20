@@ -24,23 +24,24 @@
       <p-button (click)="openSidebar()" icon="pi pi-plus" label="เพิ่มประเภทรถเมล์"
         styleClass="p-button-success p-button-sm"></p-button>
     </div>
-    <p-table #datatableBusType [value]="dataTable" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    <p-table #datatableBusType styleClass="p-datatable-gridlines" [value]="dataTable" [paginator]="true" [rows]="10"
+      [showCurrentPageReport]="true"
       currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} ทั้งหมดรายการ"
       [rowsPerPageOptions]="[10, 25, 50]">
       <ng-template pTemplate="header">
         <tr>
           <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
           <th>ประเภทรถเมล์</th>
-          <th>วันที่สร้าง</th>
-          <th>จัดการ</th>
+          <th class="text-center">วันที่สร้าง</th>
+          <th class="text-center">จัดการ</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-data let-i="rowIndex">
         <tr>
           <td style="text-align: center;">{{ i+1 }}</td>
           <td>{{ data.busTypeName ?? '-' }}</td>
-          <td>{{ data.createDate | thaiDate }}</td>
-          <td>
+          <td class="text-center">{{ data.createDate | thaiDate }}</td>
+          <td class="text-center">
             <p-button (click)="openSidebarDetail(data)" icon="pi pi-search" styleClass="mr-2"></p-button>
             <p-button (click)="openSidebarEdit(data)" icon="pi pi-file-edit"
               styleClass="p-button-warning mr-2"></p-button>
