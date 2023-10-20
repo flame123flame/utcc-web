@@ -4,8 +4,9 @@
       <div class="flex flex-wrap gap-3 mb-2">
         <div class="flex-auto">
           <label for="integer" class="font-bold block mb-2"> ประเภทรถเมล์ </label>
-          <input (input)="datatableBusType.filter(getDataInput($event),'busTypeName' , 'contains')" pInputText
-            id="integer" class="w-full" />
+          <input placeholder="กรอกคำค้นหา"
+            (input)="datatableBusType.filter(getDataInput($event),'busTypeName' , 'contains')" pInputText id="integer"
+            class="w-full" />
         </div>
         <div class="flex-auto"></div>
         <div class="flex-auto"></div>

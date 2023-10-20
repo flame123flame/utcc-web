@@ -4,17 +4,20 @@
       <div class="flex flex-wrap gap-3 mb-2">
         <div class="flex-auto">
           <label for="integer" class="font-bold block mb-2"> เลขสายรถเมล์ </label>
-          <input (input)="datatableBusLine.filter(getDataInput($event),'busLinesNo' , 'contains')" pInputText
-            id="integer" class="w-full" />
+          <input placeholder="กรอกคำค้นหา"
+            (input)="datatableBusLine.filter(getDataInput($event),'busLinesNo' , 'contains')" pInputText id="integer"
+            class="w-full" />
         </div>
         <div class="flex-auto">
           <label for="integer" class="font-bold block mb-2"> ต้นทาง </label>
-          <input (input)="datatableBusLine.filter(getDataInput($event),'busLinesOrigin' , 'contains')" pInputText
+          <input placeholder="กรอกคำค้นหา"
+            (input)="datatableBusLine.filter(getDataInput($event),'busLinesOrigin' , 'contains')" pInputText
             id="integer" class="w-full" />
         </div>
         <div class="flex-auto">
           <label for="integer" class="font-bold block mb-2"> ปลายทาง </label>
-          <input (input)="datatableBusLine.filter(getDataInput($event),'busLinesDestination' , 'contains')" pInputText
+          <input placeholder="กรอกคำค้นหา"
+            (input)="datatableBusLine.filter(getDataInput($event),'busLinesDestination' , 'contains')" pInputText
             id="integer" class="w-full" />
         </div>
         <div class="flex-auto"></div>

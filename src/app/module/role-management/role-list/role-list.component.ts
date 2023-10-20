@@ -26,11 +26,11 @@ import { ToastService } from 'src/app/shared/services/toast.service';
        <div class="flex flex-wrap gap-3 mb-2">
         <div class="flex-auto">
             <label for="integer" class="font-bold block mb-2"> Code </label>
-            <input (input)="datatableRole.filter(getDataInput($event),'roleCode' , 'contains')"  pInputText id="integer" class="w-full" />
+            <input  placeholder="กรอกคำค้นหา" (input)="datatableRole.filter(getDataInput($event),'roleCode' , 'contains')"  pInputText id="integer" class="w-full" />
         </div>
         <div class="flex-auto">
             <label for="number" class="font-bold block mb-2"> สิทธ์การใช้งาน </label>
-            <input (input)="datatableRole.filter(getDataInput($event),'roleName' , 'contains')"  pInputText id="integer" class="w-full" pInputText class="w-full" />
+            <input  placeholder="กรอกคำค้นหา" (input)="datatableRole.filter(getDataInput($event),'roleName' , 'contains')"  pInputText id="integer" class="w-full" pInputText class="w-full" />
         </div>
         <div class="flex-auto"></div>
         <div class="flex-auto"></div>

@@ -6,22 +6,22 @@
                     <label for="integer" class="font-bold block mb-2"> เลขกองปฏิบัติการเดินรถ </label>
                     <input type="text"
                         (input)="datatableDivision.filter(getDataInput($event),'busDivisionNo' , 'contains')" pInputText
-                        id="integer" class="w-full" />
+                        id="integer" class="w-full" placeholder="กรอกคำค้นหา" />
                 </div>
                 <div class="flex-auto">
                     <label for="integer" class="font-bold block mb-2"> ชื่อกองปฏิบัติการเดินรถ </label>
                     <input (input)="datatableDivision.filter(getDataInput($event),'busDivisionName' , 'contains')"
-                        pInputText id="integer" class="w-full" />
+                        pInputText id="integer" class="w-full" placeholder="กรอกคำค้นหา" />
                 </div>
                 <div class="flex-auto">
                     <label for="integer" class="font-bold block mb-2"> เขตการเดินรถที่</label>
                     <input type="text" (input)="datatableDivision.filter(getDataInput($event),'bmtaZone' , 'contains')"
-                        pInputText id="integer" class="w-full" />
+                        pInputText id="integer" class="w-full" placeholder="กรอกคำค้นหา" />
                 </div>
                 <div class="flex-auto">
                     <label for="integer" class="font-bold block mb-2"> อู่รถเมล์ </label>
                     <input type="text" (input)="datatableDivision.filter(getDataInput($event),'depotName' , 'contains')"
-                        pInputText id="integer" class="w-full" />
+                        pInputText id="integer" class="w-full" placeholder="กรอกคำค้นหา" />
                 </div>
                 <div class="flex-auto"></div>
                 <div class="flex-auto"></div>

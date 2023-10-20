@@ -4,17 +4,20 @@
             <div class="flex flex-wrap gap-3 mb-2">
                 <div class="flex-auto">
                     <label for="integer" class="font-bold block mb-2"> ชื่อ-นามสกุล </label>
-                    <input (input)="datatableUser.filter(getDataInput($event),'fullName' , 'contains')" pInputText
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableUser.filter(getDataInput($event),'fullName' , 'contains')" pInputText
                         id="integer" class="w-full" />
                 </div>
                 <div class="flex-auto">
                     <label for="number" class="font-bold block mb-2"> เบอร์โทรศัพท์ </label>
-                    <input (input)="datatableUser.filter(getDataInput($event),'phoneNumber' , 'contains')" pInputText
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableUser.filter(getDataInput($event),'phoneNumber' , 'contains')" pInputText
                         id="integer" class="w-full" pInputText class="w-full" />
                 </div>
                 <div class="flex-auto">
                     <label for="number" class="font-bold block mb-2"> ตำแหน่ง </label>
-                    <input (input)="datatableUser.filter(getDataInput($event),'position' , 'contains')" pInputText
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableUser.filter(getDataInput($event),'position' , 'contains')" pInputText
                         id="integer" class="w-full" pInputText class="w-full" />
                 </div>
                 <div class="flex-auto"></div>

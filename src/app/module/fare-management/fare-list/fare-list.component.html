@@ -4,13 +4,14 @@
       <div class="flex flex-wrap gap-3 mb-2">
         <div class="flex-auto">
           <label for="integer" class="font-bold block mb-2"> ราคาตั๋วรถเมล์ </label>
-          <input type="number" (input)="datatableFare.filter(getDataInput($event),'fareValue' , 'contains')" pInputText
-            id="integer" class="w-full" />
+          <input placeholder="กรอกคำค้นหา" type="number"
+            (input)="datatableFare.filter(getDataInput($event),'fareValue' , 'contains')" pInputText id="integer"
+            class="w-full" />
         </div>
         <div class="flex-auto">
           <label for="integer" class="font-bold block mb-2"> รายละเอียดราคาตั๋วรถเมล์ </label>
-          <input (input)="datatableFare.filter(getDataInput($event),'fareDesc' , 'contains')" pInputText id="integer"
-            class="w-full" />
+          <input placeholder="กรอกคำค้นหา" (input)="datatableFare.filter(getDataInput($event),'fareDesc' , 'contains')"
+            pInputText id="integer" class="w-full" />
         </div>
         <div class="flex-auto"></div>
         <div class="flex-auto"></div>

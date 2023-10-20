@@ -12,7 +12,7 @@
                                 <label for="integer" class="font-bold block mb-2"> อู่รถเมล์ </label>
                                 <input type="text"
                                     (input)="datatableDepot.filter(getDataInput($event),'depotName' , 'contains')"
-                                    pInputText id="integer" class="w-full" />
+                                    pInputText id="integer" class="w-full" placeholder="กรอกคำค้นหา" />
                             </div>
                             <p-button icon="pi pi-plus" (click)="openSidebar()" label="เพิ่มอู่รถเมล์"
                                 styleClass="p-button-success p-button-sm" [style.marginTop]="'34px'"></p-button>

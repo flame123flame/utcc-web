@@ -4,27 +4,32 @@
             <div class="flex flex-wrap gap-3 mb-2">
                 <div class="flex-auto">
                     <label for="integer" class="font-bold block mb-2"> เลขทะเบียนรถ </label>
-                    <input (input)="datatableVehicle.filter(getDataInput($event),'busVehiclePlateNo' , 'contains')"
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableVehicle.filter(getDataInput($event),'busVehiclePlateNo' , 'contains')"
                         pInputText id="integer" class="w-full" />
                 </div>
                 <div class="flex-auto">
                     <label for="number" class="font-bold block mb-2"> เลขข้างรถ </label>
-                    <input (input)="datatableVehicle.filter(getDataInput($event),'busVehicleNumber' , 'contains')"
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableVehicle.filter(getDataInput($event),'busVehicleNumber' , 'contains')"
                         pInputText id="integer" class="w-full" pInputText class="w-full" />
                 </div>
                 <div class="flex-auto">
                     <label for="money" class="font-bold block mb-2"> สายรถเมล์ </label>
-                    <input (input)="datatableVehicle.filter(getDataInput($event),'busLinesNo' , 'contains')" pInputText
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableVehicle.filter(getDataInput($event),'busLinesNo' , 'contains')" pInputText
                         id="integer" class="w-full" pInputText class="w-full" />
                 </div>
                 <div class="flex-auto">
                     <label for="money" class="font-bold block mb-2"> ประเภทรถเมล์ </label>
-                    <input (input)="datatableVehicle.filter(getDataInput($event),'typeName' , 'contains')" pInputText
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableVehicle.filter(getDataInput($event),'typeName' , 'contains')" pInputText
                         id="integer" class="w-full" pInputText class="w-full" />
                 </div>
                 <div class="flex-auto">
                     <label for="money" class="font-bold block mb-2"> กองปฏิบัติการเดินรถ </label>
-                    <input (input)="datatableVehicle.filter(getDataInput($event),'busDivisionName' , 'contains')"
+                    <input placeholder="กรอกคำค้นหา"
+                        (input)="datatableVehicle.filter(getDataInput($event),'busDivisionName' , 'contains')"
                         pInputText id="integer" class="w-full" pInputText class="w-full" />
                 </div>
             </div>

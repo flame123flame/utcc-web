@@ -10,7 +10,7 @@
                         <div class="flex justify-content-between mb-3">
                             <div class="flex-auto pr-4">
                                 <label for="integer" class="font-bold block mb-2"> อู่รถเมล์ </label>
-                                <input type="text"
+                                <input placeholder="กรอกคำค้นหา" type="text"
                                     (input)="datatableBusTerminal.filter(getDataInput($event),'busTerminalName' , 'contains')"
                                     pInputText id="integer" class="w-full" />
                             </div>
