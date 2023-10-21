@@ -66,14 +66,14 @@
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>ราคาตั๋วรถเมล์ <span style="color: red">*</span></label>
-            <input pInputText type="number" formControlName="fareValue"
+            <input pInputText type="number" placeholder="กรอกข้อมูลราคาตั๋วรถเมล์" formControlName="fareValue"
               [ngStyle]="isFieldValid('fareValue') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>รายละเอียดราคาตั๋วรถเมล์ <span style="color: red">*</span></label>
-            <input pInputText formControlName="fareDesc"
+            <input pInputText formControlName="fareDesc" placeholder="กรอกข้อมูลรายละเอียดราคาตั๋วรถเมล์"
               [ngStyle]="isFieldValid('fareDesc') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>

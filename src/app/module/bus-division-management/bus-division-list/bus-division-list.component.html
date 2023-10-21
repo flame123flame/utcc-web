@@ -79,7 +79,8 @@
                 <div class="col-12 md:col-6 lg:col-6">
                     <div class="p-fluid">
                         <label>เลขกองปฏิบัติการเดินรถ <span style="color: red">*</span></label>
-                        <input pInputText type="number" formControlName="busDivisionNo"
+                        <input pInputText type="number" placeholder="กรอกข้อมูลเลขกองปฏิบัติการเดินรถ"
+                            formControlName="busDivisionNo"
                             [ngStyle]="isFieldValid('busDivisionNo') ? {border: '1px solid red', borderRadius: '7px'} : null" />
                     </div>
                 </div>
@@ -87,6 +88,7 @@
                     <div class="p-fluid">
                         <label>ชื่อกองปฏิบัติการเดินรถ <span style="color: red">*</span></label>
                         <input pInputText formControlName="busDivisionName"
+                            placeholder="กรอกข้อมูลชื่อกองปฏิบัติการเดินรถ"
                             [ngStyle]="isFieldValid('busDivisionName') ? {border: '1px solid red', borderRadius: '7px'} : null" />
                     </div>
                 </div>
@@ -94,6 +96,7 @@
                     <div class="p-fluid">
                         <label>เขตการเดินรถที่ <span style="color: red">*</span></label>
                         <input pInputText type="number" formControlName="bmtaZone"
+                            placeholder="กรอกข้อมูลเขตการเดินรถที่"
                             [ngStyle]="isFieldValid('bmtaZone') ? {border: '1px solid red', borderRadius: '7px'} : null" />
                     </div>
                 </div>

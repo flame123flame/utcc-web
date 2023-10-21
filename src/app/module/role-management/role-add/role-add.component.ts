@@ -61,7 +61,7 @@ import { RoleService } from '../service/role.service';
     </div>
     <label>เลือกเมนูที่ต้องการแสดง</label>
     <div class="card" *ngIf="platformActive == 'WEBSITE'">
-      <p-table [value]="menusWeb" [(selection)]="selectedMenuWeb" dataKey="code">
+      <p-table [value]="menusWeb" [(selection)]="selectedMenuWeb" dataKey="code" styleClass="p-datatable-gridlines" >
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem">
@@ -83,7 +83,7 @@ import { RoleService } from '../service/role.service';
       </p-table>
     </div>
       <div class="card" *ngIf="platformActive == 'APPLICATION'">
-      <p-table [value]="menusMobile" [(selection)]="selectedMenusMobile" dataKey="code">
+      <p-table [value]="menusMobile" [(selection)]="selectedMenusMobile" dataKey="code" styleClass="p-datatable-gridlines">
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem">

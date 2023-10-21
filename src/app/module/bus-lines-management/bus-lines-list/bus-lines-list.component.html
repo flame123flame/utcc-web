@@ -76,21 +76,23 @@
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>เลขสายรถเมล์ <span style="color: red">*</span></label>
-            <input pInputText type="text" formControlName="busLinesNo" [readonly]="this.actionStatus == 'detail'"
+            <input pInputText type="text" placeholder="กรอกข้อมูลเลขสายรถเมล์" formControlName="busLinesNo"
+              [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesNo') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>ต้นทาง <span style="color: red">*</span></label>
-            <input pInputText type="text" formControlName="busLinesOrigin" [readonly]="this.actionStatus == 'detail'"
+            <input pInputText type="text" placeholder="กรอกข้อมูลต้นทาง" formControlName="busLinesOrigin"
+              [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesOrigin') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
         </div>
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>ปลายทาง <span style="color: red">*</span></label>
-            <input pInputText type="text" formControlName="busLinesDestination"
+            <input pInputText type="text" placeholder="กรอกข้อมูลปลายทาง" formControlName="busLinesDestination"
               [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesDestination') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
@@ -98,7 +100,7 @@
         <div class="col-12 md:col-6 lg:col-6">
           <div class="p-fluid">
             <label>รายละเอียดทางด่วน <span style="color: red">*</span></label>
-            <input pInputText type="text" formControlName="busLinesExpressway"
+            <input pInputText type="text" placeholder="กรอกข้อมูลรายละเอียดทางด่วน" formControlName="busLinesExpressway"
               [readonly]="this.actionStatus == 'detail'"
               [ngStyle]="isFieldValid('busLinesExpressway') ? {border: '1px solid red', borderRadius: '7px'} : null" />
           </div>
