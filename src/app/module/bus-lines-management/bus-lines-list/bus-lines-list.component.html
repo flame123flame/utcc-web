@@ -41,7 +41,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-          <th>เลขสายรถเมล์</th>
+          <th class="text-center">เลขสายรถเมล์</th>
           <th>ต้นทาง</th>
           <th>ปลายทาง</th>
           <th class="text-center">วันที่สร้าง</th>
@@ -51,7 +51,7 @@
       <ng-template pTemplate="body" let-item let-i="rowIndex">
         <tr>
           <td style="text-align: center;">{{ i + 1 }}</td>
-          <td>{{ item.busLinesNo ?? '-' }} </td>
+          <td class="text-center">{{ item.busLinesNo ?? '-' }} </td>
           <td>{{ item.busLinesOrigin ?? '-' }}</td>
           <td>{{ item.busLinesDestination ?? '-' }} </td>
           <td class="text-center">{{ item.createDate | thaiDate}}</td>

@@ -106,3 +106,10 @@ input:disabled {
   color: rgb(0, 0, 0) !important;
   border: 1px solid darkgrey !important;
 }
+
+.p-datatable .p-datatable-tbody>tr>td {
+  padding-top: 5.5px !important;
+  padding-right: 1rem !important;
+  padding-bottom: 5.5px !important;
+  padding-left: 1rem !important;
+}
