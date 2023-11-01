@@ -155,7 +155,12 @@ export class UserListComponent implements OnInit {
       },
     });
   }
-
+  userStatusCheck(status: string): string {
+    if (status == "UNAVAILABLE") {
+      return "ไม่พร้อมใช้งาน"
+    }
+    return "พร้อมใช้งาน"
+  }
 
 
   getCategoryData(data: any) {

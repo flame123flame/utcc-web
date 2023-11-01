@@ -49,6 +49,8 @@
                     <th pSortableColumn="phoneNumber" class="text-center">เบอร์โทรศัพท์ <p-sortIcon
                             field="phoneNumber"></p-sortIcon></th>
                     <th pSortableColumn="position">ตำแหน่ง <p-sortIcon field="position"></p-sortIcon></th>
+                    <th class="text-center" pSortableColumn="employeeStatus">สถานะ <p-sortIcon
+                            field="employeeStatus"></p-sortIcon></th>
                     <th class="text-center">วันที่สร้าง</th>
                     <th class="text-center">จัดการ</th>
                 </tr>
@@ -65,6 +67,7 @@
                     <td>{{ item.fullName ?? '-' }} </td>
                     <td class="text-center">{{ item.phoneNumber ?? '-' }}</td>
                     <td>{{ item.position ?? '-' }}</td>
+                    <td class="text-center">{{ userStatusCheck(item.employeeStatus)}}</td>
                     <td class="text-center">{{ item.createDate | thaiDate}}</td>
                     <td class="text-center">
                         <p-button (click)="openSidebarEdit(item)" icon="pi pi-file-edit"
