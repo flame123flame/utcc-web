@@ -34,8 +34,10 @@
       [rowsPerPageOptions]="[10, 25, 50]">
       <ng-template pTemplate="header">
         <tr>
+
           <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-          <th style="text-align: center;">ราคาตั๋วรถเมล์</th>
+          <th pSortableColumn="fareValue" style="text-align: center;">ราคาตั๋วรถเมล์ <p-sortIcon
+              field="fareValue"></p-sortIcon></th>
           <th>รายละเอียดราคาตั๋วรถเมล์</th>
           <th class="text-center">วันที่สร้าง</th>
           <th class="text-center">จัดการ</th>

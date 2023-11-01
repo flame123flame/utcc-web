@@ -50,11 +50,11 @@ import { RoleService } from '../service/role.service';
         <div class="flex flex-wrap gap-3">
           <div class="flex align-items-start">
             <p-radioButton name="platform" value="WEBSITE" formControlName="platform" inputId="WEBSITE"></p-radioButton>
-            <label for="WEBSITE" class="ml-2">เว็บไซต์</label>
+            <label for="WEBSITE" class="ml-2">เว็บแอปพลิเคชัน</label>
           </div>
           <div class="flex align-items-center">
             <p-radioButton  name="platform" value="APPLICATION" formControlName="platform" inputId="APPLICATION"></p-radioButton>
-            <label for="APPLICATION" class="ml-2">แอปพลิเคชัน</label>
+            <label for="APPLICATION" class="ml-2">โมบายแอปพลิเคชัน</label>
           </div>
         </div>
       </div>

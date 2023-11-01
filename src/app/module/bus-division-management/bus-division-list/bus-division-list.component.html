@@ -44,11 +44,15 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                    <th style="text-align: center;">เลขกองปฏิบัติการเดินรถ</th>
-                    <th>ชื่อกองปฏิบัติการเดินรถ</th>
-                    <th style="text-align: center;">เขตการเดินรถที่</th>
-                    <th>อู่รถเมล์</th>
+                    <th pSortableColumn="busDivisionNo" style="text-align: center;">เลขกองปฏิบัติการเดินรถ <p-sortIcon
+                            field="busDivisionNo"></p-sortIcon></th>
+                    <th pSortableColumn="busDivisionName">ชื่อกองปฏิบัติการเดินรถ <p-sortIcon
+                            field="busDivisionName"></p-sortIcon></th>
+                    <th pSortableColumn="bmtaZone" style="text-align: center;">เขตการเดินรถที่ <p-sortIcon
+                            field="bmtaZone"></p-sortIcon></th>
+                    <th pSortableColumn="depotName">อู่รถเมล์ <p-sortIcon field="depotName"></p-sortIcon></th>
                     <th class="text-center">จัดการ</th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">

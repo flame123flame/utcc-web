@@ -28,7 +28,9 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                                <th>ชื่ออู่รถเมล์</th>
+                                <th pSortableColumn="depotName">ชื่ออู่รถเมล์ <p-sortIcon
+                                        field="depotName"></p-sortIcon></th>
+
                                 <th  class="text-center">วันที่สร้าง</th>
                                 <th class="text-center">จัดการ</th>
                             </tr>

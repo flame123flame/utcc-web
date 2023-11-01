@@ -40,11 +40,15 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                    <th>ผู้ใช้งาน</th>
-                    <th class="text-center">แพลตฟอร์ม</th>
-                    <th>ชื่อ-นามสกุล</th>
-                    <th class="text-center">เบอร์โทรศัพท์</th>
-                    <th>ตำแหน่ง</th>
+                    <th pSortableColumn="username" class="text-center"> ผู้ใช้งาน <p-sortIcon
+                            field="username"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="platform" class="text-center">แพลตฟอร์ม <p-sortIcon
+                            field="platform"></p-sortIcon></th>
+                    <th pSortableColumn="fullName">ชื่อ-นามสกุล <p-sortIcon field="fullName"></p-sortIcon></th>
+                    <th pSortableColumn="phoneNumber" class="text-center">เบอร์โทรศัพท์ <p-sortIcon
+                            field="phoneNumber"></p-sortIcon></th>
+                    <th pSortableColumn="position">ตำแหน่ง <p-sortIcon field="position"></p-sortIcon></th>
                     <th class="text-center">วันที่สร้าง</th>
                     <th class="text-center">จัดการ</th>
                 </tr>
@@ -52,11 +56,11 @@
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td style="text-align: center;">{{ i + 1 }}</td>
-                    <td>{{ item.username ?? '-' }} </td>
+                    <td class="text-center">{{ item.username ?? '-' }} </td>
                     <td class="text-center"><span
                             [class]="item.platform == 'WEBSITE' ? 'pi pi-desktop' :  'pi pi-mobile'"></span> {{
                         item.platform == 'WEBSITE'
-                        ? 'เว็บไซต์' : 'แอปพลิเคชัน' }}</td>
+                        ? 'เว็บแอปพลิเคชัน' : 'โมบายแอปพลิเคชัน' }}</td>
 
                     <td>{{ item.fullName ?? '-' }} </td>
                     <td class="text-center">{{ item.phoneNumber ?? '-' }}</td>
@@ -198,13 +202,13 @@
                                 <div class="flex align-items-start">
                                     <p-radioButton (click)="switchPlatform('WEBSITE') " name="platform" value="WEBSITE"
                                         formControlName="platform" inputId="WEBSITE"></p-radioButton>
-                                    <label for="WEBSITE" class="ml-2">เว็บไซต์</label>
+                                    <label for="WEBSITE" class="ml-2">เว็บแอปพลิเคชัน</label>
                                 </div>
                                 <div class="flex align-items-center">
                                     <p-radioButton (click)="switchPlatform('APPLICATION')" name="platform"
                                         value="APPLICATION" formControlName="platform"
                                         inputId="APPLICATION"></p-radioButton>
-                                    <label for="APPLICATION" class="ml-2">แอปพลิเคชัน</label>
+                                    <label for="APPLICATION" class="ml-2">โมบายแอปพลิเคชัน</label>
                                 </div>
                             </div>
                         </div>

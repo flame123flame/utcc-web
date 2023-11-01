@@ -41,9 +41,11 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-          <th class="text-center">เลขสายรถเมล์</th>
-          <th>ต้นทาง</th>
-          <th>ปลายทาง</th>
+
+          <th class="text-center" pSortableColumn="busLinesNo">เลขสายรถเมล์ <p-sortIcon field="busLinesNo"></p-sortIcon>
+          </th>
+          <th SortableColumn="busLinesOrigin">ต้นทาง <p-sortIcon field="busLinesOrigin"></p-sortIcon></th>
+          <th SortableColumn="busLinesDestination">ปลายทาง <p-sortIcon field="busLinesDestination"></p-sortIcon></th>
           <th class="text-center">วันที่สร้าง</th>
           <th class="text-center">จัดการ</th>
         </tr>

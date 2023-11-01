@@ -31,9 +31,10 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-          <th>ประเภทรถเมล์</th>
+          <th pSortableColumn="busTypeName">ประเภทรถเมล์ <p-sortIcon field="busTypeName"></p-sortIcon></th>
           <th class="text-center">วันที่สร้าง</th>
           <th class="text-center">จัดการ</th>
+
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-data let-i="rowIndex">

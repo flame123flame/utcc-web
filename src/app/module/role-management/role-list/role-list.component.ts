@@ -72,7 +72,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
             <tr>
                 <td>{{ role.roleCode ?? '-'  }}</td>
                 <td>{{ role.roleName ?? '-'  }}</td>
-                 <td class="text-center"><span [class]="role.platform == 'WEBSITE' ? 'pi pi-desktop' :  'pi pi-mobile'"></span> {{ role.platform == 'WEBSITE' ? 'เว็บไซต์' : 'แอปพลิเคชัน'  }}</td>
+                 <td class="text-center"><span [class]="role.platform == 'WEBSITE' ? 'pi pi-desktop' :  'pi pi-mobile'"></span> {{ role.platform == 'WEBSITE' ? 'เว็บแอปพลิเคชัน' : 'โมบายแอปพลิเคชัน'  }}</td>
                 <td >{{ role.roleDescription ?? '-'  }}</td>
                 <td class="text-center">{{ role.createDate ?? '-'  }}</td>
                  <td class="text-center">

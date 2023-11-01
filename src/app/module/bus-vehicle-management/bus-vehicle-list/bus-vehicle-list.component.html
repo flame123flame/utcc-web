@@ -50,13 +50,19 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="text-align: center;min-width: 60px;">ลำดับที่</th>
-                    <th class="text-center">เลขทะเบียนรถ</th>
-                    <th>จังหวัด</th>
-                    <th class="text-center">เลขข้างรถ</th>
-                    <th class="text-center">สายรถเมล์</th>
-                    <th>ประเภทรถเมล์</th>
-                    <th>กองปฏิบัติการเดินรถ</th>
-                    <th class="text-center">สถานะการรถเมล์</th>
+                    <th pSortableColumn="busVehiclePlateNo" class="text-center">เลขทะเบียนรถ <p-sortIcon
+                            field="busVehiclePlateNo"></p-sortIcon></th>
+                    <th pSortableColumn="busVehiclePlateProv">จังหวัด <p-sortIcon
+                            field="busVehiclePlateProv"></p-sortIcon></th>
+                    <th pSortableColumn="busVehicleNumber" class="text-center">เลขข้างรถ <p-sortIcon
+                            field="busVehicleNumber"></p-sortIcon></th>
+                    <th pSortableColumn="busLinesNo" class="text-center">สายรถเมล์ <p-sortIcon
+                            field="busLinesNo"></p-sortIcon></th>
+                    <th pSortableColumn="busTypeName">ประเภทรถเมล์<p-sortIcon field="busTypeName"></p-sortIcon> </th>
+                    <th pSortableColumn="busDivisionName">กองปฏิบัติการเดินรถ <p-sortIcon
+                            field="busDivisionName"></p-sortIcon></th>
+                    <th pSortableColumn="busVehicleStatus" class="text-center">สถานะการรถเมล์ <p-sortIcon
+                            field="busVehicleStatus"></p-sortIcon> </th>
 
                     <th class="text-center">จัดการ</th>
                 </tr>
