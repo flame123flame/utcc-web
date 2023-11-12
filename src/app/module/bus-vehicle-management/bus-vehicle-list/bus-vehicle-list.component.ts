@@ -156,9 +156,9 @@ export class BusVehicleListComponent implements OnInit {
 
   busVehicleStatusCheck(status: string): string {
     if (status == "UNAVAILABLE") {
-      return "ไม่พร้อมใช้งาน"
+      return "อยู่ระหว่างดำเนินงาน"
     }
-    return "พร้อมใช้งาน"
+    return "พร้อมดำเนินงาน"
   }
 
   isFieldValid(field: string): boolean {
