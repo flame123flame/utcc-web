@@ -18,21 +18,34 @@ import { FareService } from '../service/fare.service';
 })
 
 export class FareListComponent implements OnInit {
+
+
   private _service = inject(FareService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
   private _toastService = inject(ToastService);
+
+
   searchText!: string | null;
   dataTable: Fare[] = [];
+  dataTable1?: Fare[];
   registerForm!: FormGroup;
   submittedForm$ = new BehaviorSubject<boolean>(false);
   sidebar: boolean = false;
   actionStatus: string = "save";
-  constructor(private fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+
+
+  constructor(
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService) {
+
+  }
 
   ngOnInit() {
     this.search()
     this.createForm()
   }
+
   createForm(): void {
     this.registerForm = this.fb.group({
       fareId: new FormControl<number | null>(null),
@@ -92,6 +105,7 @@ export class FareListComponent implements OnInit {
 
     this.submittedForm$.next(false);
     this.save()
+
   }
 
   save(): void {
@@ -107,6 +121,7 @@ export class FareListComponent implements OnInit {
       });
     }
   }
+
 
   confirmDelete(fare: Fare) {
     this.confirmationService.confirm({
@@ -132,6 +147,7 @@ export class FareListComponent implements OnInit {
       }
     });
   }
+
   private handleDeleteSuccess(): void {
     this.onCloseAction();
     this.search();

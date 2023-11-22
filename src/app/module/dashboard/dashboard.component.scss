@@ -55,3 +55,12 @@
 .value-c {
     font-size: 35px
 }
+
+::ng-deep .p-tabview .p-tabview-panels {
+    background: transparent;
+    padding: 1.25rem;
+    border: 0 none;
+    color: #495057;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}

@@ -22,7 +22,7 @@
     <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true">
         <p-tabPanel *ngFor="let tab of lastTenYears" [header]="tab.title">
             <div class="">
-                <div class="grid">
+                <div class="grid" style="background-color: white;">
                     <div class="col-12">
                         <div class="flex">
                             <div class="flex-1 bg-primary card-d-1  px-5 py-3 ">
@@ -58,49 +58,23 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="flex">
-                            <div class="flex-1 bg-primary card-d-2  px-5 py-3 ">
-                                <div>
-                                    <div class="titel-c">ตั๋วเต็มราคา(ใบ)</div>
-                                </div>
-                                <div>
-                                    <div class="value-c">13,290</div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="flex">
-                            <div class="flex-1 bg-primary card-d-3  px-5 py-3 ">
-                                <div>
-                                    <div class="titel-c">ยอดขายตั๋วเต็มราคา(บาท)</div>
-                                </div>
-                                <div>
-                                    <div class="value-c">421,759.00</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="flex-1 bg-primary card-d-4  px-5 py-3 ">
-                                <div>
-                                    <div class="titel-c">ยอดขายตั๋วลดหย่อน(บาท)</div>
-                                </div>
-                                <div>
-                                    <div class="value-c">32,443</div>
-                                </div>
-                            </div>
-                        </div> -->
+
+
 
                     </div>
                 </div>
-                <div class="grid">
-                    <div class="col-6">
-                        <h2 style="display: flex;justify-content: space-around;">จำนวนการขายตั๋ว(ใบ)</h2>
-                        <p-chart [style.height.px]="'100px'" type="bar" [data]="userUsageHoursData1"
-                            [options]="options"></p-chart>
+                <div class="grid mt-3">
+                    <div class="col-8 p-0">
+                        <div style="background-color: white;    margin-right: 10px;padding: 10px;">
+                            <h2 style="display: flex;justify-content: space-around;">จำนวนการขายตั๋ว(ใบ)</h2>
+                            <p-chart type="bar" [data]="userUsageHoursData1" [options]="options"></p-chart>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <h2 style="display: flex;justify-content: space-around;">จำนวนการขายตั๋ว(ใบ)</h2>
-                        <p-chart [style.height.px]="'100px'" type="bar" [data]="userUsageHoursData2"
-                            [options]="options"></p-chart>
+                    <div class="col-4 p-0">
+                        <div style="background-color: white;padding: 12px;padding-bottom: 20px;">
+                            <h2 style="display: flex;justify-content: space-around;">จำนวนการขายตั๋ว(ใบ)</h2>
+                            <p-chart type="pie" [data]="userUsageHoursData2" [options]="options2"></p-chart>
+                        </div>
                     </div>
                 </div>
 

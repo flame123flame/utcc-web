@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
 
 
   public options: any;
+  public options2: any;
   public userUsageHoursData1: any;
   public userUsageHoursData2: any;
   constructor() {
@@ -34,7 +35,10 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
-
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     this.userUsageHoursData1 = {
       labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
       datasets: [
@@ -53,23 +57,25 @@ export class DashboardComponent implements OnInit {
       ],
     };
     this.userUsageHoursData2 = {
-      labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+      labels: ['A', 'B', 'C'],
       datasets: [
         {
-          label: 'ตั๋วลดหย่อน',
-          backgroundColor: '#f9b115',
-          borderColor: '#f9b115',
-          data: [44, 65, 23, 77, 55, 30, 45, 60, 40, 75, 85, 92],
-        },
-        {
-          label: 'ตั๋วลดเต็มราคา',
-          backgroundColor: '#d63636',
-          borderColor: '#d63636',
-          data: [14, 65, 16, 100, 30, 60, 75, 55, 90, 45, 70, 80],
-        },
-      ],
+          data: [10, 20, 30],
+          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+        }
+      ]
     };
-
+    this.options2 = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+            color: textColor
+          }
+        }
+      }
+    };
 
     this.options = {
       responsive: false,
