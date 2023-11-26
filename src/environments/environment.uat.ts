@@ -2,7 +2,7 @@
  * environment uat
  */
 
-const apiUrl = `http://localhost:9000/utcc-mini-project-mobile`;
+const apiUrl = `http://localhost:9000/utcc-project-api`;
 const apiAuthenticationUrl = '/token/authenticate';
 export const environment = {
   production: true,

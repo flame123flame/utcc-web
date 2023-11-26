@@ -23,6 +23,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CardModule } from 'primeng/card';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
+import { PrimeNgModule } from './shared/primeng.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +31,7 @@ import { TabViewModule } from 'primeng/tabview';
     DashboardComponent,
   ],
   imports: [
+    PrimeNgModule,
     ChartModule,
     ChipModule,
     ToolbarModule,

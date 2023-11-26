@@ -9,6 +9,7 @@ import { StrongEmailFormatDirective } from './directive/strong-email-format.dire
 import { NumbersOnlyDirective } from './directive/numbers-only.directive';
 import { ThaiDatePipe } from './pipes/thaidate.pipe';
 import { ThaiDateTimePipe } from './pipes/thai-date-time.pipe';
+import { ThaiMoneyPipe } from './pipes/thai-money.pipe';
 
 const componentsModule = [
   CommonModule,
@@ -26,6 +27,7 @@ const componentsModule = [
     StrongEmailFormatDirective,
     NumbersOnlyDirective,
     ThaiDatePipe,
+    ThaiMoneyPipe,
     ThaiDateTimePipe],
   exports: [...componentsModule,
     PhoneNumberFormatDirective,
@@ -34,6 +36,7 @@ const componentsModule = [
     StrongEmailFormatDirective,
     NumbersOnlyDirective,
     ThaiDatePipe,
+    ThaiMoneyPipe,
     ThaiDateTimePipe],
 })
 export class SharedAppModule { }

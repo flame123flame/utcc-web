@@ -2,15 +2,15 @@
     box-shadow: none !important;
 }
 
-.card-d-4 {
+.card-d-1 {
     display: grid;
     justify-content: space-around;
     justify-items: center;
     align-content: space-evenly;
     margin: 10px;
     border-radius: 7px;
-    background-color: #ede858;
-    background-image: linear-gradient(45deg, #d63636 0%, var(--cui-primary-stop, #d63636 100%));
+    background-color: #3f3787;
+    background-image: linear-gradient(45deg, #6658e6 0%, var(--cui-primary-stop, #1f1498 100%));
 }
 
 .card-d-2 {
@@ -21,7 +21,7 @@
     margin: 10px;
     border-radius: 7px;
     background-color: var(--cui-info, #2982cc);
-    background-image: linear-gradient(45deg, var(--cui-info-start, #2982cc) 0%, var(--cui-info-stop, #2982cc 100%));
+    background-image: linear-gradient(45deg, var(--cui-info-start, #39f) 0%, var(--cui-info-stop, #2982cc 100%));
 }
 
 .card-d-3 {
@@ -31,22 +31,20 @@
     align-content: space-evenly;
     margin: 10px;
     border-radius: 7px;
-    background-color: var(--cui-warning, #f9b115);
-    background-image: linear-gradient(45deg, var(--cui-warning-start, #f9b115) 0%, var(--cui-warning-stop, #f9b115 100%));
+    background-color: var(--cui-warning, #f6960b);
+    background-image: linear-gradient(45deg, var(--cui-warning-start, #f9b115) 0%, var(--cui-warning-stop, #f6960b 100%));
 }
 
-.card-d-1 {
+.card-d-4 {
     display: grid;
     justify-content: space-around;
     justify-items: center;
     align-content: space-evenly;
     margin: 10px;
     border-radius: 7px;
-    background-color: var(--cui-success, #4caf50);
-    background-image: linear-gradient(45deg, var(--cui-success-start, #4caf50) 0%, var(--cui-success-stop, #4caf50 100%));
+    background-color: var(--cui-danger, #d93737);
+    background-image: linear-gradient(45deg, var(--cui-danger-start, #e55353) 0%, var(--cui-danger-stop, #d93737 100%));
 }
-
-
 
 .titel-c {
     font-size: 18px;
@@ -54,13 +52,4 @@
 
 .value-c {
     font-size: 35px
-}
-
-::ng-deep .p-tabview .p-tabview-panels {
-    background: transparent;
-    padding: 1.25rem;
-    border: 0 none;
-    color: #495057;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
 }
