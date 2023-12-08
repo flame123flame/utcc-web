@@ -56,7 +56,7 @@
               </div>
               <div class="p-toolbar-group-end" style="display: flex; gap: 10px">
                 <ng-container *ngIf="this._authService.user$ | async as user">
-                  <span> ผู้ใช้งาน : {{user.firstName }} {{user.lastName }}</span>
+                  <span> ผู้ใช้งาน : {{user.username }} </span>
                 </ng-container>
               </div>
             </p-toolbar>

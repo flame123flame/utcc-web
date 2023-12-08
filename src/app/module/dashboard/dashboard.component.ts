@@ -160,6 +160,10 @@ export class DashboardComponent implements OnInit {
     this._changeDetectorRef.markForCheck()
   }
 
+  calculateTotal(column: string): number {
+    return this.dashboardSearch.reduce((total, item: any) => total + (item[column] || 0), 0);
+  }
+
   private handleDeleteSuccess(): void {
     this._toastService.addSingle('success', 'แจ้งเตือน', 'ล้างข้อมูลค้นหาสำเร็จ');
   }

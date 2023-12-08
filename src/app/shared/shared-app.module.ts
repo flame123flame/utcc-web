@@ -10,6 +10,7 @@ import { NumbersOnlyDirective } from './directive/numbers-only.directive';
 import { ThaiDatePipe } from './pipes/thaidate.pipe';
 import { ThaiDateTimePipe } from './pipes/thai-date-time.pipe';
 import { ThaiMoneyPipe } from './pipes/thai-money.pipe';
+import { ThaiNumberPipe } from './pipes/thai-number.pipe';
 
 const componentsModule = [
   CommonModule,
@@ -27,6 +28,7 @@ const componentsModule = [
     StrongEmailFormatDirective,
     NumbersOnlyDirective,
     ThaiDatePipe,
+    ThaiNumberPipe,
     ThaiMoneyPipe,
     ThaiDateTimePipe],
   exports: [...componentsModule,
@@ -36,6 +38,7 @@ const componentsModule = [
     StrongEmailFormatDirective,
     NumbersOnlyDirective,
     ThaiDatePipe,
+    ThaiNumberPipe,
     ThaiMoneyPipe,
     ThaiDateTimePipe],
 })

@@ -21,7 +21,7 @@ export class ThaiDateTimePipe implements PipeTransform {
     const minutes = inputDate.getMinutes().toString().padStart(2, '0'); // เพิ่มเลข 0 ข้างหน้าเมื่อน้อยกว่า 10
     const seconds = inputDate.getSeconds().toString().padStart(2, '0'); // เพิ่มเลข 0 ข้างหน้าเมื่อน้อยกว่า 10
 
-    const outputDateFull = [`วัน${ThaiDay[day]}`, `ที่ ${date}`, `เดือน${longThaiMonth[month]}`, `พ.ศ. ${thaiYear}`, `เวลา ${hours}:${minutes}:${seconds}`];
+    const outputDateFull = [`วัน${ThaiDay[day]}ที่`, ` ${date}`, `${longThaiMonth[month]}`, `พ.ศ. ${thaiYear}`, `เวลา ${hours}:${minutes}:${seconds}`];
     const outputDateShort = [date, shortThaiMonth[month], thaiYear];
     const outputDateMedium = [date, longThaiMonth[month], thaiYear];
 
