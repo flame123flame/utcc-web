@@ -3,7 +3,6 @@ import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './module/home/home.component';
 import { NoAuthGuard } from './core/guards/noAuth.guard';
 import { DashboardComponent } from './module/dashboard/dashboard.component';
 
