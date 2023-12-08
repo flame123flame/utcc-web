@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginModule } from './module/authentication/login/login.module';
-import { HomeComponent } from './module/home/home.component';
 import { AuthModule } from './core/auth.module';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
@@ -40,7 +39,6 @@ import { PrimeNgModule } from './shared/primeng.module';
     AppRoutingModule,
     SharedAppModule,
     LoginModule,
-    HomeComponent,
     ToastModule,
     SpinnerLoadModule,
     AuthModule,
